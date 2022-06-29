@@ -53,7 +53,9 @@ public class Results extends JFrame {
 		
 		for(int i = 0; i <= 5; i++) {
 			for(Object o : lotto) {
-				if(b[i] = o
+				if() {
+					
+				}
 			}
 		}
 	}

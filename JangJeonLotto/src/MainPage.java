@@ -1,4 +1,3 @@
-package jangjeon;
 
 import java.awt.CardLayout;
 import java.awt.Color;
