@@ -1,5 +1,3 @@
-
-
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Image;
@@ -48,23 +46,56 @@ class login {
 	public void setPw(String pw) {
 		this.pw = pw;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 }
 
 public class MainPage extends JFrame {
+	private JPanel Mainppp;
+	private JButton start;
+	private JLabel stringName;
+	
+	public JPanel getMainppp() {
+		return Mainppp;
+	}
+
+	public JButton getStart() {
+		return start;
+	}
+
 	public MainPage() {
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		HashMap map = new HashMap<String, login>();
+		// 아이디, 비밀번호, 이름
 		map.put("YoouBi", new login("YoouBi", "yoyobiii", "장영빈"));
 		map.put("Inha123", new login("Inha123", "Inha123", "전인하"));
+		map.put("yeriming", new login("yeriming", "yeriming", "장예림"));
 
+		Mainppp = new JPanel();
 		JPanel MainAll = new JPanel();
 		JPanel MainPnl1 = new JPanel();
-		MainPnl1.setPreferredSize(new Dimension(300, 300));
 		JPanel MainPnl2 = new JPanel();
 		JPanel MainPnl3 = new JPanel();
 		JPanel MainPnl4 = new JPanel();
 		JPanel MainPnl5 = new JPanel();
-		JPanel MainPnl6 = new JPanel();
+		
+		CardLayout cardLogIn = new CardLayout();
+		// MainPnlLogIn로 연결하여 오른쪽 패널들 바꾸는 레이아웃
+		// 1. MainPnlLogPage1(기본 로그인하는 메인 페이지),
+		// 2. (회원가입 페이지 만들 것),
+		// 3. MainPnlLogPage2(마이페이지)
+		JPanel MainPnlLogIn = new JPanel(cardLogIn);
+		JPanel MainPnlLogPage1 = new JPanel();
+		JPanel MainPnlLogPage2 = new JPanel();
+		
+		MainPnl1.setPreferredSize(new Dimension(350, 350));
+		MainPnl4.setBounds(50, 150, 200, 200);
 
 		MainAll.setBackground(new Color(248, 202, 204));
 		MainPnl1.setOpaque(false);
@@ -72,14 +103,16 @@ public class MainPage extends JFrame {
 		MainPnl3.setOpaque(false);
 		MainPnl4.setOpaque(false);
 		MainPnl5.setOpaque(false);
-		MainPnl6.setOpaque(false);
+		MainPnlLogIn.setOpaque(false);
+		MainPnlLogPage1.setOpaque(false);
+		MainPnlLogPage2.setOpaque(false);
 
-		BoxLayout box = new BoxLayout(MainAll, BoxLayout.Y_AXIS);
+		BoxLayout box = new BoxLayout(MainAll, BoxLayout.X_AXIS);
 		MainAll.setLayout(box);
-		BoxLayout box2 = new BoxLayout(MainPnl6, BoxLayout.X_AXIS);
-		MainPnl6.setLayout(box2);
-
-//		CardLayout layout = new CardLayout();
+		BoxLayout box2 = new BoxLayout(MainPnl4, BoxLayout.Y_AXIS);
+		MainPnl4.setLayout(box2);
+		BoxLayout box3 = new BoxLayout(MainPnlLogPage2, BoxLayout.Y_AXIS);
+		MainPnlLogPage2.setLayout(box3);
 
 		Image image = kit.getImage("images/lotto.png");
 		Image changeimage = image.getScaledInstance(350, 350, Image.SCALE_SMOOTH);
@@ -87,20 +120,21 @@ public class MainPage extends JFrame {
 		JLabel lottoimg = new JLabel(new ImageIcon(changeimage));
 		JLabel stringId = new JLabel("아이디 :");
 		JLabel stringPw = new JLabel("비밀번호 :");
+		stringName = new JLabel("");
 
 		JButton signIn = new JButton("로그인");
 		signIn.setBackground(new Color(255, 255, 255));
 		JButton create = new JButton("회원가입");
 		create.setBackground(new Color(255, 255, 255));
-		JButton start = new JButton("로또 구매");
+		JButton signout = new JButton("로그아웃");
+		signout.setBackground(new Color(255, 255, 255));
+		start = new JButton("로또 구매");
 		start.setBackground(new Color(127, 153, 248));
 
 		JTextField id = new JTextField(10);
 		id.setText("");
 		JPasswordField pw = new JPasswordField(10);
 		pw.setText("");
-		// 영빈이 짱>_<
-		// 너무 열심히 하지마,.,,,
 
 		signIn.addActionListener(new ActionListener() {
 			@Override
@@ -108,20 +142,48 @@ public class MainPage extends JFrame {
 				try {
 					if (pw.getText().equals(((login) map.get(id.getText())).getPw())) {
 						JOptionPane.showMessageDialog(MainPage.this, "로그인 되었습니다.");
+						stringName.setText((((login) map.get(id.getText())).getName()) + "님 환영합니다!");
+						cardLogIn.show(MainPnlLogIn, "MyPage");
 					} else {
 						JOptionPane.showMessageDialog(MainPage.this, "일치하는 회원정보가 없습니다!");
 					}
-				} catch (NullPointerException e) {
-					JOptionPane.showMessageDialog(MainPage.this, "아이디 혹은 비밀번호를 입력해주세요.");
+				} catch (NullPointerException n) {
+					if (0 == id.getText().length()) {
+						JOptionPane.showMessageDialog(MainPage.this, "아이디를 입력해주세요.");
+					} else if (0 == pw.getText().length()) {
+						JOptionPane.showMessageDialog(MainPage.this, "비밀번호를 입력해주세요.");
+					} else {
+						JOptionPane.showMessageDialog(MainPage.this, "일치하는 회원정보가 없습니다!");
+					}
 				}
-
+			}
+		});
+		
+		create.addActionListener(new ActionListener() { // 회원가입 페이지로 넘어갈 것
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
+		signout.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				id.setText("");
+				pw.setText("");
+				cardLogIn.show(MainPnlLogIn, "LogIn");
 			}
 		});
 
+		Mainppp.add(MainAll);
+		
 		MainAll.add(MainPnl1);
-		MainAll.add(MainPnl6);
+		MainAll.add(MainPnlLogIn);
 		MainPnl1.add(lottoimg);
 
+		MainPnlLogIn.add(MainPnlLogPage1, "LogIn");
+		MainPnlLogIn.add(MainPnlLogPage2, "MyPage");
+		
 		MainPnl2.add(stringId);
 		MainPnl2.add(id);
 		MainPnl2.add(signIn);
@@ -129,19 +191,26 @@ public class MainPage extends JFrame {
 		MainPnl3.add(pw);
 		MainPnl3.add(create);
 
-		MainPnl6.add(MainPnl4);
-		MainPnl6.add(MainPnl5);
+		MainPnlLogPage1.add(MainPnl4);
+//		MainPnl6.add(MainPnl5);
 		MainPnl4.add(MainPnl2);
 		MainPnl4.add(MainPnl3);
-		MainPnl5.add(start);
+//		MainPnl5.add(start);
+		
+		MainPnlLogPage2.add(stringName);
+		MainPnlLogPage2.add(signout);
+		MainPnlLogPage2.add(start);
 
 		add(MainAll);
+		
+		cardLogIn.show(MainPnlLogIn, "LogIn");
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(500, 500);
+		setSize(800, 500);
 	}
 
 	public static void main(String[] args) {
 		new MainPage().setVisible(true);
 	}
+
 }
