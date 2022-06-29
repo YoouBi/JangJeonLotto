@@ -18,7 +18,7 @@ public class LottoBuy extends JFrame {
 	}
 
 	LottoBuy() {
-		
+		//
 		JPanel inputPnl = new JPanel();
 		JPanel editPnl = new JPanel();
 		BoxLayout pnlLayout = new BoxLayout(pnl, BoxLayout.Y_AXIS);
