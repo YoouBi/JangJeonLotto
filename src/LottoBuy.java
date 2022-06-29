@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.*;
 
 public class LottoBuy extends JFrame {
+	////////////////////////
 	Random random = new Random();
 	int numcount=0;
 	int[] lottoNum = new int[6];
