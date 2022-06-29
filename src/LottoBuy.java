@@ -16,17 +16,25 @@ public class LottoBuy extends JFrame {
 	public JPanel getLottoBuyPnl() {
 		return pnl;
 	}
+	
+	public JButton getNextBtn() {
+		return nextBtn;
+	}
 
 	LottoBuy() {
-		//
+		pnl.setBackground(new Color(248, 202, 204));
 		JPanel inputPnl = new JPanel();
+		inputPnl.setOpaque(false);
+		BoxLayout inputpnlLayout = new BoxLayout(inputPnl, BoxLayout.Y_AXIS);
 		JPanel editPnl = new JPanel();
-		BoxLayout pnlLayout = new BoxLayout(pnl, BoxLayout.Y_AXIS);
+		editPnl.setOpaque(false);
+		BoxLayout pnlLayout = new BoxLayout(pnl, BoxLayout.X_AXIS);
 		pnl.setLayout(pnlLayout);
-
-		pnl.add(editPnl);
+		inputPnl.setLayout(inputpnlLayout);
+		
 		pnl.add(inputPnl);
-
+		pnl.add(editPnl);
+		
 		add(pnl);
 		////////////////////////////////////
 		// Edit
@@ -38,14 +46,18 @@ public class LottoBuy extends JFrame {
 		/// inputPnl
 		////////////////////////////////////////////
 
-		JPanel btnBox = new JPanel(); // 버튼 감싸는 박스
+		JPanel btnBox = new JPanel(); // 1~45 버튼 감싸는 박스
+		btnBox.setOpaque(false);
 		JButton inputBtn = new JButton("입력");
 		JButton resetBtn = new JButton("reset");
 		JButton randomBtn = new JButton("Random");
+		JPanel optionBtnBox = new JPanel(); // 선택버튼들 감싸는 파일: 위의 JBtn 3개 들어감
+		optionBtnBox.setOpaque(false);
 		inputPnl.add(btnBox);
-		inputPnl.add(inputBtn);
-		inputPnl.add(resetBtn);
-		inputPnl.add(randomBtn);
+		inputPnl.add(optionBtnBox);
+		optionBtnBox.add(inputBtn);
+		optionBtnBox.add(resetBtn);
+		optionBtnBox.add(randomBtn);
 
 		GridLayout grid = new GridLayout(10, 5);
 		btnBox.setLayout(grid);
@@ -96,6 +108,7 @@ public class LottoBuy extends JFrame {
 					} else {
 						inputLottoNum.add(randomNum);
 						btnMake.get(randomNum).setEnabled(false);
+						numcount++;
 					}
 				}
 			}
@@ -121,12 +134,11 @@ public class LottoBuy extends JFrame {
 		});
 
 		setTitle("로또 구입 창");
-		setSize(500, 500);
+		setSize(800, 500);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
 	public static void main(String[] args) {
 		new LottoBuy().setVisible(true);
 	}
-
 }
