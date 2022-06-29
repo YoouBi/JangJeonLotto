@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'master' of https://github.com/YoouBi/JangJeonLotto.git
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Image;
