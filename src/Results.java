@@ -23,15 +23,25 @@ public class Results extends JFrame {
 	Integer[] b = new Integer[6];
 	List<Integer> list;
 	String[] same = new String[6];// 같음, 다름 넣을 배열
+	private JPanel pnl;
+	private JButton btn;
 	
-	
+	public JPanel getPnl() {
+		return pnl;
+	}
+
+	public JButton getBtn() {
+		return btn;
+	}
+
+
 	public Results() {
 		getNumber(lotto);
 		getNumber2(a);
 		comparing(a);
 		
 		
-		JPanel pnl = new JPanel();
+		pnl = new JPanel();
 		JPanel pnlA = new JPanel();
 		pnlA.setBounds(0, 0, 784, 138);
 		JLabel lbl1 = new JLabel("당첨 번호");
@@ -69,7 +79,7 @@ public class Results extends JFrame {
 		JLabel price = new JLabel("금액 = 300,000,000원");
 		price.setBounds(78, 424, 315, 24);
 		price.setFont(new Font("굴림", Font.PLAIN, 20));
-		JButton btn = new JButton("다음 회차");
+		btn = new JButton("다음 회차");
 		btn.setBounds(550, 424, 222, 23);
 		
 		pnl.setBackground(new Color(248, 202, 204));

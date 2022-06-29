@@ -201,7 +201,7 @@ public class MainPage extends JFrame {
 		MainPnlLogPage2.add(signout);
 		MainPnlLogPage2.add(start);
 
-		add(MainAll);
+		add(Mainppp);
 		
 		cardLogIn.show(MainPnlLogIn, "LogIn");
 
