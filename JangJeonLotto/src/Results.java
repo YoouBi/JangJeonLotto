@@ -10,7 +10,7 @@ import javax.swing.JTextField;
 
 // 결과 - 랜덤 로또 번호 생성(보너스 생각 말고 6배열 - 6배열 비교), 비교 - 같은 수 개수 + 값 출력
 
-public class results extends JFrame {
+public class Results extends JFrame {
 	Random random = new Random();
 	Set<Integer> lotto = new HashSet<>();	// 당첨번호
 	int[] a = new int[6];
