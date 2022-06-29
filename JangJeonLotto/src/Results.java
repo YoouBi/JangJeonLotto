@@ -8,6 +8,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
+
 // 결과 - 랜덤 로또 번호 생성(보너스 생각 말고 6배열 - 6배열 비교), 비교 - 같은 수 개수 + 값 출력
 
 public class Results extends JFrame {
@@ -45,7 +47,7 @@ public class Results extends JFrame {
 		
 	}
 	
-	//
+	// 배열과 set 비교
 	public void comparing(int[] a) {
 		for(int i = 0; i < a.length; i++) {
 			b[i] = a[i];
@@ -53,8 +55,10 @@ public class Results extends JFrame {
 		
 		for(int i = 0; i <= 5; i++) {
 			for(Object o : lotto) {
-				if() {
-					
+				if(b[i] == o) {
+					System.out.println(b[i]);
+				} else {
+					System.out.println("다르당");
 				}
 			}
 		}
@@ -87,11 +91,8 @@ public class Results extends JFrame {
 	
 	
 	public static void main(String[] args) {
-		results re = new results();
-		re.getNumber(re.a);
-		re.getNumber(re.answer);
-		System.out.println(Arrays.toString(re.a));
-		System.out.println(Arrays.toString(re.answer));
-		re.comparing(re.a);
+		Results re = new Results();
+		
+
 	}
 }
