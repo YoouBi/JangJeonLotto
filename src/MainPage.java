@@ -5,6 +5,12 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -61,7 +67,8 @@ public class MainPage extends JFrame {
 	private JPanel Mainppp;
 	private JButton start;
 	private JLabel stringName;
-	
+	private HashMap<String, login> map;
+
 	public JPanel getPnl() {
 		return Mainppp;
 	}
@@ -72,7 +79,7 @@ public class MainPage extends JFrame {
 
 	public MainPage() {
 		Toolkit kit = Toolkit.getDefaultToolkit();
-		HashMap map = new HashMap<String, login>();
+		map = new HashMap<>();
 		// 아이디, 비밀번호, 이름
 		map.put("YoouBi", new login("YoouBi", "yoyobiii", "장영빈"));
 		map.put("Inha123", new login("Inha123", "Inha123", "전인하"));
@@ -98,6 +105,7 @@ public class MainPage extends JFrame {
 		JPanel CreatePageIdPnl = new JPanel();
 		JPanel CreatePagePwPnl = new JPanel();
 		JPanel CreatePagePwCPnl = new JPanel();
+		JPanel CreatePageAccountAndReturn = new JPanel();
 		
 		MainPnl1.setPreferredSize(new Dimension(350, 350));
 		MainPnl4.setBounds(50, 150, 200, 200);
@@ -112,6 +120,10 @@ public class MainPage extends JFrame {
 		MainPnlLogInPage.setOpaque(false);
 		MainPnlMyPage.setOpaque(false);
 		MainPnlCreatePage.setOpaque(false);
+		CreatePageIdPnl.setOpaque(false);
+		CreatePagePwPnl.setOpaque(false);
+		CreatePagePwCPnl.setOpaque(false);
+		CreatePageAccountAndReturn.setOpaque(false);
 
 //		BorderLayout border = new BorderLayout();
 		BoxLayout box = new BoxLayout(MainAll, BoxLayout.X_AXIS);
@@ -131,8 +143,13 @@ public class MainPage extends JFrame {
 		JLabel stringPw = new JLabel("비밀번호 :");
 		stringName = new JLabel("");
 		JLabel createId = new JLabel("아이디 :");
+		JLabel createIdCheck = new JLabel("중복된 아이디가 없습니다.");
+		createIdCheck.setForeground(new Color(68, 82, 28));
 		JLabel createPw = new JLabel("비밀번호 :");
 		JLabel createPwConfirm = new JLabel("비밀번호 확인 :");
+		JLabel createName = new JLabel("이름 :");
+		JLabel createPwCheck = new JLabel("비밀번호의 길이는 4~12자 사이로 입력해야 합니다.");
+		createPwCheck.setForeground(new Color(155, 17, 30));
 
 		JButton signIn = new JButton("로그인");
 		signIn.setBackground(new Color(255, 255, 255));
@@ -144,7 +161,8 @@ public class MainPage extends JFrame {
 		start.setBackground(new Color(127, 153, 248));
 		JButton createAccount = new JButton("회원가입");
 		createAccount.setBackground(new Color(127, 153, 248));
-		
+		JButton createReturn = new JButton("되돌아가기");
+		createReturn.setBackground(new Color(127, 153, 248));
 
 		JTextField id = new JTextField(10);
 		id.setText("");
@@ -153,6 +171,7 @@ public class MainPage extends JFrame {
 		JTextField createInputId = new JTextField(10);
 		JTextField createInputPw = new JTextField(10);
 		JTextField createInputPwConfirm = new JTextField(10);
+		JTextField createInputName = new JTextField(10);
 
 		signIn.addActionListener(new ActionListener() {
 			@Override
@@ -193,6 +212,78 @@ public class MainPage extends JFrame {
 				cardLogIn.show(MainPnlLogIn, "LogIn");
 			}
 		});
+		
+		createInputId.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(createInputId.getText().length() < 4 || createInputId.getText().length() > 12) {
+					createIdCheck.setText("아이디의 길이는 4~12자 사이로 입력해야 합니다.");
+					createIdCheck.setForeground(new Color(155, 17, 30));
+				} else if (map.containsKey(createInputId.getText())) {
+					createIdCheck.setText("중복된 아이디가 있습니다!");
+					createIdCheck.setForeground(new Color(155, 17, 30));
+				} else {
+					createIdCheck.setText("중복된 아이디가 없습니다.");
+					createIdCheck.setForeground(new Color(68, 82, 28));
+				}
+			}
+		});
+		
+		createInputPw.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(createInputPw.getText().length() > 3 && createInputPw.getText().length() < 13) {
+					createPwCheck.setText(" ");
+				} else if (createInputPw.getText().length() < 4 || createInputPw.getText().length() > 12) {
+					createPwCheck.setText("비밀번호의 길이는 4~12자 사이로 입력해야 합니다.");
+				}
+			}
+		});
+		
+		createInputPwConfirm.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(!createInputPw.getText().equals(createInputPwConfirm.getText())) {
+					createPwCheck.setText("비밀번호가 같지 않습니다!");
+				}
+			}
+		});
+		
+		createAccount.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String id = createInputId.getText();
+				String pw = createInputPw.getText();
+				String pw2 = createInputPwConfirm.getText();
+				String name = createInputName.getText();
+				
+				boolean PwConfirm = pw.equals(pw2);
+				boolean iplength = 4 > id.length() || id.length() > 12
+						|| 4 > pw.length() || pw.length() > 12;
+
+				if (map.containsKey(id)) {
+					JOptionPane.showMessageDialog(MainPage.this, "같은 아이디가 있습니다!");
+				} else if (iplength) {
+					JOptionPane.showMessageDialog(MainPage.this, "아이디와 비밀번호의 길이는 4~12자 사이로 입력해야 합니다.");
+				} else if (!PwConfirm) {
+					JOptionPane.showMessageDialog(MainPage.this, "비밀번호가 일치하지 않습니다.");
+				} else {
+					JOptionPane.showMessageDialog(MainPage.this, "회원가입 되었습니다.");
+					map.put(id, new login(id, pw, name));
+					cardLogIn.show(MainPnlLogIn, "LogIn");
+				}
+			}
+		});
+		
+		createReturn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				createInputId.setText("");
+				createInputPw.setText("");
+				createInputPwConfirm.setText("");
+				cardLogIn.show(MainPnlLogIn, "LogIn");
+			}
+		});
 
 		Mainppp.add(MainAll, BorderLayout.CENTER);
 		
@@ -221,15 +312,19 @@ public class MainPage extends JFrame {
 		
 		
 		MainPnlCreatePage.add(CreatePageIdPnl);
+		MainPnlCreatePage.add(createIdCheck);
 		MainPnlCreatePage.add(CreatePagePwPnl);
 		MainPnlCreatePage.add(CreatePagePwCPnl);
-		MainPnlCreatePage.add(createAccount);
+		MainPnlCreatePage.add(createPwCheck);
+		MainPnlCreatePage.add(CreatePageAccountAndReturn);
 		CreatePageIdPnl.add(createId);
 		CreatePageIdPnl.add(createInputId);
 		CreatePagePwPnl.add(createPw);
 		CreatePagePwPnl.add(createInputPw);
 		CreatePagePwCPnl.add(createPwConfirm);
 		CreatePagePwCPnl.add(createInputPwConfirm);
+		CreatePageAccountAndReturn.add(createAccount);
+		CreatePageAccountAndReturn.add(createReturn);
 
 		add(Mainppp);
 		
