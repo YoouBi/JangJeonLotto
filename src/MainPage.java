@@ -57,12 +57,12 @@ class login {
 }
 
 public class MainPage extends JFrame {
-	private JPanel Mainppp;
+	private JPanel MainAll;
 	private JButton start;
 	private JLabel stringName;
 	
-	public JPanel getMainppp() {
-		return Mainppp;
+	public JPanel getMainAll() {
+		return MainAll;
 	}
 
 	public JButton getStart() {
@@ -77,8 +77,9 @@ public class MainPage extends JFrame {
 		map.put("Inha123", new login("Inha123", "Inha123", "전인하"));
 		map.put("yeriming", new login("yeriming", "yeriming", "장예림"));
 
-		Mainppp = new JPanel();
-		JPanel MainAll = new JPanel();
+//		Mainppp = new JPanel();
+//		JPanel MainAll = new JPanel();
+		MainAll = new JPanel();
 		JPanel MainPnl1 = new JPanel();
 		JPanel MainPnl2 = new JPanel();
 		JPanel MainPnl3 = new JPanel();
@@ -91,8 +92,9 @@ public class MainPage extends JFrame {
 		// 2. (회원가입 페이지 만들 것),
 		// 3. MainPnlLogPage2(마이페이지)
 		JPanel MainPnlLogIn = new JPanel(cardLogIn);
-		JPanel MainPnlLogPage1 = new JPanel();
-		JPanel MainPnlLogPage2 = new JPanel();
+		JPanel MainPnlLogInPage = new JPanel();
+		JPanel MainPnlMyPage = new JPanel();
+		JPanel MainPnlCreatePage = new JPanel();
 		
 		MainPnl1.setPreferredSize(new Dimension(350, 350));
 		MainPnl4.setBounds(50, 150, 200, 200);
@@ -104,15 +106,16 @@ public class MainPage extends JFrame {
 		MainPnl4.setOpaque(false);
 		MainPnl5.setOpaque(false);
 		MainPnlLogIn.setOpaque(false);
-		MainPnlLogPage1.setOpaque(false);
-		MainPnlLogPage2.setOpaque(false);
+		MainPnlLogInPage.setOpaque(false);
+		MainPnlMyPage.setOpaque(false);
+		MainPnlCreatePage.setOpaque(false);
 
 		BoxLayout box = new BoxLayout(MainAll, BoxLayout.X_AXIS);
 		MainAll.setLayout(box);
 		BoxLayout box2 = new BoxLayout(MainPnl4, BoxLayout.Y_AXIS);
 		MainPnl4.setLayout(box2);
-		BoxLayout box3 = new BoxLayout(MainPnlLogPage2, BoxLayout.Y_AXIS);
-		MainPnlLogPage2.setLayout(box3);
+		BoxLayout box3 = new BoxLayout(MainPnlMyPage, BoxLayout.Y_AXIS);
+		MainPnlMyPage.setLayout(box3);
 
 		Image image = kit.getImage("images/lotto.png");
 		Image changeimage = image.getScaledInstance(350, 350, Image.SCALE_SMOOTH);
@@ -120,6 +123,7 @@ public class MainPage extends JFrame {
 		JLabel lottoimg = new JLabel(new ImageIcon(changeimage));
 		JLabel stringId = new JLabel("아이디 :");
 		JLabel stringPw = new JLabel("비밀번호 :");
+		JLabel stringPwConfirm = new JLabel("비밀번호 확인 :");
 		stringName = new JLabel("");
 
 		JButton signIn = new JButton("로그인");
@@ -171,18 +175,20 @@ public class MainPage extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				id.setText("");
 				pw.setText("");
+				stringName.setText("");
 				cardLogIn.show(MainPnlLogIn, "LogIn");
 			}
 		});
 
-		Mainppp.add(MainAll);
+//		Mainppp.add(MainAll);
 		
 		MainAll.add(MainPnl1);
 		MainAll.add(MainPnlLogIn);
 		MainPnl1.add(lottoimg);
 
-		MainPnlLogIn.add(MainPnlLogPage1, "LogIn");
-		MainPnlLogIn.add(MainPnlLogPage2, "MyPage");
+		MainPnlLogIn.add(MainPnlLogInPage, "LogIn");
+		MainPnlLogIn.add(MainPnlMyPage, "MyPage");
+		MainPnlLogIn.add(MainPnlCreatePage, "CreatePage");
 		
 		MainPnl2.add(stringId);
 		MainPnl2.add(id);
@@ -191,17 +197,15 @@ public class MainPage extends JFrame {
 		MainPnl3.add(pw);
 		MainPnl3.add(create);
 
-		MainPnlLogPage1.add(MainPnl4);
-//		MainPnl6.add(MainPnl5);
+		MainPnlLogInPage.add(MainPnl4);
 		MainPnl4.add(MainPnl2);
 		MainPnl4.add(MainPnl3);
-//		MainPnl5.add(start);
 		
-		MainPnlLogPage2.add(stringName);
-		MainPnlLogPage2.add(signout);
-		MainPnlLogPage2.add(start);
+		MainPnlMyPage.add(stringName);
+		MainPnlMyPage.add(signout);
+		MainPnlMyPage.add(start);
 
-		add(Mainppp);
+		add(MainAll);
 		
 		cardLogIn.show(MainPnlLogIn, "LogIn");
 
