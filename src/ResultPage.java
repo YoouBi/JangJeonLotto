@@ -47,9 +47,9 @@ public class ResultPage extends JFrame {
 
 	// Result 화면 생성
 	public ResultPage() {
-//		getNumber(lotto);
-//		getNumber2(a);
-//		comparing(a);
+		getNumber(lotto);
+		getNumber3();
+		comparing2();
 		
 		
 		pnl = new JPanel();
@@ -80,10 +80,10 @@ public class ResultPage extends JFrame {
 		}
 		
 		pnl.add(pnlC);
-		for(int i = 0; i < a.length; i++) {
-			JLabel lottoB = new JLabel(String.valueOf(a[i]));
+//		for(int i = 0; i < a.length; i++) {
+			JLabel lottoB = new JLabel(buyLottoNum.toString());
 			pnlC.add(lottoB);
-		}
+//		}
 		lbl3.setBounds(0, 0, 65, 40);
 		
 		
@@ -151,9 +151,11 @@ public class ResultPage extends JFrame {
 	
 	// 이중리스트배열과 리스트 비교
 	public void comparing2() {
-		for(int i = 0; i < buyLottoNum.size(); i++) {
-			buyLottoNum.get(i);
-			System.out.println(buyLottoNum.get(i));
+		for(int j = 0; j < buyLottoNum1.size(); j++) {
+			for(int i = 0; i < buyLottoNum.size(); i++) {
+				buyLottoNum.get(j).get(i);
+				System.out.println(buyLottoNum.get(j).get(i));
+			}
 		}
 	}
 
@@ -167,7 +169,7 @@ public class ResultPage extends JFrame {
 			for (Object o : lotto) {
 				if (b[i] == o) {
 					System.out.println(b[i]);
-					// 같음이 나오면 배열 "같음
+					// 같음이 나오면 배열 "같음"
 					same[i] = "같음";
 					System.out.println(same[i]);
 				} else {
@@ -185,18 +187,16 @@ public class ResultPage extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		ResultPage re = new ResultPage();
+//		ResultPage re = new ResultPage().setVisible(true);
+		new ResultPage().setVisible(true);
 //		re.getNumber(re.lotto);
 //		re.getNumber2(re.a);
-		re.getNumber3();
-		re.comparing2();
+
 		
 		
 		// a 배열 String으로 출력
 //		System.out.println(Arrays.toString(re.a));
 		// a와 lotto 배열 비교
 //		re.comparing(re.a);
-		
-//		new ResultPage().setVisible(true);
 	}
 }
