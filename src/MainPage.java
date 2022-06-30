@@ -196,7 +196,7 @@ public class MainPage extends JFrame {
 			}
 		});
 		
-		create.addActionListener(new ActionListener() { // 회원가입 페이지로 넘어갈 것
+		create.addActionListener(new ActionListener() { // 회원가입 페이지로 넘어가는 버튼
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cardLogIn.show(MainPnlLogIn, "CreatePage");
