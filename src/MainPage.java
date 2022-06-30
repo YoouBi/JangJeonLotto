@@ -95,6 +95,9 @@ public class MainPage extends JFrame {
 		JPanel MainPnlLogInPage = new JPanel();
 		JPanel MainPnlMyPage = new JPanel();
 		JPanel MainPnlCreatePage = new JPanel();
+		JPanel CreatePageIdPnl = new JPanel();
+		JPanel CreatePagePwPnl = new JPanel();
+		JPanel CreatePagePwCPnl = new JPanel();
 		
 		MainPnl1.setPreferredSize(new Dimension(350, 350));
 		MainPnl4.setBounds(50, 150, 200, 200);
@@ -117,6 +120,8 @@ public class MainPage extends JFrame {
 		MainPnl4.setLayout(box2);
 		BoxLayout box3 = new BoxLayout(MainPnlMyPage, BoxLayout.Y_AXIS);
 		MainPnlMyPage.setLayout(box3);
+		BoxLayout box4 = new BoxLayout(MainPnlCreatePage, BoxLayout.Y_AXIS);
+		MainPnlCreatePage.setLayout(box4);
 
 		Image image = kit.getImage("images/lotto.png");
 		Image changeimage = image.getScaledInstance(350, 350, Image.SCALE_SMOOTH);
@@ -124,8 +129,10 @@ public class MainPage extends JFrame {
 		JLabel lottoimg = new JLabel(new ImageIcon(changeimage));
 		JLabel stringId = new JLabel("아이디 :");
 		JLabel stringPw = new JLabel("비밀번호 :");
-		JLabel stringPwConfirm = new JLabel("비밀번호 확인 :");
 		stringName = new JLabel("");
+		JLabel createId = new JLabel("아이디 :");
+		JLabel createPw = new JLabel("비밀번호 :");
+		JLabel createPwConfirm = new JLabel("비밀번호 확인 :");
 
 		JButton signIn = new JButton("로그인");
 		signIn.setBackground(new Color(255, 255, 255));
@@ -135,11 +142,17 @@ public class MainPage extends JFrame {
 		signout.setBackground(new Color(255, 255, 255));
 		start = new JButton("로또 구매");
 		start.setBackground(new Color(127, 153, 248));
+		JButton createAccount = new JButton("회원가입");
+		createAccount.setBackground(new Color(127, 153, 248));
+		
 
 		JTextField id = new JTextField(10);
 		id.setText("");
 		JPasswordField pw = new JPasswordField(10);
 		pw.setText("");
+		JTextField createInputId = new JTextField(10);
+		JTextField createInputPw = new JTextField(10);
+		JTextField createInputPwConfirm = new JTextField(10);
 
 		signIn.addActionListener(new ActionListener() {
 			@Override
@@ -167,7 +180,7 @@ public class MainPage extends JFrame {
 		create.addActionListener(new ActionListener() { // 회원가입 페이지로 넘어갈 것
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				cardLogIn.show(MainPnlLogIn, "CreatePage");
 			}
 		});
 		
@@ -205,6 +218,18 @@ public class MainPage extends JFrame {
 		MainPnlMyPage.add(stringName);
 		MainPnlMyPage.add(signout);
 		MainPnlMyPage.add(start);
+		
+		
+		MainPnlCreatePage.add(CreatePageIdPnl);
+		MainPnlCreatePage.add(CreatePagePwPnl);
+		MainPnlCreatePage.add(CreatePagePwCPnl);
+		MainPnlCreatePage.add(createAccount);
+		CreatePageIdPnl.add(createId);
+		CreatePageIdPnl.add(createInputId);
+		CreatePagePwPnl.add(createPw);
+		CreatePagePwPnl.add(createInputPw);
+		CreatePagePwCPnl.add(createPwConfirm);
+		CreatePagePwCPnl.add(createInputPwConfirm);
 
 		add(Mainppp);
 		
