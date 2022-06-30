@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Image;
@@ -57,12 +58,12 @@ class login {
 }
 
 public class MainPage extends JFrame {
-	private JPanel MainAll;
+	private JPanel Mainppp;
 	private JButton start;
 	private JLabel stringName;
 	
-	public JPanel getMainAll() {
-		return MainAll;
+	public JPanel getPnl() {
+		return Mainppp;
 	}
 
 	public JButton getStart() {
@@ -77,9 +78,8 @@ public class MainPage extends JFrame {
 		map.put("Inha123", new login("Inha123", "Inha123", "전인하"));
 		map.put("yeriming", new login("yeriming", "yeriming", "장예림"));
 
-//		Mainppp = new JPanel();
-//		JPanel MainAll = new JPanel();
-		MainAll = new JPanel();
+		Mainppp = new JPanel(new BorderLayout());
+		JPanel MainAll = new JPanel();
 		JPanel MainPnl1 = new JPanel();
 		JPanel MainPnl2 = new JPanel();
 		JPanel MainPnl3 = new JPanel();
@@ -110,6 +110,7 @@ public class MainPage extends JFrame {
 		MainPnlMyPage.setOpaque(false);
 		MainPnlCreatePage.setOpaque(false);
 
+//		BorderLayout border = new BorderLayout();
 		BoxLayout box = new BoxLayout(MainAll, BoxLayout.X_AXIS);
 		MainAll.setLayout(box);
 		BoxLayout box2 = new BoxLayout(MainPnl4, BoxLayout.Y_AXIS);
@@ -180,7 +181,7 @@ public class MainPage extends JFrame {
 			}
 		});
 
-//		Mainppp.add(MainAll);
+		Mainppp.add(MainAll, BorderLayout.CENTER);
 		
 		MainAll.add(MainPnl1);
 		MainAll.add(MainPnlLogIn);
@@ -205,7 +206,7 @@ public class MainPage extends JFrame {
 		MainPnlMyPage.add(signout);
 		MainPnlMyPage.add(start);
 
-		add(MainAll);
+		add(Mainppp);
 		
 		cardLogIn.show(MainPnlLogIn, "LogIn");
 

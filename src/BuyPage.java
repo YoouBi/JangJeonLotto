@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.swing.*;
 
-public class LottoBuy extends JFrame {
+public class BuyPage extends JFrame {
 	////////////////////////
 	Random random = new Random();
 	int numcount=0;
@@ -21,7 +21,7 @@ public class LottoBuy extends JFrame {
 		return nextBtn;
 	}
 
-	LottoBuy() {
+	BuyPage() {
 		pnl.setBackground(new Color(248, 202, 204));
 		JPanel inputPnl = new JPanel();
 		inputPnl.setOpaque(false);
@@ -139,6 +139,6 @@ public class LottoBuy extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		new LottoBuy().setVisible(true);
+		new BuyPage().setVisible(true);
 	}
 }

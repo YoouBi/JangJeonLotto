@@ -14,7 +14,7 @@ public class MainManager extends JFrame {
 	LottoBuy lottoBuy = new LottoBuy();
 	Results results = new Results();
 	
-	JPanel mp = mainPage.getMainppp();
+	JPanel mp = mainPage.getPnl();
 	JPanel lb = lottoBuy.getLottoBuyPnl();
 	JPanel re = results.getPnl();
 	
