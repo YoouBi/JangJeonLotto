@@ -12,7 +12,7 @@ public class MainManager extends JFrame {
 	
 	MainPage mainPage = new MainPage();
 	LottoBuy lottoBuy = new LottoBuy();
-	Results results = new Results();
+	ResultPage results = new ResultPage();
 	
 	JPanel mp = mainPage.getPnl();
 	JPanel lb = lottoBuy.getLottoBuyPnl();
@@ -20,7 +20,7 @@ public class MainManager extends JFrame {
 	
 	JButton btn1 = mainPage.getStart();
 	JButton btn2 = lottoBuy.getNextBtn();
-	JButton btn3 = results.getBtn();
+	JButton btn3 = results.getNextBtn();
 	
 	CardLayout layout = new CardLayout();
 	JPanel center = new JPanel(layout);
