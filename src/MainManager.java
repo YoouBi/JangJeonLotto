@@ -8,17 +8,17 @@ import javax.swing.JPanel;
 
 public class MainManager extends JFrame {
 	
-	// 파일 합쳤음 내일 정리
+	
 	
 	MainPage mainPage = new MainPage();
-	LottoBuy lottoBuy = new LottoBuy();
+	BuyPage lottoBuy = new BuyPage();
 	ResultPage results = new ResultPage();
 	
 	JPanel mp = mainPage.getPnl();
-	JPanel lb = lottoBuy.getLottoBuyPnl();
+	JPanel lb = lottoBuy.getPnl();
 	JPanel re = results.getPnl();
 	
-	JButton btn1 = mainPage.getStart();
+	JButton btn1 = mainPage.getStart();	// 여기버튼이거맞아??
 	JButton btn2 = lottoBuy.getNextBtn();
 	JButton btn3 = results.getNextBtn();
 	
