@@ -13,11 +13,12 @@ public class BuyPage extends JFrame {
 	////////////////////////
 	Random random = new Random(); // 자동 반자동 할 때 쓰는 랜덤 객체
 	int numcount = 0; // 숫자 세는 변수: 6개만 써야 하는걸로
-	int LottoNumCount = 0;
+	int lottoNumCount = 0;
 	List<Integer> inputLottoNum = new ArrayList<>();
 	JLabel[][] lottoField = new JLabel[5][10];
 	int checkOption = NON_RANDOM;
 	List<Integer> halfRandomNum = new ArrayList<>();
+	List<Integer> copyFunctionList = new ArrayList<>();
 
 	//////////////////////// 이 아래는 넘겨줄 거
 
@@ -25,7 +26,8 @@ public class BuyPage extends JFrame {
 
 	JPanel pnl = new JPanel(); // 넘겨줄 J패널
 	JButton nextBtn = new JButton("결과 보기"); // 로또 결과 보는 버튼
-	JLabel lottoPrice = new JLabel("금액: 0원"); //
+	JLabel lottoPrice = new JLabel("금액: 0원"); // 금액 버튼
+	JButton hardReset = new JButton("전체 초기화");	// 전체 초기화 버튼
 
 	/////////////////// getter
 
@@ -64,6 +66,9 @@ public class BuyPage extends JFrame {
 		add(pnl);
 		////////////////////////////////////
 		// Edit field
+		
+		JPanel bottomBox = new JPanel();
+		bottomBox.setOpaque(false);
 
 		makefield(lottoField);
 		for (int i = 0; i < lottoField.length; i++) {
@@ -74,9 +79,11 @@ public class BuyPage extends JFrame {
 			}
 			editPnl.add(a);
 		}
-
-		editPnl.add(lottoPrice);
-		editPnl.add(nextBtn);
+		
+		bottomBox.add(lottoPrice);
+		bottomBox.add(hardReset);
+		bottomBox.add(nextBtn);
+		editPnl.add(bottomBox);
 
 		/// inputPnl
 		////////////////////////////////////////////
@@ -103,20 +110,21 @@ public class BuyPage extends JFrame {
 			JButton a = new JButton(String.valueOf(i + 1));
 			btnMake.put(i + 1, a);
 			a.addMouseListener(new MouseAdapter() {
+
 				@Override
-				public void mouseClicked(MouseEvent e) {
+				public void mousePressed(MouseEvent e) {
 					JButton btn = (JButton) e.getSource();
-					if (numcount < 6) {
-						if (btn.isEnabled()) {
+					if (btn.isEnabled()) {
+						if (numcount < 6) {
 							int num = Integer.valueOf(btn.getText()); // int num은 버튼의 key값.
 							inputLottoNum.add(Integer.valueOf(num)); // inputLottoNum에 숫자 하나 추가
 							btn.setEnabled(false); // 버튼 비활성화
 							numcount++; // 숫자 세기
-						} else {
-							btn.setEnabled(true);
-							inputLottoNum.remove(inputLottoNum.indexOf(Integer.valueOf(btn.getText())));
-							numcount--;
 						}
+					} else {
+						btn.setEnabled(true);
+						inputLottoNum.remove(inputLottoNum.indexOf(Integer.valueOf(btn.getText())));
+						numcount--;
 					}
 				}
 			});
@@ -127,7 +135,7 @@ public class BuyPage extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				if (LottoNumCount == 5) { // 로또를 5개 넘게 사려고 할 때 막음
+				if (lottoNumCount == 5) { // 로또를 5개 넘게 사려고 할 때 막음
 					JOptionPane.showMessageDialog(null, "로또는 한번에 5개까지 구매 가능합니다.", "Warning", JOptionPane.PLAIN_MESSAGE);
 
 				} else if (inputLottoNum.size() != 6) { // 로또 숫자를 6개 넣지 않으려고 했을 때 막음
@@ -140,49 +148,46 @@ public class BuyPage extends JFrame {
 					}
 
 					// inputLottoNum DeepCopy
-					List<Integer> inputList = new ArrayList<>();
-					for (int a : inputLottoNum) {
-						inputList.add(a);
-					}
+					List<Integer> inputList = makeCopyList(inputLottoNum);
 					Collections.sort(inputList);
+					int indx;
 
 					// buyLotto에 넣는거
 					if (buyLotto.contains(null)) {
+						indx = buyLotto.indexOf(null);
 						buyLotto.set(buyLotto.indexOf(null), inputList);
 					} else {
 						buyLotto.add(inputList);
+						indx=buyLotto.size()-1;
 					}
 					/////////////
-
-					// 패널 객체에 숫자넣는 로직
-					int indx = buyLotto.indexOf(inputList);
-
-					////// 자동 반자동 수동 넣는 로직
+					// 패널 객체에 숫자넣기, 자동반자동 넣기
+					
 					if (checkOption == NON_RANDOM) {
 						lottoField[indx][1].setText("수동");
 						for (int i = 2; i < 8; i++) {
 							lottoField[indx][i].setText(" " + String.valueOf(inputList.get(i - 2) + " "));
 						}
+						lottoField[indx][8].setText("복사");
+						
 					} else if (checkOption == HALF_RANDOM) {
 						lottoField[indx][1].setText("반자동");
-
 						// 복사배열
-						List<Integer> a = new ArrayList<>();
-						for (int x : halfRandomNum) {
-							a.add(x);
-						}
-
+						List<Integer> a = makeCopyList(halfRandomNum);
 						for (int i = 2; i < 2 + halfRandomNum.size(); i++) {
 							lottoField[indx][i].setText(" " + String.valueOf(a.get(i - 2) + " "));
 						}
 						for (int i = 2 + halfRandomNum.size(); i < 8; i++) {
 							lottoField[indx][i].setText(" ? ");
 						}
+						lottoField[indx][8].setText("복사");
+						
 					} else {
 						lottoField[indx][1].setText("자동");
 						for (int i = 2; i < 8; i++) {
 							lottoField[indx][i].setText(" ? ");
 						}
+						lottoField[indx][8].setText("복사");
 					}
 
 					////////////
@@ -192,8 +197,8 @@ public class BuyPage extends JFrame {
 					halfRandomNum.clear();
 					inputLottoNum.clear();
 					numcount = 0;
-					LottoNumCount++;
-					lottoPrice.setText(String.format("금액: %d원", LottoNumCount * 1000));
+					lottoNumCount++;
+					lottoPrice.setText(String.format("금액: %d원", lottoNumCount * 1000));
 				}
 			}
 		});
@@ -243,7 +248,7 @@ public class BuyPage extends JFrame {
 		nextBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				resetBtn.doClick();
 				// Iterator로 배열 정리
 				Iterator<List<Integer>> checkNull = buyLotto.iterator();
 				while (checkNull.hasNext()) {
@@ -251,11 +256,32 @@ public class BuyPage extends JFrame {
 						checkNull.remove();
 					}
 				}
-
-				// TODO 다이얼로그 메시지 정리. 확인했을 때 동작 만들기
-				// 다이얼로그로 배열 출력
-				JOptionPane.showConfirmDialog(null, buyLotto.toString() + "\n수량: " + buyLotto.size(), "로또 값 확인",
+				// 동작 넘기기
+				JOptionPane.showMessageDialog(null, "[관리자 페이지: 로또배열 확인용이며 완성할 때 없애야함]\n"+buyLotto.toString());
+				JOptionPane.showConfirmDialog(null, String.format("복권 수량: %d개\n구매 확정하시겠습니까?", buyLotto.size()), "로또 값 확인",
 						JOptionPane.OK_CANCEL_OPTION);
+			}
+		});
+		
+		// 하드리셋 
+		hardReset.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				buyLotto.clear();
+				lottoNumCount = 0;
+				lottoPrice.setText(String.format("금액: %d원", lottoNumCount * 1000));
+				
+				////////////////////
+				// 필드 리셋
+				for (int i = 0; i < 5; i++) {
+					lottoField[i][1].setText("미지정");
+					for (int j = 2; j < 8; j++) {
+						lottoField[i][j].setText(" ■ ");
+					}
+					lottoField[i][8].setText("복사");
+					lottoField[i][9].setText("삭제");
+				}
+				///////////////
 			}
 		});
 
@@ -264,10 +290,11 @@ public class BuyPage extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
-	public List makeCopyList(List list) {
-		List cloneArray = new ArrayList<>();
-		for (Object a : list) {
-			cloneArray.add(a);
+	public List<Integer> makeCopyList(List<Integer> list) {
+		List<Integer> cloneArray = new ArrayList<>();
+		for (Integer a : list) {
+			Integer x = new Integer(a);
+			cloneArray.add(x);
 		}
 		return cloneArray;
 	}
@@ -281,12 +308,50 @@ public class BuyPage extends JFrame {
 				lotto[i][j] = new JLabel(" ■ "); // NULL
 			}
 
-			lotto[i][8] = new JLabel("복사");
+			lotto[i][8] = new JLabel("붙여넣기");
 			lotto[i][9] = new JLabel("삭제");
+			
+			lotto[i][8].addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
+					JLabel copyBtn = (JLabel) e.getSource();
+					
+					int y = 0;	// 몇번째 줄인지 찾는 로직
+					for (int i = 0; i < lottoField.length; i++) {
+						for (int j = 0; j < lottoField[0].length; j++) {
+							if (lottoField[i][j].equals(e.getSource())) {
+								y = i;
+							}
+						}
+					}
+					
+					if (copyBtn.getText().equals("복사")) {	// 복사일때
+						copyFunctionList = buyLotto.get(y);
+						JOptionPane.showMessageDialog(null, "복사 완료!");
+					} else {	// 붙여넣기일때
+						if (copyFunctionList==null) {	// 붙여넣기인데 붙여넣을 배열 없을때
+							JOptionPane.showMessageDialog(null, "붙여넣기를 하려면 복사한 값이 있어야 합니다.");
+						} else {	// 붙여넣기
+							List<Integer> copy = makeCopyList(copyFunctionList);
+							buyLotto.set(y, copy);
+							lottoField[y][1].setText("수동");
+							for (int i = 2; i < 8; i++) {
+								lottoField[y][i].setText(" " + String.valueOf(copy.get(i - 2) + " "));
+							}
+							checkOption = NON_RANDOM;
+							numcount = 0;
+							lottoNumCount++;
+							lottoPrice.setText(String.format("금액: %d원", lottoNumCount * 1000));
+							JOptionPane.showMessageDialog(null, "붙여넣기 완료!");
+						}
+						
+					}
+				}
+			});
 
 			lotto[i][9].addMouseListener(new MouseAdapter() {
 				@Override
-				public void mouseClicked(MouseEvent e) {
+				public void mousePressed(MouseEvent e) {
 					int y = 0;
 					for (int i = 0; i < lottoField.length; i++) { // 몇번째 줄인지 찾는 로직
 						for (int j = 0; j < lottoField[0].length; j++) {
@@ -303,8 +368,8 @@ public class BuyPage extends JFrame {
 						}
 						lottoField[y][1].setText("미지정");
 
-						LottoNumCount--;
-						lottoPrice.setText(String.format("금액: %d원", LottoNumCount * 1000));
+						lottoNumCount--;
+						lottoPrice.setText(String.format("금액: %d원", lottoNumCount * 1000));
 					}
 				}
 			});
