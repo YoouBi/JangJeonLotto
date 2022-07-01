@@ -20,19 +20,24 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import javafx.scene.control.TextInputControl;
+
 import java.awt.Dimension;
+import java.awt.Event;
 
 class login {
 	private String id;
 	private String pw;
 	private String name;
-	private int age;
+	private int age; // 우리나라 최고령자 나이는 115세...
 //	로또 배열 저장 필드도 만들기!
 
 	public login(String id, String pw, String name, int age) {
@@ -97,6 +102,8 @@ public class MainPage extends JFrame {
 		map.put("Inha123", new login("Inha123", "Inha123", "전인하", 20020202));
 		map.put("yeriming", new login("yeriming", "yeriming", "장예림", 20020303));
 
+		int inputAge = 0;
+		
 		Mainppp = new JPanel(new BorderLayout());
 		JPanel MainAll = new JPanel();
 		JPanel MainPnl1 = new JPanel();
@@ -173,7 +180,6 @@ public class MainPage extends JFrame {
 
 		JCheckBox PwSee = new JCheckBox("비밀번호 보기");
 		PwSee.setOpaque(false);
-		JComboBox yearComboBox = new JComboBox<>();
 		JComboBox monthComboBox = new JComboBox<>();
 		
 		JButton signIn = new JButton("로그인");
@@ -196,8 +202,10 @@ public class MainPage extends JFrame {
 		JTextField createInputId = new JTextField(10);
 		JPasswordField createInputPw = new JPasswordField(10);
 		JPasswordField createInputPwConfirm = new JPasswordField(10);
-		JTextField createInputName = new JTextField(10);
-		JTextField createInputday = new JTextField(3);
+		JFormattedTextField createInputName = new JFormattedTextField(10);
+		JTextField createInputYear = new JTextField(5);
+		
+		JTextField createInputDay = new JTextField(3);
 
 		signIn.addActionListener(new ActionListener() {
 			@Override
@@ -298,10 +306,27 @@ public class MainPage extends JFrame {
 			}
 		});
 		
-		createInputday.addKeyListener(new KeyAdapter() {
+		createInputYear.addKeyListener(new KeyAdapter() { // 년도 입력 텍스트 필드
 			@Override
 			public void keyTyped(KeyEvent e) {
-				if(createInputday.getText().length() > 1) {
+				char c = e.getKeyChar();
+				if(((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+					e.consume();
+				}
+				if(createInputYear.getText().length() > 3) {
+					e.consume();
+				}
+			}
+		});
+		
+		createInputDay.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char c = e.getKeyChar();
+				if(((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+					e.consume();
+				}
+				if(createInputDay.getText().length() > 1) {
 					e.consume();
 				}
 			}
@@ -326,6 +351,10 @@ public class MainPage extends JFrame {
 					JOptionPane.showMessageDialog(MainPage.this, "아이디와 비밀번호의 길이는 4~12자 사이로 입력해야 합니다.");
 				} else if (!PwConfirm) {
 					JOptionPane.showMessageDialog(MainPage.this, "비밀번호가 일치하지 않습니다.");
+				} else if (19061230 > inputAge) {
+					JOptionPane.showMessageDialog(MainPage.this, "대한민국의 최고령자 나이를 넘어섰어요!");
+				} else if (inputAge > 20220701) { // 나중에 날짜 바꿀 것!
+					JOptionPane.showMessageDialog(MainPage.this, "헉! 드디어 타임머신이 발명된걸까요?");
 				} else {
 					JOptionPane.showMessageDialog(MainPage.this, "회원가입 되었습니다.");
 					map.put(id, new login(id, pw, name, age));
@@ -389,11 +418,11 @@ public class MainPage extends JFrame {
 		CreatePageNamePnl.add(createName);
 		CreatePageNamePnl.add(createInputName);
 		CreatePageAgePnl.add(createAge);
-		CreatePageAgePnl.add(yearComboBox);
+		CreatePageAgePnl.add(createInputYear);
 		CreatePageAgePnl.add(createYear);
 		CreatePageAgePnl.add(monthComboBox);
 		CreatePageAgePnl.add(createMonth);
-		CreatePageAgePnl.add(createInputday);
+		CreatePageAgePnl.add(createInputDay);
 		CreatePageAgePnl.add(createDay);
 		CreatePageAccountAndReturn.add(createAccount);
 		CreatePageAccountAndReturn.add(createReturn);
