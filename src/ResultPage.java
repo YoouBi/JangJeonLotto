@@ -55,7 +55,8 @@ public class ResultPage extends JFrame {
 	public ResultPage() {
 		getNumber(lotto, bonus);
 		getNumber3();
-		comparing2();
+		comparingList();
+		comparingBonus();
 
 		pnl = new JPanel();
 		JPanel pnlA = new JPanel();
@@ -117,7 +118,7 @@ public class ResultPage extends JFrame {
 		// set일 때(중복 값 지우기)
 		while (set.size() < 6) {
 			Random random = new Random();
-			int r = random.nextInt(46);
+			int r = random.nextInt(45) + 1;
 			if (r != 0) {
 				set.add(r);
 			}
@@ -125,10 +126,11 @@ public class ResultPage extends JFrame {
 		
 
 		// 보너스 값 출력
-		i = random.nextInt(46);
+		i = random.nextInt(45) + 1;
 		while(set.contains(i)) {
-			i = random.nextInt(46);
+			i = random.nextInt(45) + 1;
 		} 
+		bonus = i;
 		System.out.println("보너스 값: " + i);
 	}
 
@@ -159,7 +161,7 @@ public class ResultPage extends JFrame {
 	}
 
 	// 이중리스트배열과 리스트 비교
-	public void comparing2() {
+	public void comparingList() {
 		// 리스트로 변환 후 정렬
 		list = new ArrayList<>(lotto);
 		Collections.sort(list);
@@ -196,6 +198,18 @@ public class ResultPage extends JFrame {
 			same1[j] = same;
 		}
 		System.out.println("당첨 번호 추첨: " + Arrays.deepToString(same1));
+	}
+	
+	// 보너스 번호 비교 메소드
+	public void comparingBonus() {
+		Integer bonusI = bonus;
+		for(int a = 0; a < buyLottoNum.size(); a++) {
+			if(buyLottoNum.get(a).contains(bonus)) {
+				System.out.println("있다!");
+			} else {
+				System.out.println("없다!");
+			}
+		}
 	}
 
 	// 배열과 set 비교
