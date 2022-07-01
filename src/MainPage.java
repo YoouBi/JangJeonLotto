@@ -33,7 +33,7 @@ class login {
 	private String pw;
 	private String name;
 	private int age;
-//	로또 배열 저장할거 들어갈 것
+//	로또 배열 저장 필드도 만들어야함!
 
 	public login(String id, String pw, String name, int age) {
 		this.id = id;
