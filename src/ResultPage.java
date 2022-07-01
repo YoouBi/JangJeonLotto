@@ -36,6 +36,7 @@ public class ResultPage extends JFrame {
 	String[] same;
 	// 같음, 다름 배열 넣은 걸 넣을 배열
 	String[][] same1 = new String[5][];
+	int bonus = 0;
 
 	private JPanel pnl;
 	private JButton btn;
@@ -49,8 +50,10 @@ public class ResultPage extends JFrame {
 	}
 
 	// Result 화면 생성
+	;
+
 	public ResultPage() {
-		getNumber(lotto);
+		getNumber(lotto, bonus);
 		getNumber3();
 		comparing2();
 
@@ -76,7 +79,7 @@ public class ResultPage extends JFrame {
 		}
 
 		pnl.add(pnlB);
-		for(int j = 0; j < same1.length; j++) {
+		for (int j = 0; j < same1.length; j++) {
 			for (int i = 0; i < same.length; i++) {
 				JLabel same2 = new JLabel(same1[j][i]);
 				pnlB.add(same2);
@@ -110,7 +113,7 @@ public class ResultPage extends JFrame {
 	}
 
 	// 당첨번호 만드는 메소드 메소드로 만들기
-	public void getNumber(Set<Integer> set) {
+	public void getNumber(Set<Integer> set, int i) {
 		// set일 때(중복 값 지우기)
 		while (set.size() < 6) {
 			Random random = new Random();
@@ -119,6 +122,14 @@ public class ResultPage extends JFrame {
 				set.add(r);
 			}
 		}
+		
+
+		// 보너스 값 출력
+		i = random.nextInt(46);
+		while(set.contains(i)) {
+			i = random.nextInt(46);
+		} 
+		System.out.println("보너스 값: " + i);
 	}
 
 	// 내가 고른 번호 만드는 메소드 메소드로 만들기
@@ -152,17 +163,17 @@ public class ResultPage extends JFrame {
 		// 리스트로 변환 후 정렬
 		list = new ArrayList<>(lotto);
 		Collections.sort(list);
-		System.out.println(list);
-		
+		System.out.println("당첨 번호: " + list);
+
 		// 내가 선택한 번호 출력
-		System.out.println(buyLottoNum);
-		
+		System.out.println("내가 선택한 번호: " + buyLottoNum);
+
 		int count = 0;
-		
+
 		// 변수 설정
 		Integer a = 0;
 		Integer b = 0;
-		
+
 		for (int j = 0; j < buyLottoNum.size(); j++) {
 			same = new String[buyLottoNum1.size()];
 			for (int i = 0; i < buyLottoNum1.size(); i++) {
@@ -182,9 +193,9 @@ public class ResultPage extends JFrame {
 					}
 				}
 			}
-		same1[j] = same;
+			same1[j] = same;
 		}
-	System.out.println(Arrays.deepToString(same1));
+		System.out.println("당첨 번호 추첨: " + Arrays.deepToString(same1));
 	}
 
 	// 배열과 set 비교
