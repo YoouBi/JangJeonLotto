@@ -4,6 +4,8 @@ import java.util.*;
 import java.util.List;
 import javax.swing.*;
 
+//// 커밋연습연습
+
 public class BuyPage extends JFrame {
 	////////////////////////
 	Random random = new Random(); // 자동 반자동 할 때 쓰는 랜덤 객체
@@ -58,20 +60,19 @@ public class BuyPage extends JFrame {
 		////////////////////////////////////
 		// Edit
 		/////// field
-		
+
 		makefield(lottoField);
-		for (int i=0; i<lottoField.length; i++) {
+		for (int i = 0; i < lottoField.length; i++) {
 			JPanel a = new JPanel();
 			a.setOpaque(false);
-			for (int j=0; j<lottoField[0].length; j++) {
-				 a.add(lottoField[i][j]);
+			for (int j = 0; j < lottoField[0].length; j++) {
+				a.add(lottoField[i][j]);
 			}
 			editPnl.add(a);
 		}
-		
+
 		editPnl.add(lottoPrice);
 		editPnl.add(nextBtn);
-		
 
 		/// inputPnl
 		////////////////////////////////////////////
@@ -97,7 +98,7 @@ public class BuyPage extends JFrame {
 		for (int i = 0; i < 45; i++) {
 			JButton a = new JButton(String.valueOf(i + 1));
 			btnMake.put(i + 1, a);
-			a.addActionListener(new ActionListener() {
+ 			a.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (numcount < 6) {
@@ -122,27 +123,45 @@ public class BuyPage extends JFrame {
 					JOptionPane.showMessageDialog(null, "여섯 숫자를 입력해야 합니다.", "Warning", JOptionPane.PLAIN_MESSAGE);
 
 				} else { // 아닐 때: 적합할 때 buyLottoNum에 산 배열 넣기
-					for (int key : btnMake.keySet()) {
+					
+					for (int key : btnMake.keySet()) {	// 버튼 다시 활성화
 						btnMake.get(key).setEnabled(true);
 					}
 
-					// deep복사 하기 위해
+					// inputLottoNum DeepCopy
 					List<Integer> inputList = new ArrayList<>();
 					for (int a : inputLottoNum) {
 						inputList.add(a);
 					}
 					Collections.sort(inputList);
-					buyLotto.add(inputList);
+					
+					
+					
+					// buyLotto에 넣는건데 지금 안먹음 ......
+
+					boolean hasNull = false;
+
+					for (int i = 0; i < buyLotto.size(); i++) {
+						if (buyLotto.get(i).equals(null)) {
+							buyLotto.set(i, inputList);
+							hasNull = true;
+						}
+					}
+					if (hasNull = false) {
+						buyLotto.add(inputList);
+					}
+
 					/////////////
+					
 					int indx = buyLotto.indexOf(inputList);
-					for (int i=2; i<8; i++) {
-						lottoField[indx][i].setText(" "+String.valueOf(inputList.get(i-2)+" "));
+					for (int i = 2; i < 8; i++) {
+						lottoField[indx][i].setText(" " + String.valueOf(inputList.get(i - 2) + " "));
 					}
 					////////////
 					inputLottoNum.clear();
 					numcount = 0;
 					LottoNumCount++;
-					lottoPrice.setText(String.format("금액: %d원", LottoNumCount*1000));
+					lottoPrice.setText(String.format("금액: %d원", LottoNumCount * 1000));
 				}
 			}
 		});
@@ -180,11 +199,11 @@ public class BuyPage extends JFrame {
 	}
 
 	public void makefield(JLabel[][] lotto) {
-		for (int i=0; i < 5; i++) {
-			lotto[i][0] = new JLabel(String.valueOf(i+1));
+		for (int i = 0; i < 5; i++) {
+			lotto[i][0] = new JLabel(String.valueOf(i + 1));
 			lotto[i][1] = new JLabel(String.valueOf("분류"));
-			
-			for (int j=2; j<8; j++) {
+
+			for (int j = 2; j < 8; j++) {
 				lotto[i][j] = new JLabel(" ■ "); // NULL
 			}
 			lotto[i][8] = new JLabel("복사");
@@ -193,24 +212,24 @@ public class BuyPage extends JFrame {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					int y = 0;
-					for (int i=0; i<lottoField.length; i++) {
-						for (int j=0; j<lottoField[0].length; j++) {
+					for (int i = 0; i < lottoField.length; i++) {
+						for (int j = 0; j < lottoField[0].length; j++) {
 							if (lottoField[i][j].equals(e.getSource())) {
 								y = i;
 							}
 						}
 					}
 					buyLotto.set(y, null);
-					for (int i=2; i<8; i++) {
+					for (int i = 2; i < 8; i++) {
 						lottoField[y][i].setText(" ■ ");
 					}
 					LottoNumCount--;
-					lottoPrice.setText(String.format("금액: %d원", LottoNumCount*1000));
+					lottoPrice.setText(String.format("금액: %d원", LottoNumCount * 1000));
 				}
 			});
 		}
 	}
-	
+
 	public void printBuyLotto_1row() {
 	}
 
