@@ -38,9 +38,6 @@ public class ResultPage extends JFrame {
 	// 같음, 다름 배열 넣은 걸 넣을 배열
 	String[][] same1 = new String[5][];
 	int bonus = 0;
-	// 보너스 일치여부 배열
-	String[][] sameBonus = new String[5][6];
-	// 보너스 일치여부 배열을 담은 배열
 
 	private JPanel pnl;
 	private JButton btn;
@@ -208,22 +205,18 @@ public class ResultPage extends JFrame {
 			}
 			same1[j] = same;
 		}
+		comparingBonus();
 		System.out.println("당첨 번호 추첨: " + Arrays.deepToString(same1));
 	}
 	
 	// 보너스 번호 비교 메소드
 	public void comparingBonus() {
 		for(int a = 0; a < buyLottoNum.size(); a++) {
-			for(int b1 = 0; b1 < buyLottoNum1.size(); b1++) {
-				sameBonus[a][b1] = "";
-			}
 			if(buyLottoNum.get(a).contains(bonus)) {
 				int b = buyLottoNum.get(a).indexOf(bonus);
-				sameBonus[a][b] = "보너스 번호 당첨!";
+				same1[a][b] = "보너스 번호 당첨!";
 			} 
-			
 		}
-		System.out.println(Arrays.deepToString(sameBonus));
 	} 
 
 	// 배열과 set 비교
