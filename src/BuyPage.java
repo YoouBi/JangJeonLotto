@@ -168,7 +168,6 @@ public class BuyPage extends JFrame {
 						for (int i = 2; i < 8; i++) {
 							lottoField[indx][i].setText(" " + String.valueOf(inputList.get(i - 2) + " "));
 						}
-						lottoField[indx][8].setText("복사");
 						
 					} else if (checkOption == HALF_RANDOM) {
 						lottoField[indx][1].setText("반자동");
@@ -180,14 +179,12 @@ public class BuyPage extends JFrame {
 						for (int i = 2 + halfRandomNum.size(); i < 8; i++) {
 							lottoField[indx][i].setText(" ? ");
 						}
-						lottoField[indx][8].setText("복사");
 						
 					} else {
 						lottoField[indx][1].setText("자동");
 						for (int i = 2; i < 8; i++) {
 							lottoField[indx][i].setText(" ? ");
 						}
-						lottoField[indx][8].setText("복사");
 					}
 
 					////////////
@@ -381,7 +378,6 @@ public class BuyPage extends JFrame {
 						for (int i = 2; i < 8; i++) {
 							lottoField[y][i].setText(" ■ ");
 						}
-						lottoField[y][8].setText("붙여넣기");
 						
 						lottoNumCount--;
 						lottoPrice.setText(String.format("금액: %d원", lottoNumCount * 1000));
