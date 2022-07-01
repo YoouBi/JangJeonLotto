@@ -298,6 +298,11 @@ public class BuyPage extends JFrame {
 		}
 		return cloneArray;
 	}
+	
+//	public void makeBuyLottoReset() {
+//		for (int i=0; i<5; i++)
+//			buyLotto.add(null);
+//	}
 
 	public void makefield(JLabel[][] lotto) {
 		for (int i = 0; i < 5; i++) {
@@ -308,46 +313,54 @@ public class BuyPage extends JFrame {
 				lotto[i][j] = new JLabel(" ■ "); // NULL
 			}
 
-			lotto[i][8] = new JLabel("붙여넣기");
+			lotto[i][8] = new JLabel("(복사버튼예정)");
 			lotto[i][9] = new JLabel("삭제");
 			
-			lotto[i][8].addMouseListener(new MouseAdapter() {
-				@Override
-				public void mousePressed(MouseEvent e) {
-					JLabel copyBtn = (JLabel) e.getSource();
-					
-					int y = 0;	// 몇번째 줄인지 찾는 로직
-					for (int i = 0; i < lottoField.length; i++) {
-						for (int j = 0; j < lottoField[0].length; j++) {
-							if (lottoField[i][j].equals(e.getSource())) {
-								y = i;
-							}
-						}
-					}
-					
-					if (copyBtn.getText().equals("복사")) {	// 복사일때
-						copyFunctionList = buyLotto.get(y);
-						JOptionPane.showMessageDialog(null, "복사 완료!");
-					} else {	// 붙여넣기일때
-						if (copyFunctionList==null) {	// 붙여넣기인데 붙여넣을 배열 없을때
-							JOptionPane.showMessageDialog(null, "붙여넣기를 하려면 복사한 값이 있어야 합니다.");
-						} else {	// 붙여넣기
-							List<Integer> copy = makeCopyList(copyFunctionList);
-							buyLotto.set(y, copy);
-							lottoField[y][1].setText("수동");
-							for (int i = 2; i < 8; i++) {
-								lottoField[y][i].setText(" " + String.valueOf(copy.get(i - 2) + " "));
-							}
-							checkOption = NON_RANDOM;
-							numcount = 0;
-							lottoNumCount++;
-							lottoPrice.setText(String.format("금액: %d원", lottoNumCount * 1000));
-							JOptionPane.showMessageDialog(null, "붙여넣기 완료!");
-						}
-						
-					}
-				}
-			});
+//			lotto[i][8].addMouseListener(new MouseAdapter() {
+//				@Override
+//				public void mousePressed(MouseEvent e) {
+//					JLabel copyBtn = (JLabel) e.getSource();
+//					
+//					int y = 0;	// 몇번째 줄인지 찾는 로직
+//					for (int i = 0; i < lottoField.length; i++) {
+//						for (int j = 0; j < lottoField[0].length; j++) {
+//							if (lottoField[i][j].equals(e.getSource())) {
+//								y = i;
+//							}
+//						}
+//					}
+//					
+//					if (copyBtn.getText().equals("복사")) {	// 복사일때
+//						if (!(lottoField[y][1].getText().equals("수동"))) {	// 수동이 아니면 복사 안되게끔
+//							JOptionPane.showMessageDialog(null, "복사는 수동만 가능합니다.");
+//						} else {
+//							copyFunctionList = buyLotto.get(y);
+//							JOptionPane.showMessageDialog(null, "복사 완료!");
+//						}
+//					} else {	// 붙여넣기일때
+//						if (copyFunctionList==null) {	// 붙여넣기인데 붙여넣을 배열 없을때
+//							JOptionPane.showMessageDialog(null, "붙여넣기를 하려면 복사한 값이 있어야 합니다.");
+//						} else {	// 붙여넣기
+//							List<Integer> copy = makeCopyList(copyFunctionList);
+//							
+//							buyLotto.set(y-1, copy);
+//							lottoField[y][1].setText("수동");
+//							for (int i = 2; i < 8; i++) {
+//								lottoField[y][i].setText(" " + String.valueOf(copy.get(i - 2) + " "));
+//							}
+//							lottoField[y][8].setText("복사");
+//							
+//							checkOption = NON_RANDOM;
+//							numcount = 0;
+//							lottoNumCount++;
+//							lottoPrice.setText(String.format("금액: %d원", lottoNumCount * 1000));
+//							JOptionPane.showMessageDialog(null, "붙여넣기 완료!");
+//							copyFunctionList=null;
+//						}
+//						
+//					}
+//				}
+//			});
 
 			lotto[i][9].addMouseListener(new MouseAdapter() {
 				@Override
@@ -363,11 +376,13 @@ public class BuyPage extends JFrame {
 
 					if (!(lottoField[y][1].getText().equals("미지정"))) { // 그 줄이 차있을때만 삭제
 						buyLotto.set(y, null);
+						
+						lottoField[y][1].setText("미지정");
 						for (int i = 2; i < 8; i++) {
 							lottoField[y][i].setText(" ■ ");
 						}
-						lottoField[y][1].setText("미지정");
-
+						lottoField[y][8].setText("붙여넣기");
+						
 						lottoNumCount--;
 						lottoPrice.setText(String.format("금액: %d원", lottoNumCount * 1000));
 					}
