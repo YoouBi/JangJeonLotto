@@ -124,6 +124,7 @@ public class MainPage extends JFrame {
 		JPanel CreatePageNamePnl = new JPanel();
 		JPanel CreatePageAgePnl = new JPanel();
 		JPanel CreatePageAccountAndReturn = new JPanel();
+		JPanel MyPagePnl = new JPanel();
 		
 		MainPnl1.setPreferredSize(new Dimension(350, 350));
 		MainPnl4.setBounds(50, 150, 200, 200);
@@ -136,7 +137,10 @@ public class MainPage extends JFrame {
 		MainPnl5.setOpaque(false);
 		MainPnlLogIn.setOpaque(false);
 		MainPnlLogInPage.setOpaque(false);
+		
 		MainPnlMyPage.setOpaque(false);
+		MyPagePnl.setOpaque(false);
+		
 		MainPnlCreatePage.setOpaque(false);
 		CreatePageIdPnl.setOpaque(false);
 		CreatePagePwPnl.setOpaque(false);
@@ -150,12 +154,12 @@ public class MainPage extends JFrame {
 		MainAll.setLayout(box);
 		BoxLayout box2 = new BoxLayout(MainPnl4, BoxLayout.Y_AXIS);
 		MainPnl4.setLayout(box2);
-		BoxLayout box3 = new BoxLayout(MainPnlMyPage, BoxLayout.Y_AXIS);
-		MainPnlMyPage.setLayout(box3);
+		BoxLayout box3 = new BoxLayout(MyPagePnl, BoxLayout.Y_AXIS);
+		MyPagePnl.setLayout(box3);
 		BoxLayout box4 = new BoxLayout(MainPnlCreatePage, BoxLayout.Y_AXIS);
 		MainPnlCreatePage.setLayout(box4);
 
-		Image image = kit.getImage("images/lotto.png");
+		Image image = kit.getImage("resorces/images/lotto.png");
 		Image changeimage = image.getScaledInstance(350, 350, Image.SCALE_SMOOTH);
 
 		JLabel lottoimg = new JLabel(new ImageIcon(changeimage));
@@ -227,9 +231,11 @@ public class MainPage extends JFrame {
 			}
 		});
 		
-		signout.addActionListener(new ActionListener() { // 로그아웃 버튼
+		signout.addActionListener(new ActionListener() { // 로그아웃 버튼 // 아이디 저장 체크박스 만들자!
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				id.setText("");
+				pw.setText("");
 				cardLogIn.show(MainPnlLogIn, "LogIn");
 			}
 		});
@@ -392,10 +398,10 @@ public class MainPage extends JFrame {
 		MainPnl4.add(MainPnl2);
 		MainPnl4.add(MainPnl3);
 		
-		MainPnlMyPage.add(stringName);
-		MainPnlMyPage.add(signout);
-		MainPnlMyPage.add(start);
-		
+		MainPnlMyPage.add(MyPagePnl);
+		MyPagePnl.add(stringName);
+		MyPagePnl.add(signout);
+		MyPagePnl.add(start);
 		
 		MainPnlCreatePage.add(CreatePageIdPnl);
 		MainPnlCreatePage.add(createIdCheck);
