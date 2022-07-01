@@ -107,8 +107,8 @@ public class MainPage extends JFrame {
 		
 		CardLayout cardLogIn = new CardLayout();
 		// MainPnlLogIn로 연결하여 오른쪽 패널들 바꾸는 레이아웃
-		// 1. MainPnlLogPage1(기본 로그인하는 메인 페이지),
-		// 2. (회원가입 페이지 만들 것),
+		// 1. MainPnlLogPage1(기본 로그인하는 메인 페이지)
+		// 2. (회원가입 페이지 만들 것)
 		// 3. MainPnlLogPage2(마이페이지)
 		JPanel MainPnlLogIn = new JPanel(cardLogIn);
 		JPanel MainPnlLogInPage = new JPanel();
