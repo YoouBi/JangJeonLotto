@@ -33,7 +33,7 @@ class login {
 	private String pw;
 	private String name;
 	private int age;
-//	로또 배열 저장 필드도 만들어야함!
+//	로또 배열 저장 필드도 만들기!
 
 	public login(String id, String pw, String name, int age) {
 		this.id = id;
@@ -172,6 +172,7 @@ public class MainPage extends JFrame {
 		JLabel createDay = new JLabel("일");
 
 		JCheckBox PwSee = new JCheckBox("비밀번호 보기");
+		PwSee.setOpaque(false);
 		JComboBox yearComboBox = new JComboBox<>();
 		JComboBox monthComboBox = new JComboBox<>();
 		
@@ -267,6 +268,19 @@ public class MainPage extends JFrame {
 //				} else if(createInputPw.getText().length() > 3 && createInputPw.getText().length() < 13) {
 				} else {
 					createPwCheck.setText(" ");
+				}
+			}
+		});
+		
+		PwSee.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(PwSee.isSelected()) {
+					createInputPw.setEchoChar((char)0);
+					createInputPwConfirm.setEchoChar((char)0);
+				} else {
+					createInputPw.setEchoChar('\u2022');
+					createInputPwConfirm.setEchoChar('\u2022');
 				}
 			}
 		});
@@ -369,6 +383,7 @@ public class MainPage extends JFrame {
 		CreatePageIdPnl.add(createInputId);
 		CreatePagePwPnl.add(createPw);
 		CreatePagePwPnl.add(createInputPw);
+		CreatePagePwPnl.add(PwSee);
 		CreatePagePwCPnl.add(createPwConfirm);
 		CreatePagePwCPnl.add(createInputPwConfirm);
 		CreatePageNamePnl.add(createName);
@@ -394,5 +409,4 @@ public class MainPage extends JFrame {
 	public static void main(String[] args) {
 		new MainPage().setVisible(true);
 	}
-
 }
