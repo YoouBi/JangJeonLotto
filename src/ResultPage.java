@@ -18,6 +18,7 @@ import java.awt.Font;
 public class ResultPage extends JFrame {
 	// 6/30 : 넘겨받는 배열 타입에 따라 메소드 전반적 변경
 	// 6/31 : 보너스 번호 추첨, 등수 출력, 버튼 마우스오버창
+	// 지금 할 일 : 보너스 번호 일치 여부 배열 생성 or contains로 메소드 짜기 및 패널 창 출력
 
 	Random random = new Random();
 	// 중복 없는 당첨번호 set
@@ -37,6 +38,9 @@ public class ResultPage extends JFrame {
 	// 같음, 다름 배열 넣은 걸 넣을 배열
 	String[][] same1 = new String[5][];
 	int bonus = 0;
+	// 보너스 일치여부 배열
+	String[][] sameBonus = new String[5][6];
+	// 보너스 일치여부 배열을 담은 배열
 
 	private JPanel pnl;
 	private JButton btn;
@@ -68,6 +72,7 @@ public class ResultPage extends JFrame {
 		JPanel pnlC = new JPanel();
 		pnlC.setBounds(0, 276, 784, 138);
 		JLabel lbl3 = new JLabel("추첨 번호");
+		
 
 		pnlA.add(lbl1);
 		pnlB.add(lbl2);
@@ -78,6 +83,12 @@ public class ResultPage extends JFrame {
 			JLabel lottoA = new JLabel(String.valueOf(list.get(i)));
 			pnlA.add(lottoA);
 		}
+		
+		JLabel lbl4 = new JLabel("보너스 번호");
+		pnlA.add(lbl4);
+		JLabel lbl5 = new JLabel(Integer.toString(bonus));
+		pnlA.add(lbl5);
+		
 
 		pnl.add(pnlB);
 		for (int j = 0; j < same1.length; j++) {
@@ -202,15 +213,18 @@ public class ResultPage extends JFrame {
 	
 	// 보너스 번호 비교 메소드
 	public void comparingBonus() {
-		Integer bonusI = bonus;
 		for(int a = 0; a < buyLottoNum.size(); a++) {
-			if(buyLottoNum.get(a).contains(bonus)) {
-				System.out.println("있다!");
-			} else {
-				System.out.println("없다!");
+			for(int b1 = 0; b1 < buyLottoNum1.size(); b1++) {
+				sameBonus[a][b1] = "";
 			}
+			if(buyLottoNum.get(a).contains(bonus)) {
+				int b = buyLottoNum.get(a).indexOf(bonus);
+				sameBonus[a][b] = "보너스 번호 당첨!";
+			} 
+			
 		}
-	}
+		System.out.println(Arrays.deepToString(sameBonus));
+	} 
 
 	// 배열과 set 비교
 	public void comparing(int[] a) {
