@@ -17,13 +17,14 @@ import java.awt.Font;
 
 public class ResultPage extends JFrame {
 	// 6/30 : 넘겨받는 배열 타입에 따라 메소드 전반적 변경
+	// 6/31 : 보너스 번호 추첨, 등수 출력, 버튼 마우스오버창
 
 	Random random = new Random();
 	// 중복 없는 당첨번호 set
-	Set<Integer> lotto = new HashSet<>(); 
-	// 선택값을 1 개의 array로 받았을 경우  
+	Set<Integer> lotto = new HashSet<>();
+	// 선택값을 1 개의 array로 받았을 경우
 	int[] a = new int[6];
-	// List와 비교하기 위해 타입 Integer로 통일 
+	// List와 비교하기 위해 타입 Integer로 통일
 	Integer[] b = new Integer[6];
 	// 로또개수만큼 담긴 로또값 들어간 배열 넘겨받기 위한 배열
 	List<List<Integer>> buyLottoNum = new ArrayList<>();
@@ -32,11 +33,13 @@ public class ResultPage extends JFrame {
 	// set 정렬을 위해 List로 옮기기 위해 생성
 	List<Integer> list;
 	// 같음, 다름 넣을 배열
-	String[] same = new String[6];
-	
+	String[] same;
+	// 같음, 다름 배열 넣은 걸 넣을 배열
+	String[][] same1 = new String[5][];
+
 	private JPanel pnl;
 	private JButton btn;
-	
+
 	public JPanel getPnl() {
 		return pnl;
 	}
@@ -50,8 +53,7 @@ public class ResultPage extends JFrame {
 		getNumber(lotto);
 		getNumber3();
 		comparing2();
-		
-		
+
 		pnl = new JPanel();
 		JPanel pnlA = new JPanel();
 		pnlA.setBounds(0, 0, 784, 138);
@@ -62,50 +64,51 @@ public class ResultPage extends JFrame {
 		JPanel pnlC = new JPanel();
 		pnlC.setBounds(0, 276, 784, 138);
 		JLabel lbl3 = new JLabel("추첨 번호");
-		
+
 		pnlA.add(lbl1);
 		pnlB.add(lbl2);
 		pnlC.add(lbl3);
 		pnl.setLayout(null);
 		pnl.add(pnlA);
-		for(int i = 0; i < lotto.size(); i++) {
+		for (int i = 0; i < lotto.size(); i++) {
 			JLabel lottoA = new JLabel(String.valueOf(list.get(i)));
 			pnlA.add(lottoA);
 		}
-		
+
 		pnl.add(pnlB);
-		for(int i = 0; i < same.length; i++) {
-			JLabel same1 = new JLabel(same[i]);
-			pnlB.add(same1);
+		for(int j = 0; j < same1.length; j++) {
+			for (int i = 0; i < same.length; i++) {
+				JLabel same2 = new JLabel(same1[j][i]);
+				pnlB.add(same2);
+			}
 		}
-		
+
 		pnl.add(pnlC);
 //		for(int i = 0; i < a.length; i++) {
-			JLabel lottoB = new JLabel(buyLottoNum.toString());
-			pnlC.add(lottoB);
+		JLabel lottoB = new JLabel(buyLottoNum.toString());
+		pnlC.add(lottoB);
 //		}
 		lbl3.setBounds(0, 0, 65, 40);
-		
-		
+
 		JLabel price = new JLabel("금액 = 300,000,000원");
 		price.setBounds(78, 424, 315, 24);
 		price.setFont(new Font("굴림", Font.PLAIN, 20));
 		btn = new JButton("다음 회차");
 		btn.setBounds(550, 424, 222, 23);
-		
+
 		pnl.setBackground(new Color(248, 202, 204));
 		pnl.add(price);
 		pnl.add(btn);
-		
+
 		pnlA.setOpaque(false); // 배경 색을 따라가도록
 		pnlB.setOpaque(false);
 		pnlC.setOpaque(false);
 		getContentPane().add(pnl);
-		
+
 		setSize(800, 500);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
-	
+
 	// 당첨번호 만드는 메소드 메소드로 만들기
 	public void getNumber(Set<Integer> set) {
 		// set일 때(중복 값 지우기)
@@ -116,11 +119,6 @@ public class ResultPage extends JFrame {
 				set.add(r);
 			}
 		}
-		
-		// 리스트로 변환 후 정렬
-		list = new ArrayList<>(lotto);
-		Collections.sort(list);
-		System.out.println(list);
 	}
 
 	// 내가 고른 번호 만드는 메소드 메소드로 만들기
@@ -129,34 +127,64 @@ public class ResultPage extends JFrame {
 		for (int i = 0; i <= 5; i++) {
 			a[i] = random.nextInt(45) + 1;
 		}
-		
+
 		Arrays.sort(a);
 	}
-	
+
 	// list 배열에 6개의 값 담기
 	public void getNumber3() {
-		for(int j = 0; j <= 5; j++) {
-			buyLottoNum1 = new ArrayList<>() ;
-			for(int i = 0; i <= 5; i++) {
+		for (int j = 0; j < 5; j++) {
+			buyLottoNum1 = new ArrayList<>();
+			for (int i = 0; i <= 5; i++) {
 				buyLottoNum1.add(random.nextInt(45) + 1);
+				Collections.sort(buyLottoNum1);
 			}
 
 //			System.out.println(buyLottoNum1);
 			// 이중배열에 list배열 담기
 			buyLottoNum.add(buyLottoNum1);
 //			System.out.println(buyLottoNum);
-			
 		}
 	}
-	
+
 	// 이중리스트배열과 리스트 비교
 	public void comparing2() {
-		for(int j = 0; j < buyLottoNum1.size(); j++) {
-			for(int i = 0; i < buyLottoNum.size(); i++) {
-				buyLottoNum.get(j).get(i);
-				System.out.println(buyLottoNum.get(j).get(i));
+		// 리스트로 변환 후 정렬
+		list = new ArrayList<>(lotto);
+		Collections.sort(list);
+		System.out.println(list);
+		
+		// 내가 선택한 번호 출력
+		System.out.println(buyLottoNum);
+		
+		int count = 0;
+		
+		// 변수 설정
+		Integer a = 0;
+		Integer b = 0;
+		
+		for (int j = 0; j < buyLottoNum.size(); j++) {
+			same = new String[buyLottoNum1.size()];
+			for (int i = 0; i < buyLottoNum1.size(); i++) {
+				a = buyLottoNum.get(j).get(i);
+				for (int k = 0; k < list.size(); k++) {
+					b = list.get(k);
+					if (a.equals(b)) {
+//						System.out.println("같음");
+						same[i] = "같음";
+					} else {
+						count++;
+					}
+					if (count == 6) {
+//						System.out.println("다름");
+						same[i] = "다름";
+						count = 0;
+					}
+				}
 			}
+		same1[j] = same;
 		}
+	System.out.println(Arrays.deepToString(same1));
 	}
 
 	// 배열과 set 비교
@@ -174,15 +202,15 @@ public class ResultPage extends JFrame {
 					System.out.println(same[i]);
 				} else {
 					count++;
-					}
-				if(count == 6) {
+				}
+				if (count == 6) {
 					// 다름이 나오면 배열 "다름"
 					same[i] = "다름";
 					System.out.println(same[i]);
 					count = 0;
 				}
 			}
-			
+
 		}
 	}
 
@@ -192,8 +220,6 @@ public class ResultPage extends JFrame {
 //		re.getNumber(re.lotto);
 //		re.getNumber2(re.a);
 
-		
-		
 		// a 배열 String으로 출력
 //		System.out.println(Arrays.toString(re.a));
 		// a와 lotto 배열 비교
