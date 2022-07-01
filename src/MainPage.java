@@ -34,9 +34,9 @@ class login {
 	private String id;
 	private String pw;
 	private String name;
-	private int age; // 우리나라 최고령자 나이는 115세~
+	private int age; // 우리나라 최고령자 나이는 115세...
 //	로또 배열 저장 필드도 만들기!
-
+	
 	public login(String id, String pw, String name, int age) {
 		this.id = id;
 		this.pw = pw;
@@ -99,7 +99,7 @@ public class MainPage extends JFrame {
 		map.put("Inha123", new login("Inha123", "Inha123", "전인하", 20020202));
 		map.put("yeriming", new login("yeriming", "yeriming", "장예림", 20020303));
 
-		int inputAge = 0;
+		int inputAge = 20220630;
 		
 		Mainppp = new JPanel(new BorderLayout());
 		JPanel MainAll = new JPanel();
@@ -181,7 +181,10 @@ public class MainPage extends JFrame {
 
 		JCheckBox PwSee = new JCheckBox("비밀번호 보기");
 		PwSee.setOpaque(false);
-		JComboBox monthComboBox = new JComboBox<>();
+		
+		String[] monthCombo = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
+		JComboBox monthComboBox = new JComboBox<>(monthCombo);
+		monthComboBox.setPreferredSize(new Dimension(50, 20));
 		
 		JButton signIn = new JButton("로그인");
 		signIn.setBackground(new Color(255, 255, 255));
@@ -205,7 +208,6 @@ public class MainPage extends JFrame {
 		JPasswordField createInputPwConfirm = new JPasswordField(10);
 		JTextField createInputName = new JTextField(10);
 		JTextField createInputYear = new JTextField(5);
-		
 		JTextField createInputDay = new JTextField(3);
 
 		signIn.addActionListener(new ActionListener() {
@@ -373,6 +375,8 @@ public class MainPage extends JFrame {
 				createInputPw.setText("");
 				createInputPwConfirm.setText("");
 				createInputName.setText("");
+				createInputYear.setText("");
+				createInputDay.setText("");
 				cardLogIn.show(MainPnlLogIn, "LogIn");
 			}
 		});
