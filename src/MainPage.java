@@ -18,6 +18,8 @@ import java.util.Map;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -30,12 +32,14 @@ class login {
 	private String id;
 	private String pw;
 	private String name;
+	private int age;
 //	로또 배열 저장할거 들어갈 것
 
-	public login(String id, String pw, String name) {
+	public login(String id, String pw, String name, int age) {
 		this.id = id;
 		this.pw = pw;
 		this.name = name;
+		this.age = age;
 	}
 
 	public String getId() {
@@ -61,6 +65,14 @@ class login {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
 }
 
 public class MainPage extends JFrame {
@@ -81,9 +93,9 @@ public class MainPage extends JFrame {
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		map = new HashMap<>();
 		// 아이디, 비밀번호, 이름
-		map.put("YoouBi", new login("YoouBi", "yoyobiii", "장영빈"));
-		map.put("Inha123", new login("Inha123", "Inha123", "전인하"));
-		map.put("yeriming", new login("yeriming", "yeriming", "장예림"));
+		map.put("YoouBi", new login("YoouBi", "yoyobiii", "장영빈", 20020101));
+		map.put("Inha123", new login("Inha123", "Inha123", "전인하", 20020202));
+		map.put("yeriming", new login("yeriming", "yeriming", "장예림", 20020303));
 
 		Mainppp = new JPanel(new BorderLayout());
 		JPanel MainAll = new JPanel();
@@ -105,6 +117,8 @@ public class MainPage extends JFrame {
 		JPanel CreatePageIdPnl = new JPanel();
 		JPanel CreatePagePwPnl = new JPanel();
 		JPanel CreatePagePwCPnl = new JPanel();
+		JPanel CreatePageNamePnl = new JPanel();
+		JPanel CreatePageAgePnl = new JPanel();
 		JPanel CreatePageAccountAndReturn = new JPanel();
 		
 		MainPnl1.setPreferredSize(new Dimension(350, 350));
@@ -123,6 +137,8 @@ public class MainPage extends JFrame {
 		CreatePageIdPnl.setOpaque(false);
 		CreatePagePwPnl.setOpaque(false);
 		CreatePagePwCPnl.setOpaque(false);
+		CreatePageNamePnl.setOpaque(false);
+		CreatePageAgePnl.setOpaque(false);
 		CreatePageAccountAndReturn.setOpaque(false);
 
 //		BorderLayout border = new BorderLayout();
@@ -150,7 +166,15 @@ public class MainPage extends JFrame {
 		JLabel createName = new JLabel("이름 :");
 		JLabel createPwCheck = new JLabel("비밀번호의 길이는 4~12자 사이로 입력해야 합니다.");
 		createPwCheck.setForeground(new Color(155, 17, 30));
+		JLabel createAge = new JLabel("생년월일 :");
+		JLabel createYear = new JLabel("년 ");
+		JLabel createMonth = new JLabel("월 ");
+		JLabel createDay = new JLabel("일");
 
+		JCheckBox PwSee = new JCheckBox("비밀번호 보기");
+		JComboBox yearComboBox = new JComboBox<>();
+		JComboBox monthComboBox = new JComboBox<>();
+		
 		JButton signIn = new JButton("로그인");
 		signIn.setBackground(new Color(255, 255, 255));
 		JButton create = new JButton("회원가입");
@@ -169,9 +193,10 @@ public class MainPage extends JFrame {
 		JPasswordField pw = new JPasswordField(10);
 		pw.setText("");
 		JTextField createInputId = new JTextField(10);
-		JTextField createInputPw = new JTextField(10);
-		JTextField createInputPwConfirm = new JTextField(10);
+		JPasswordField createInputPw = new JPasswordField(10);
+		JPasswordField createInputPwConfirm = new JPasswordField(10);
 		JTextField createInputName = new JTextField(10);
+		JTextField createInputday = new JTextField(3);
 
 		signIn.addActionListener(new ActionListener() {
 			@Override
@@ -196,23 +221,26 @@ public class MainPage extends JFrame {
 			}
 		});
 		
-		create.addActionListener(new ActionListener() { // 회원가입 페이지로 넘어가는 버튼
+		signout.addActionListener(new ActionListener() { // 로그아웃 버튼
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cardLogIn.show(MainPnlLogIn, "CreatePage");
-			}
-		});
-		
-		signout.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				id.setText("");
-				pw.setText("");
-				stringName.setText("");
 				cardLogIn.show(MainPnlLogIn, "LogIn");
 			}
 		});
 		
+		create.addActionListener(new ActionListener() { // 회원가입 페이지로 넘어가는 버튼
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cardLogIn.show(MainPnlLogIn, "CreatePage");
+				id.setText("");
+				pw.setText("");
+				createInputId.setText("");
+				createInputPw.setText("");
+				createInputPwConfirm.setText("");
+				createInputName.setText("");
+			}
+		});
+
 		createInputId.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -232,10 +260,13 @@ public class MainPage extends JFrame {
 		createInputPw.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if(createInputPw.getText().length() > 3 && createInputPw.getText().length() < 13) {
-					createPwCheck.setText(" ");
-				} else if (createInputPw.getText().length() < 4 || createInputPw.getText().length() > 12) {
+				if (createInputPw.getText().length() < 4 || createInputPw.getText().length() > 12) {
 					createPwCheck.setText("비밀번호의 길이는 4~12자 사이로 입력해야 합니다.");
+				} else if (!createInputPw.getText().equals(createInputPwConfirm.getText())) {
+					createPwCheck.setText("비밀번호가 같지 않습니다!");
+//				} else if(createInputPw.getText().length() > 3 && createInputPw.getText().length() < 13) {
+				} else {
+					createPwCheck.setText(" ");
 				}
 			}
 		});
@@ -243,25 +274,39 @@ public class MainPage extends JFrame {
 		createInputPwConfirm.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if(!createInputPw.getText().equals(createInputPwConfirm.getText())) {
+				if (createInputPw.getText().length() < 4 || createInputPw.getText().length() > 12) {
+					createPwCheck.setText("비밀번호의 길이는 4~12자 사이로 입력해야 합니다.");
+				} else if(!createInputPw.getText().equals(createInputPwConfirm.getText())) {
 					createPwCheck.setText("비밀번호가 같지 않습니다!");
+				} else {
+					createPwCheck.setText(" ");
 				}
 			}
 		});
 		
-		createAccount.addActionListener(new ActionListener() {
+		createInputday.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(createInputday.getText().length() > 1) {
+					e.consume();
+				}
+			}
+		});
+		
+		createAccount.addActionListener(new ActionListener() { // 계정 만들기 버튼
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String id = createInputId.getText();
 				String pw = createInputPw.getText();
 				String pw2 = createInputPwConfirm.getText();
 				String name = createInputName.getText();
+				int age = 0;
 				
 				boolean PwConfirm = pw.equals(pw2);
 				boolean iplength = 4 > id.length() || id.length() > 12
 						|| 4 > pw.length() || pw.length() > 12;
 
-				if (map.containsKey(id)) {
+				if (map.containsKey(id)) { // 아이디 길이가 0일때 가입 됨 고쳐야함!!!!!!!!!!!!!
 					JOptionPane.showMessageDialog(MainPage.this, "같은 아이디가 있습니다!");
 				} else if (iplength) {
 					JOptionPane.showMessageDialog(MainPage.this, "아이디와 비밀번호의 길이는 4~12자 사이로 입력해야 합니다.");
@@ -269,18 +314,19 @@ public class MainPage extends JFrame {
 					JOptionPane.showMessageDialog(MainPage.this, "비밀번호가 일치하지 않습니다.");
 				} else {
 					JOptionPane.showMessageDialog(MainPage.this, "회원가입 되었습니다.");
-					map.put(id, new login(id, pw, name));
+					map.put(id, new login(id, pw, name, age));
 					cardLogIn.show(MainPnlLogIn, "LogIn");
 				}
 			}
 		});
 		
-		createReturn.addActionListener(new ActionListener() {
+		createReturn.addActionListener(new ActionListener() { // 계정 생성 취소하고 되돌아가기 버튼
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				createInputId.setText("");
 				createInputPw.setText("");
 				createInputPwConfirm.setText("");
+				createInputName.setText("");
 				cardLogIn.show(MainPnlLogIn, "LogIn");
 			}
 		});
@@ -316,6 +362,8 @@ public class MainPage extends JFrame {
 		MainPnlCreatePage.add(CreatePagePwPnl);
 		MainPnlCreatePage.add(CreatePagePwCPnl);
 		MainPnlCreatePage.add(createPwCheck);
+		MainPnlCreatePage.add(CreatePageNamePnl);
+		MainPnlCreatePage.add(CreatePageAgePnl);
 		MainPnlCreatePage.add(CreatePageAccountAndReturn);
 		CreatePageIdPnl.add(createId);
 		CreatePageIdPnl.add(createInputId);
@@ -323,6 +371,15 @@ public class MainPage extends JFrame {
 		CreatePagePwPnl.add(createInputPw);
 		CreatePagePwCPnl.add(createPwConfirm);
 		CreatePagePwCPnl.add(createInputPwConfirm);
+		CreatePageNamePnl.add(createName);
+		CreatePageNamePnl.add(createInputName);
+		CreatePageAgePnl.add(createAge);
+		CreatePageAgePnl.add(yearComboBox);
+		CreatePageAgePnl.add(createYear);
+		CreatePageAgePnl.add(monthComboBox);
+		CreatePageAgePnl.add(createMonth);
+		CreatePageAgePnl.add(createInputday);
+		CreatePageAgePnl.add(createDay);
 		CreatePageAccountAndReturn.add(createAccount);
 		CreatePageAccountAndReturn.add(createReturn);
 
