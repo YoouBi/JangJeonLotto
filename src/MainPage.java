@@ -453,7 +453,7 @@ public class MainPage extends JFrame {
 					JOptionPane.showMessageDialog(MainPage.this, "청소년보호법 제2조 제1호 규정에 의거\n만 19세 이하는 로또를 구입할 수 없습니다.");
 				} else {
 					JOptionPane.showMessageDialog(MainPage.this, "회원가입 되었습니다.");
-					map.put(id, new login(id, pw, name, inputAge, myBankMoney, 5000)); // 보유금 수정!!!!
+					map.put(id, new login(id, pw, name, inputAge, myBankMoney, 5000)); // 보유금 수정!!
 					cardLogIn.show(MainPnlLogIn, "LogIn");
 				}
 			}
