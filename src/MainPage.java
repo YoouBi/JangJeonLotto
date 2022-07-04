@@ -12,6 +12,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +36,7 @@ class login {
 	private String id;
 	private String pw;
 	private String name;
-	private int age; // 우리나라 최고령자 나이는 115세...
+	private int age; // 우리나라 최고령자 나이는 115세~
 //	로또 배열 저장 필드도 만들기!
 	
 	public login(String id, String pw, String name, int age) {
@@ -82,6 +84,10 @@ public class MainPage extends JFrame {
 	private JButton start;
 	private JLabel stringName;
 	private HashMap<String, login> map;
+	private int inputYear;
+	private int inputMonth;
+	private int inputDay;
+	private int inputAge;
 
 	public JPanel getPnl() {
 		return Mainppp;
@@ -93,13 +99,18 @@ public class MainPage extends JFrame {
 
 	public MainPage() {
 		Toolkit kit = Toolkit.getDefaultToolkit();
+		SimpleDateFormat ageTextFormat = new SimpleDateFormat("yyyyMMdd");
+		Calendar todayCalender = Calendar.getInstance();
 		map = new HashMap<>();
 		// 아이디, 비밀번호, 이름
 		map.put("YoouBi", new login("YoouBi", "yoyobiii", "장영빈", 20020101));
 		map.put("Inha123", new login("Inha123", "Inha123", "전인하", 20020202));
 		map.put("yeriming", new login("yeriming", "yeriming", "장예림", 20020303));
 
-		int inputAge = 20220630;
+		inputYear = 0;
+		inputMonth = 0;
+		inputDay = 0;
+		inputAge = 20220630;
 		
 		Mainppp = new JPanel(new BorderLayout());
 		JPanel MainAll = new JPanel();
@@ -159,10 +170,9 @@ public class MainPage extends JFrame {
 		BoxLayout box4 = new BoxLayout(MainPnlCreatePage, BoxLayout.Y_AXIS);
 		MainPnlCreatePage.setLayout(box4);
 
-		Image image = kit.getImage("resorces/images/lotto.png");
-		Image changeimage = image.getScaledInstance(350, 350, Image.SCALE_SMOOTH);
+		URL imageUrl = MainPage.class.getClassLoader().getResource("images/lotto.png");
 
-		JLabel lottoimg = new JLabel(new ImageIcon(changeimage));
+		JLabel lottoimg = new JLabel(new ImageIcon(kit.getImage(imageUrl).getScaledInstance(350, 350, Image.SCALE_SMOOTH)));
 		JLabel stringId = new JLabel("아이디 :");
 		JLabel stringPw = new JLabel("비밀번호 :");
 		stringName = new JLabel("");
@@ -344,7 +354,13 @@ public class MainPage extends JFrame {
 				String pw = createInputPw.getText();
 				String pw2 = createInputPwConfirm.getText();
 				String name = createInputName.getText();
-				int age = 0;
+				
+				int today = Integer.valueOf(ageTextFormat.format(todayCalender.getTime()));
+				
+				inputYear =  Integer.valueOf(createInputYear.getText()) * 10000;
+				inputMonth =  Integer.valueOf(monthComboBox.getSelectedItem().toString()) * 100;
+				inputDay =  Integer.valueOf(createInputDay.getText());
+				inputAge =  inputYear + inputMonth + inputDay;
 				
 				boolean PwConfirm = pw.equals(pw2);
 				boolean iplength = 4 > id.length() || id.length() > 12
@@ -358,11 +374,13 @@ public class MainPage extends JFrame {
 					JOptionPane.showMessageDialog(MainPage.this, "비밀번호가 일치하지 않습니다.");
 				} else if (19061230 > inputAge) {
 					JOptionPane.showMessageDialog(MainPage.this, "대한민국의 최고령자 나이를 넘어섰어요!");
-				} else if (inputAge > 20220701) { // 나중에 날짜 바꿀 것!
+				} else if (inputAge > today) {
 					JOptionPane.showMessageDialog(MainPage.this, "헉! 드디어 타임머신이 발명된걸까요?");
+				} else if ((today / 10000) - (inputYear / 10000)  < 19) { // 나중에 날짜 바꿀 것!
+					JOptionPane.showMessageDialog(MainPage.this, "청소년보호법 제2조 제1호 규정에 의거\n만 19세 이하는 로또를 구입할 수 없습니다.");
 				} else {
 					JOptionPane.showMessageDialog(MainPage.this, "회원가입 되었습니다.");
-					map.put(id, new login(id, pw, name, age));
+					map.put(id, new login(id, pw, name, inputAge));
 					cardLogIn.show(MainPnlLogIn, "LogIn");
 				}
 			}
