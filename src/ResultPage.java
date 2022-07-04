@@ -87,7 +87,7 @@ public class ResultPage extends JFrame {
 		pnl = new JPanel();
 
 		Toolkit kit = Toolkit.getDefaultToolkit();
-		URL url = ResultPage.class.getClassLoader().getResource("resources/critical.png");
+		URL url = ResultPage.class.getClassLoader().getResource("images/critical.png");
 //		//레이아웃 짜기
 //		GridBagLayout gridBag = new GridBagLayout();
 //		GridBagConstraints constraints = new GridBagConstraints(); 
