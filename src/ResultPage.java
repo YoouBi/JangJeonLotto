@@ -148,7 +148,6 @@ public class ResultPage extends JFrame {
 		price.setBounds(78, 424, 315, 24);
 		price.setFont(new Font("굴림", Font.PLAIN, 20));
 		nextBtn = new JButton("다음 회차");
-		nextBtn.setBounds(550, 424, 222, 23);
 
 		pnl.setBackground(new Color(248, 202, 204));
 		pnl.add(info);
@@ -352,38 +351,8 @@ public class ResultPage extends JFrame {
 		totalMoney -= winningMoney;
 		winningTotal += winningMoney;
 		System.out.println("총 당첨 금액: " + winningTotal);
-//		for (int i = 0; i < buyLottoNumList.size(); i++) {
-//			switch (ranking[i]) {
-//			case "4등":
-//				winningMoney = 50000;
-//				System.out.println("당첨 금액: " + winningMoney);
-//				totalMoney -= winningMoney;
-//				winningTotal += winningMoney;
-//				break;
-//			case "5등":
-//				winningMoney = 5000;
-//				System.out.println("당첨 금액: " + winningMoney);
-//				totalMoney -= winningMoney;
-//				winningTotal += winningMoney;
-//				break;
-//			case "1등":
-//				winningMoney = totalMoney / 75;
-//				totalMoney -= winningMoney;
-//				winningTotal += winningMoney;
-//				System.out.println("당첨 금액: " + winningMoney);
-//			case "2등":
-//				winningMoney = totalMoney / 75;
-//				totalMoney -= winningMoney;
-//				winningTotal += winningMoney;
-//			default:
-//				winningMoney = 0;
-//				System.out.println("당첨 금액: " + winningMoney);
-//			}
-//			System.out.println("총 금액 : " + totalMoney);
-//		}
-//		System.out.println("총 금액 : " + totalMoney);
-//		System.out.println("현재 당첨  금액: " + winningTotal);
 	}
+
 
 	public static void main(String[] args) {
 		new ResultPage().setVisible(true);
