@@ -20,6 +20,7 @@ public class ResultPage extends JFrame {
 	// 6/31 : 보너스 번호 추첨, 등수 출력, 버튼 마우스오버창
 	// 7/1 : 같음, 다름 여부 메소드 수정
 	// 7/2 : 등수 출력 메소드 완성, 변수명 변경
+	// 7/4 : 당첨 금액 메소드 완성
 	// 할일
 	// 패널 쪽 이름 변경
 	// 1. 금액 출력 메소드 만들기
@@ -52,14 +53,14 @@ public class ResultPage extends JFrame {
 	/////////////// 연습 값 담을 set end/////////////////////////
 
 	private JPanel pnl;
-	private JButton btn;
+	private JButton nextBtn;
 
 	public JPanel getPnl() {
 		return pnl;
 	}
 
 	public JButton getNextBtn() {
-		return btn;
+		return nextBtn;
 	}
 
 	// Result 화면 생성
@@ -74,63 +75,63 @@ public class ResultPage extends JFrame {
 		getMoney();
 
 		pnl = new JPanel();
-		JPanel pnlA = new JPanel();
-		pnlA.setBounds(0, 0, 784, 138);
-		JLabel lbl1 = new JLabel("당첨 번호");
-		JPanel pnlB = new JPanel();
-		pnlB.setBounds(0, 138, 784, 138);
-		JLabel lbl2 = new JLabel("일치 여부");
-		JPanel pnlC = new JPanel();
-		pnlC.setBounds(0, 276, 784, 138);
-		JLabel lbl3 = new JLabel("추첨 번호");
+		JPanel pnlLottoNums = new JPanel();
+		pnlLottoNums.setBounds(0, 0, 784, 138);
+		JLabel lblLottoNums = new JLabel("당첨 번호");
+		JPanel pnlWinning = new JPanel();
+		pnlWinning.setBounds(0, 138, 784, 138);
+		JLabel lblWinning = new JLabel("일치 여부");
+		JPanel pnlBuyNums = new JPanel();
+		pnlBuyNums.setBounds(0, 276, 784, 138);
+		JLabel lblBuyNums = new JLabel("추첨 번호");
 
-		pnlA.add(lbl1);
-		pnlB.add(lbl2);
-		pnlC.add(lbl3);
-		pnl.setLayout(null);
-		pnl.add(pnlA);
-		for (int i = 0; i < lottoNum.size(); i++) {
-			JLabel lottoA = new JLabel(String.valueOf(lottoNum.get(i)));
-			pnlA.add(lottoA);
+		pnlLottoNums.add(lblLottoNums);
+		pnlWinning.add(lblWinning);
+		pnlBuyNums.add(lblBuyNums);
+
+		pnl.add(pnlLottoNums);
+		for (int lottoNumIndex = 0; lottoNumIndex < lottoNum.size(); lottoNumIndex++) {
+			JLabel showLottoNum = new JLabel(String.valueOf(lottoNum.get(lottoNumIndex)));
+			pnlLottoNums.add(showLottoNum);
 		}
 
-		JLabel lbl4 = new JLabel("보너스 번호");
-		pnlA.add(lbl4);
-		JLabel lbl5 = new JLabel(Integer.toString(lottoBonus));
-		pnlA.add(lbl5);
+		JLabel lblBonusNum = new JLabel("보너스 번호");
+		pnlLottoNums.add(lblBonusNum);
+		JLabel showBonusNum = new JLabel(Integer.toString(lottoBonus));
+		pnlLottoNums.add(showBonusNum);
 
-		pnl.add(pnlB);
-		for (int j = 0; j < sameList.size(); j++) {
-			for (int i = 0; i < same.size(); i++) {
-				JLabel same2 = new JLabel(sameList.get(j).get(i));
-				pnlB.add(same2);
+		pnl.add(pnlWinning);
+		for (int samListIndex = 0; samListIndex < sameList.size(); samListIndex++) {
+			for (int sameIndex = 0; sameIndex < same.size(); sameIndex++) {
+				JLabel showWinning = new JLabel(sameList.get(samListIndex).get(sameIndex));
+				pnlWinning.add(showWinning);
 			}
 		}
 
-		pnl.add(pnlC);
+		pnl.add(pnlBuyNums);
 //		for(int i = 0; i < a.length; i++) {
-		JLabel lottoB = new JLabel(buyLottoNumList.toString());
-		pnlC.add(lottoB);
+		JLabel showBuyNums = new JLabel(buyLottoNumList.toString());
+		pnlBuyNums.add(showBuyNums);
 //		}
-		JLabel lottoResultL = new JLabel("당첨 여부");
-		pnlC.add(lottoResultL);
-		JLabel lottoResult = new JLabel(ranking.toString());
-		pnlC.add(lottoResult);
-		lbl3.setBounds(0, 0, 65, 40);
+		JLabel lblranking = new JLabel("당첨 여부");
+		pnlBuyNums.add(lblranking);
+		JLabel showRanking = new JLabel(ranking.toString());
+		pnlBuyNums.add(showRanking);
+		lblBuyNums.setBounds(0, 0, 65, 40);
 
 		JLabel price = new JLabel("금액 = 300,000,000원");
 		price.setBounds(78, 424, 315, 24);
 		price.setFont(new Font("굴림", Font.PLAIN, 20));
-		btn = new JButton("다음 회차");
-		btn.setBounds(550, 424, 222, 23);
+		nextBtn = new JButton("다음 회차");
+		nextBtn.setBounds(550, 424, 222, 23);
 
 		pnl.setBackground(new Color(248, 202, 204));
 		pnl.add(price);
-		pnl.add(btn);
+		pnl.add(nextBtn);
 
-		pnlA.setOpaque(false); // 배경 색을 따라가도록
-		pnlB.setOpaque(false);
-		pnlC.setOpaque(false);
+		pnlLottoNums.setOpaque(false); // 배경 색을 따라가도록
+		pnlWinning.setOpaque(false);
+		pnlBuyNums.setOpaque(false);
 		getContentPane().add(pnl);
 
 		setSize(800, 500);
