@@ -14,11 +14,11 @@ public class BuyPage extends JFrame {
 
 	////////////////////////
 	Random random = new Random(); // 자동 반자동 할 때 쓰는 랜덤 객체
-	
+
 	int numcount = 0; // 숫자 세는 변수: 6개만 써야 하는걸로
-	int lottoNumCount = 0;	// 산 로또 갯수: 1~5
-	List<Integer> inputLottoNum = new ArrayList<>();	// 산 로또 리스트
-	JLabel[][] lottoField = new JLabel[5][10];	// 로또 필드(전체가 J라벨)
+	int lottoNumCount = 0; // 산 로또 갯수: 1~5
+	List<Integer> inputLottoNum = new ArrayList<>(); // 산 로또 리스트
+	JLabel[][] lottoField = new JLabel[5][10]; // 로또 필드(전체가 J라벨)
 	int checkOption = NON_RANDOM;
 	List<Integer> halfRandomNum = new ArrayList<>();
 	List<Integer> copyFunctionList = new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0));
@@ -30,9 +30,8 @@ public class BuyPage extends JFrame {
 	JPanel pnl = new JPanel(); // 넘겨줄 J패널
 	JButton nextBtn = new JButton("결과 보기"); // 로또 결과 보는 버튼
 	JLabel lottoPrice = new JLabel("금액: 0원"); // 금액 버튼
-	JButton hardReset = new JButton("전체 초기화");	// 전체 초기화 버튼
-	
-	
+	JButton hardReset = new JButton("전체 초기화"); // 전체 초기화 버튼
+
 	//////////////////// image
 	Toolkit kit = Toolkit.getDefaultToolkit();
 	URL cardBack = BuyPage.class.getClassLoader().getResource("images/card_back.png");
@@ -40,13 +39,13 @@ public class BuyPage extends JFrame {
 	URL cardSpade = BuyPage.class.getClassLoader().getResource("images/card_spade.png");
 	URL cardHeart = BuyPage.class.getClassLoader().getResource("images/card_heart.png");
 	URL cardDiamond = BuyPage.class.getClassLoader().getResource("images/card_diamond.png");
-	
+
 	ImageIcon backImg = new ImageIcon(kit.getImage(cardBack));
 	ImageIcon spadeImg = new ImageIcon(kit.getImage(cardSpade));
 	ImageIcon heartImg = new ImageIcon(kit.getImage(cardHeart));
 	ImageIcon cloverImg = new ImageIcon(kit.getImage(cardClover));
 	ImageIcon diaImg = new ImageIcon(kit.getImage(cardDiamond));
-	
+
 	Font cardFont = new Font("Serif", Font.BOLD, 25);
 
 	/////////////////// getter
@@ -62,7 +61,7 @@ public class BuyPage extends JFrame {
 	public List<List<Integer>> getBuyLotto() { // 산 로또 목록 넘겨주기
 		return buyLotto;
 	}
-	
+
 	public int getLottoNumCount() {
 		return lottoNumCount;
 	}
@@ -72,29 +71,27 @@ public class BuyPage extends JFrame {
 	BuyPage() {
 		makeBuyLottoReset();
 		//////////// 전체 레이아웃
-	
-		
-		
+
 		pnl.setBackground(new Color(239, 230, 214));
 		// 나중엔 여기만 갈기로
 		BoxLayout pnlLayout = new BoxLayout(pnl, BoxLayout.X_AXIS);
 		pnl.setLayout(pnlLayout);
-		
+
 		JPanel inputPnl = new JPanel();
 		inputPnl.setOpaque(false);
 		BoxLayout inputpnlLayout = new BoxLayout(inputPnl, BoxLayout.Y_AXIS);
 		inputPnl.setLayout(inputpnlLayout);
-		
+
 		JPanel editPnl = new JPanel();
 		editPnl.setOpaque(false);
 		BoxLayout editPnlLayout = new BoxLayout(editPnl, BoxLayout.Y_AXIS);
 		editPnl.setLayout(editPnlLayout);
-		
+
 		pnl.add(inputPnl);
 		pnl.add(editPnl);
 
 		add(pnl);
-		
+
 		// Edit field///////////////////////////////////
 		makefield(lottoField);
 		for (int i = 0; i < lottoField.length; i++) {
@@ -105,25 +102,24 @@ public class BuyPage extends JFrame {
 			}
 			editPnl.add(a);
 		}
-		
+
 		JPanel bottomBox = new JPanel();
 		bottomBox.setOpaque(false);
-		
+
 		bottomBox.add(lottoPrice);
 		bottomBox.add(hardReset);
 		bottomBox.add(nextBtn);
 		editPnl.add(bottomBox);
 
 		/// inputPnl /////////////////////////////////////////
-		
+
 		JButton inputBtn = new JButton("입력");
 		inputBtn.setEnabled(false);
 		JButton resetBtn = new JButton("다시 입력하기");
 		JButton randomBtn = new JButton("자동");
 		JPanel optionBtnBox = new JPanel(); // 선택버튼들 감싸는 파일: 위의 JBtn 3개 들어감
 		optionBtnBox.setOpaque(false);
-		
-		
+
 		// inputBtn - btn45box
 		JPanel btnBox = new JPanel(); // 1~45 버튼 감싸는 박스
 		btnBox.setOpaque(false);
@@ -141,55 +137,61 @@ public class BuyPage extends JFrame {
 				@Override
 				public void mousePressed(MouseEvent e) {
 					JButton btn = (JButton) e.getSource();
-					if (btn.isEnabled()) {
-						if (numcount < 6) {
-							int num = Integer.valueOf(btn.getText()); // int num은 버튼의 key값.
-							inputLottoNum.add(Integer.valueOf(num)); // inputLottoNum에 숫자 하나 추가
-							btn.setEnabled(false); // 버튼 비활성화
-							numcount++; // 숫자 세기
-							if (numcount==6) {
-								inputBtn.setEnabled(true);
-								randomBtn.setEnabled(false);
-							}
-						}
+					int count =getBuyLottoYNum();
+					
+					if (count == 5) {
+						JOptionPane.showMessageDialog(null, "로또 숫자는 5개까지만 구매할 수 있습니다.");
 					} else {
-						btn.setEnabled(true);
-						inputLottoNum.remove(inputLottoNum.indexOf(Integer.valueOf(btn.getText())));
-						numcount--;
-					}
-					
-					if (numcount>0) {
-						randomBtn.setText("반자동");
-					}
-					
-					if (numcount==0) {
-						randomBtn.setText("자동");
+						if (btn.isEnabled()) {
+							if (numcount < 6) {
+								int num = Integer.valueOf(btn.getText()); // int num은 버튼의 key값.
+								inputLottoNum.add(Integer.valueOf(num)); // inputLottoNum에 숫자 하나 추가
+								btn.setEnabled(false); // 버튼 비활성화
+								numcount++; // 숫자 세기
+								if (numcount == 6) {
+									inputBtn.setEnabled(true);
+									randomBtn.setEnabled(false);
+								}
+							}
+						} else {
+							btn.setEnabled(true);
+							inputLottoNum.remove(inputLottoNum.indexOf(Integer.valueOf(btn.getText())));
+							numcount--;
+						}
+
+						if (numcount > 0) {
+							randomBtn.setText("반자동");
+						}
+
+						if (numcount == 0) {
+							randomBtn.setText("자동");
+						}
 					}
 				}
 			});
 			btnBox.add(a);
 		}
-		
+
 		JPanel cardbox = new JPanel();
 		cardbox.setPreferredSize(new Dimension(200, 400));
 		cardbox.setOpaque(false);
 		CardLayout card = new CardLayout();
 		cardbox.setLayout(card);
-		
+
 		cardbox.add(btnBox, "A");
 		cardbox.add(new JButton("자동 발행 숫자는 구매가 끝난 후에만 확인 가능합니다."), "B");
-		
-		card.show(cardbox,"A");
-		
+
+		card.show(cardbox, "A");
+
 		inputPnl.add(cardbox);
 		inputPnl.add(optionBtnBox);
-		
+
 		//////////////////// optionBtnBox
-		
+
+		optionBtnBox.add(randomBtn);
 		optionBtnBox.add(inputBtn);
 		optionBtnBox.add(resetBtn);
-		optionBtnBox.add(randomBtn);
-		
+
 		///////////////////// ActionListener
 
 		inputBtn.addActionListener(new ActionListener() {
@@ -212,15 +214,15 @@ public class BuyPage extends JFrame {
 
 					// buyLotto에 넣는거
 //					if (buyLotto.contains(Arrays.asList(0, 0, 0, 0, 0, 0))) {
-						indx = buyLotto.indexOf(Arrays.asList(0, 0, 0, 0, 0, 0));
-						buyLotto.set(buyLotto.indexOf(Arrays.asList(0, 0, 0, 0, 0, 0)), inputList);
+					indx = buyLotto.indexOf(Arrays.asList(0, 0, 0, 0, 0, 0));
+					buyLotto.set(buyLotto.indexOf(Arrays.asList(0, 0, 0, 0, 0, 0)), inputList);
 //					} else {
 //						buyLotto.add(inputList);
 //						indx=buyLotto.size()-1;
 //					}
 					/////////////
 					// 패널 객체에 숫자넣기, 자동반자동 넣기
-					
+
 					if (checkOption == NON_RANDOM) {
 						lottoField[indx][1].setText("수동");
 						for (int i = 2; i < 8; i++) {
@@ -228,7 +230,7 @@ public class BuyPage extends JFrame {
 							lottoField[indx][i].setText(" " + String.valueOf(inputList.get(i - 2) + " "));
 //							lottoField[indx][i].setHorizontalTextPosition(JLabel.CENTER);
 						}
-						
+
 					} else if (checkOption == HALF_RANDOM) {
 						lottoField[indx][1].setText("반자동");
 						// 복사배열
@@ -241,7 +243,7 @@ public class BuyPage extends JFrame {
 							lottoField[indx][i].setIcon(spadeImg);
 							lottoField[indx][i].setText(" ? ");
 						}
-						
+
 					} else {
 						lottoField[indx][1].setText("자동");
 						for (int i = 2; i < 8; i++) {
@@ -252,7 +254,7 @@ public class BuyPage extends JFrame {
 
 					////////////
 					lottoField[indx][8].setText("복사");
-					card.show(cardbox,"A");
+					card.show(cardbox, "A");
 					inputBtn.setEnabled(false);
 					randomBtn.setEnabled(true);
 					randomBtn.setText("자동");
@@ -269,6 +271,13 @@ public class BuyPage extends JFrame {
 		randomBtn.addActionListener(new ActionListener() { // 랜덤 버튼
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
+				int num = getBuyLottoYNum();
+				
+				 if (num==5) {
+					JOptionPane.showMessageDialog(null, "로또는 한번에 5개까지 구매 가능합니다.");
+					
+				} else {
 				// check option method
 				if (inputLottoNum.size() < 1) // All 자동 체크
 					checkOption = ALL_RANDOM;
@@ -289,12 +298,12 @@ public class BuyPage extends JFrame {
 						inputLottoNum.add(randomNum);
 						btnMake.get(randomNum).setEnabled(false);
 						numcount++;
-						card.show(cardbox,"B");
+						card.show(cardbox, "B");
 					}
 				}
 				randomBtn.setEnabled(false);
 				inputBtn.setEnabled(true);
-
+				}
 			}
 		});
 
@@ -308,7 +317,7 @@ public class BuyPage extends JFrame {
 				inputLottoNum.clear();
 				numcount = 0;
 				inputBtn.setEnabled(false);
-				card.show(cardbox,"A");
+				card.show(cardbox, "A");
 				randomBtn.setText("자동");
 			}
 		});
@@ -336,15 +345,15 @@ public class BuyPage extends JFrame {
 //				JOptionPane.showMessageDialog(null, "[관리자 페이지: 로또배열 확인용이며 완성할 때 없애야함]\n"+buyLotto.toString());
 //			}
 //		});
-		
-		// 하드리셋 
+
+		// 하드리셋
 		hardReset.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				buyLotto.clear();
 				lottoNumCount = 0;
 				lottoPrice.setText(String.format("금액: %d원", lottoNumCount * 1000));
-				
+
 				////////////////////
 				// 필드 리셋
 				for (int i = 0; i < 5; i++) {
@@ -364,9 +373,21 @@ public class BuyPage extends JFrame {
 		setSize(800, 500);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
-	
+
+	public int getBuyLottoYNum() {
+		int count = 0;
+
+		for (int i = 0; i < buyLotto.size(); i++) {
+			if (buyLotto.contains(Arrays.asList(0, 0, 0, 0, 0, 0))) {
+			} else {
+				count++;
+			}
+		}
+		return count;
+	}
+
 	public int getArrsObjY(Object[][] arr, Object obj) {
-		int y = 0;	// 몇번째 줄인지 찾는 로직
+		int y = 0; // 몇번째 줄인지 찾는 로직
 		for (int i = 0; i < arr.length; i++) {
 			for (int j = 0; j < arr[0].length; j++) {
 				if (lottoField[i][j].equals(obj)) {
@@ -385,9 +406,9 @@ public class BuyPage extends JFrame {
 		}
 		return cloneArray;
 	}
-	
+
 	public void makeBuyLottoReset() {
-		for (int i=0; i<5; i++)
+		for (int i = 0; i < 5; i++)
 			buyLotto.add(Arrays.asList(0, 0, 0, 0, 0, 0));
 	}
 
@@ -406,48 +427,48 @@ public class BuyPage extends JFrame {
 
 			lotto[i][8] = new JLabel("붙여넣기");
 			lotto[i][9] = new JLabel("삭제");
-			
+
 			lotto[i][8].addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
 					JLabel copyBtn = (JLabel) e.getSource();
-					
+
 					int y = getArrsObjY(lottoField, copyBtn);
-					
-					if (copyBtn.getText().equals("복사")) {	// 복사일때
-						if (!(lottoField[y][1].getText().equals("수동"))) {	// 수동이 아니면 복사 안되게끔
+
+					if (copyBtn.getText().equals("복사")) { // 복사일때
+						if (!(lottoField[y][1].getText().equals("수동"))) { // 수동이 아니면 복사 안되게끔
 							JOptionPane.showMessageDialog(null, "복사는 수동만 가능합니다.");
 						} else {
 							copyFunctionList = buyLotto.get(y);
 							JOptionPane.showMessageDialog(null, "복사 완료!");
 						}
-					} else {	// 붙여넣기일때
-						if (copyFunctionList.contains(0)) {	// 붙여넣기인데 붙여넣을 배열 없을때
+					} else { // 붙여넣기일때
+						if (copyFunctionList.contains(0)) { // 붙여넣기인데 붙여넣을 배열 없을때
 							JOptionPane.showMessageDialog(null, "붙여넣기를 하려면 복사한 값이 있어야 합니다.");
-						} else {	// 붙여넣기
+						} else { // 붙여넣기
 							List<Integer> copy = makeCopyList(copyFunctionList);
-							
+
 							buyLotto.set(y, copy);
-							
+
 							lottoField[y][1].setText("수동");
 							for (int i = 2; i < 8; i++) {
 								lottoField[y][i].setIcon(diaImg);
 								lottoField[y][i].setText(" " + String.valueOf(copy.get(i - 2) + " "));
 							}
 							lottoField[y][8].setText("복사");
-							
+
 							checkOption = NON_RANDOM;
 							numcount = 0;
 							lottoNumCount++;
 							lottoPrice.setText(String.format("금액: %d원", lottoNumCount * 1000));
 						}
-						
+
 					}
 				}
 			});
 
 			lotto[i][9].addMouseListener(new MouseAdapter() {
-				
+
 				@Override
 				public void mouseEntered(MouseEvent e) {
 					JLabel removeBtn = (JLabel) e.getSource();
@@ -466,7 +487,7 @@ public class BuyPage extends JFrame {
 
 					if (!(lottoField[y][1].getText().equals("미지정"))) { // 그 줄이 차있을때만 삭제
 						buyLotto.set(y, Arrays.asList(0, 0, 0, 0, 0, 0));
-						
+
 						lottoField[y][1].setText("미지정");
 						for (int i = 2; i < 8; i++) {
 							lottoField[y][i].setIcon(backImg);

@@ -53,7 +53,9 @@ public class MainManager extends JFrame {
 						lottoBuy.getLottoNumCount(), lottoBuy.getLottoNumCount() * 1000), "로또 값 확인",
 						JOptionPane.OK_CANCEL_OPTION);
 
-				if (result == JOptionPane.OK_OPTION) {	// 구매했을때 TODO 보유금 처리
+				if (result == JOptionPane.OK_OPTION) {	
+					// 구매했을때 TODO 보유금 처리
+					// TODO 구매가 0일때 못하게 막음.
 					// Iterator로 배열 정리
 					Iterator<List<Integer>> check0 = buyLotto.iterator();
 					while (check0.hasNext()) {
@@ -65,9 +67,12 @@ public class MainManager extends JFrame {
 					
 					// 이부분에 넘겨받고 계산하는 작업이 들어감
 					
-					
-					
-					
+			
+					results.getLottoNum();
+					results.setBuyLottoNumList(buyLotto);
+					results.comparingBonus();
+					results.rank();
+					results.getMoney();
 					
 				}
 				JOptionPane.showMessageDialog(null, "[관리자 페이지: 로또배열 확인용이며 완성할 때 없애야함]\n" + buyLotto.toString());

@@ -44,6 +44,20 @@ public class ResultPage extends JFrame {
 	List<Integer> buyLottoNum;
 	// 내 선택 로또값 들어간 배열을 받는 ArrayList
 	List<List<Integer>> buyLottoNumList = new ArrayList<>();
+	
+	
+	//TODO 위치 정리
+	public List<List<Integer>> getBuyLottoNumList() {
+		return buyLottoNumList;
+	}
+
+	public void setBuyLottoNumList(List<List<Integer>> buyLottoNumList) {
+		this.buyLottoNumList = buyLottoNumList;
+	}
+
+	
+
+
 	// 로또 보너스 값
 	int lottoBonus = 0;
 
@@ -75,14 +89,14 @@ public class ResultPage extends JFrame {
 
 	// Result 화면 생성
 	public ResultPage() {
-		getLottoNum();
-//		getBuyLottoNum();
-
-		getNumberPractice();
-		compareLottoNum();
-		comparingBonus();
-		rank();
-		getMoney();
+//		getLottoNum();
+////		getBuyLottoNum();
+//
+//		getNumberPractice();
+//		compareLottoNum();
+//		comparingBonus();
+//		rank();
+//		getMoney();
 
 		pnl = new JPanel();
 
@@ -224,7 +238,7 @@ public class ResultPage extends JFrame {
 ////////////////////////////////// 연습 list 배열에 6개의 값 담기 end/////////////////////////
 
 	// 로또번호와 내가 선택한 번호 비교 메소드
-	public void compareLottoNum() {
+	public void compareLottoNum(List<List<Integer>> buyLottoNumList) {
 		// 내가 선택한 번호 출력
 		System.out.println("내가 선택한 번호: " + buyLottoNumList);
 
