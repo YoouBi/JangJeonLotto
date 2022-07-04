@@ -62,6 +62,10 @@ public class BuyPage extends JFrame {
 	public List<List<Integer>> getBuyLotto() { // 산 로또 목록 넘겨주기
 		return buyLotto;
 	}
+	
+	public int getLottoNumCount() {
+		return lottoNumCount;
+	}
 
 	/////////////////// 생성자
 
@@ -69,10 +73,6 @@ public class BuyPage extends JFrame {
 		makeBuyLottoReset();
 		//////////// 전체 레이아웃
 	
-		
-		
-		
-		
 		
 		
 		pnl.setBackground(new Color(239, 230, 214));
@@ -313,28 +313,29 @@ public class BuyPage extends JFrame {
 			}
 		});
 
-		nextBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				resetBtn.doClick();
-				
-				int result = JOptionPane.showConfirmDialog(null, String.format("복권 수량: %d개\n가격: %d원\n구매 확정하시겠습니까?", lottoNumCount, lottoNumCount*1000), "로또 값 확인",
-						JOptionPane.OK_CANCEL_OPTION);
-				
-				if (result == JOptionPane.OK_OPTION) {
-					// Iterator로 배열 정리
-					Iterator<List<Integer>> check0 = buyLotto.iterator();
-					while (check0.hasNext()) {
-						if (check0.next().contains(0)) {
-							check0.remove();
-						}
-					}
-					/// 다음페이지로 넘어가기
-				} 
-				JOptionPane.showMessageDialog(null, "[관리자 페이지: 로또배열 확인용이며 완성할 때 없애야함]\n"+buyLotto.toString());
-			}
-		});
+//		넥스트버튼 액션리스너
+//		nextBtn.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				
+//				resetBtn.doClick();
+//				
+//				int result = JOptionPane.showConfirmDialog(null, String.format("복권 수량: %d개\n가격: %d원\n구매 확정하시겠습니까?", lottoNumCount, lottoNumCount*1000), "로또 값 확인",
+//						JOptionPane.OK_CANCEL_OPTION);
+//				
+//				if (result == JOptionPane.OK_OPTION) {
+//					// Iterator로 배열 정리
+//					Iterator<List<Integer>> check0 = buyLotto.iterator();
+//					while (check0.hasNext()) {
+//						if (check0.next().contains(0)) {
+//							check0.remove();
+//						}
+//					}
+//					/// 다음페이지로 넘어가기
+//				} 
+//				JOptionPane.showMessageDialog(null, "[관리자 페이지: 로또배열 확인용이며 완성할 때 없애야함]\n"+buyLotto.toString());
+//			}
+//		});
 		
 		// 하드리셋 
 		hardReset.addActionListener(new ActionListener() {
@@ -446,7 +447,6 @@ public class BuyPage extends JFrame {
 			});
 
 			lotto[i][9].addMouseListener(new MouseAdapter() {
-				
 				
 				@Override
 				public void mouseEntered(MouseEvent e) {
