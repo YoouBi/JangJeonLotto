@@ -39,13 +39,16 @@ class login {
 	private String pw;
 	private String name;
 	private int age; // 우리나라 최고령자 나이는 115세~
-//	로또 배열 저장 필드도 만들기!
+	private int bankReserve;
+	private int lottoReserve;
 	
-	public login(String id, String pw, String name, int age) {
+	public login(String id, String pw, String name, int age, int bankReserve, int lottoReserve) {
 		this.id = id;
 		this.pw = pw;
 		this.name = name;
 		this.age = age;
+		this.bankReserve = bankReserve;
+		this.lottoReserve = lottoReserve;
 	}
 
 	public String getId() {
@@ -79,6 +82,22 @@ class login {
 	public void setAge(int age) {
 		this.age = age;
 	}
+
+	public int getBankReserve() {
+		return bankReserve;
+	}
+
+	public void setBankReserve(int bankReserve) {
+		this.bankReserve = bankReserve;
+	}
+
+	public int getLottoReserve() {
+		return lottoReserve;
+	}
+
+	public void setLottoReserve(int lottoReserve) {
+		this.lottoReserve = lottoReserve;
+	}
 }
 
 public class MainPage extends JFrame {
@@ -90,6 +109,7 @@ public class MainPage extends JFrame {
 	private int inputMonth;
 	private int inputDay;
 	private int inputAge;
+	private int showMyBankMoney;
 
 	public JPanel getPnl() {
 		return Mainppp;
@@ -106,19 +126,20 @@ public class MainPage extends JFrame {
 		Random randomInt = new Random();
 		map = new HashMap<>();
 		// 아이디, 비밀번호, 이름
-		map.put("YoouBi", new login("YoouBi", "yoyobiii", "장영빈", 20020101));
-		map.put("Inha123", new login("Inha123", "Inha123", "전인하", 20020202));
-		map.put("yeriming", new login("yeriming", "yeriming", "장예림", 20020303));
-
+		
 		inputYear = 0;
 		inputMonth = 0;
 		inputDay = 0;
 		inputAge = 20220630;
 		int myBankMoney = (randomInt.nextInt(10) + 1) * (randomInt.nextInt(10) + 1) * 1000;
 		int myReserve = 0;
+		showMyBankMoney = 0;
+		
+		map.put("YoouBi", new login("YoouBi", "yoyobiii", "장영빈", 20020101, myBankMoney, 1000));
+		map.put("Inha123", new login("Inha123", "Inha123", "전인하", 20020202, myBankMoney, 2000));
+		map.put("yeriming", new login("yeriming", "yeriming", "장예림", 20020303, myBankMoney, 3000));
 		
 		URL imageUrl = MainPage.class.getClassLoader().getResource("images/lotto.png");
-//		ImageIcon backicon = new ImageIcon("images/backgroundimg.jpg");
 		
 		Mainppp = new JPanel(new BorderLayout());
 		JPanel MainAll = new JPanel() {
@@ -203,7 +224,7 @@ public class MainPage extends JFrame {
 		JLabel createMonth = new JLabel("월 ");
 		JLabel createDay = new JLabel("일");
 		JLabel mypageBank = new JLabel("계좌 : " + myBankMoney);
-		JLabel mypageReserve = new JLabel("보유금 : " + myReserve);
+		JLabel mypageReserve = new JLabel("보유금 : ");
 
 		JCheckBox PwSee = new JCheckBox("비밀번호 보기");
 		PwSee.setOpaque(false);
@@ -262,6 +283,8 @@ public class MainPage extends JFrame {
 					if (pw.getText().equals(((login) map.get(id.getText())).getPw())) {
 						JOptionPane.showMessageDialog(MainPage.this, "로그인 되었습니다.");
 						stringName.setText((((login) map.get(id.getText())).getName()) + "님 환영합니다!");
+						showMyBankMoney = (((login) map.get(id.getText())).getBankReserve());
+						mypageBank.setText("계좌 : " + showMyBankMoney);
 						cardLogIn.show(MainPnlLogIn, "MyPage");
 					} else {
 						JOptionPane.showMessageDialog(MainPage.this, "일치하는 회원정보가 없습니다!");
@@ -397,6 +420,7 @@ public class MainPage extends JFrame {
 				String pw = createInputPw.getText();
 				String pw2 = createInputPwConfirm.getText();
 				String name = createInputName.getText();
+				showMyBankMoney = (((login) map.get(id)).getBankReserve());
 				
 				int today = Integer.valueOf(ageTextFormat.format(todayCalender.getTime()));
 				
@@ -426,11 +450,11 @@ public class MainPage extends JFrame {
 					JOptionPane.showMessageDialog(MainPage.this, "대한민국의 최고령자 나이를 넘어섰어요!");
 				} else if (inputAge > today) {
 					JOptionPane.showMessageDialog(MainPage.this, "헉! 드디어 타임머신이 발명된걸까요?");
-				} else if ((today / 10000) - (inputYear / 10000)  < 19) { // 나중에 날짜 바꿀 것!
+				} else if ((today / 10000) - (inputYear / 10000)  < 19) {
 					JOptionPane.showMessageDialog(MainPage.this, "청소년보호법 제2조 제1호 규정에 의거\n만 19세 이하는 로또를 구입할 수 없습니다.");
 				} else {
 					JOptionPane.showMessageDialog(MainPage.this, "회원가입 되었습니다.");
-					map.put(id, new login(id, pw, name, inputAge));
+					map.put(id, new login(id, pw, name, inputAge, showMyBankMoney, 5000)); // 보유금 수정
 					cardLogIn.show(MainPnlLogIn, "LogIn");
 				}
 			}
