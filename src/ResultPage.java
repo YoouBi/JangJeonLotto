@@ -42,7 +42,7 @@ public class ResultPage extends JFrame {
 	List<List<String>> sameList = new ArrayList<>();
 
 	// 등수 출력 위한 배열
-	String[] ranking;
+	List<String> ranking;
 	// 전체 판매액 담을 정수 타입
 	int totalMoney = 300000000;
 	// 총 당첨 금액 담을 정수 타입
@@ -114,7 +114,7 @@ public class ResultPage extends JFrame {
 //		}
 		JLabel lottoResultL = new JLabel("당첨 여부");
 		pnlC.add(lottoResultL);
-		JLabel lottoResult = new JLabel(Arrays.toString(ranking));
+		JLabel lottoResult = new JLabel(ranking.toString());
 		pnlC.add(lottoResult);
 		lbl3.setBounds(0, 0, 65, 40);
 
@@ -248,7 +248,7 @@ public class ResultPage extends JFrame {
 		int countD = 0; // 다름 개수 체크
 		int countB = 0; // 보너스 번호 당첨 여부
 		// ranking 배열 길이 설정(필드에서 설정시 buyLottoNumList에 값 x라서 0으로 나옴)
-		ranking = new String[buyLottoNumList.size()];
+		ranking = new ArrayList<>();
 //////////////////////////////////////배열일 때 비교 메소드 Start////////////////////////////////////////////
 //		for (int sameArrayIndex = 0; sameArrayIndex < sameList.size(); sameArrayIndex++) {
 //			for (int sameIndex = 0; sameIndex < same.size(); sameIndex++) {
@@ -268,28 +268,28 @@ public class ResultPage extends JFrame {
 			switch (countD) {
 			case 0:
 				if (countB == 0) { // 같음이 6개라면
-					ranking[rankingIndex] = "1등";
+					ranking.add("1등");
 				} else {
-					ranking[rankingIndex] = "2등";
+					ranking.add("2등");
 				}
 				break;
 			case 1:
-				ranking[rankingIndex] = "3등";
+				ranking.add("3등");
 				break;
 			case 2:
-				ranking[rankingIndex] = "4등";
+				ranking.add("4등");
 				break;
 			case 3:
-				ranking[rankingIndex] = "5등";
+				ranking.add("5등");
 				break;
 			default:
-				ranking[rankingIndex] = "낙첨";
+				ranking.add("낙첨");
 				break;
 			}
 		}
 		countD = 0;
 		countB = 0;
-		System.out.println("당첨 여부: " + Arrays.toString(ranking));
+		System.out.println("당첨 여부: " + ranking.toString());
 	}
 
 	// 금액 출력 메소드
@@ -298,39 +298,63 @@ public class ResultPage extends JFrame {
 	// 3. 실 수령 금액(세금 제외)
 	public void getMoney() {
 		int winningMoney;
-		// 1. totalMoney += 복권구매금액
-		totalMoney += 1000 * buyLottoNumList.size();
-		for (int i = 0; i < buyLottoNumList.size(); i++) {
-			switch (ranking[i]) {
-			case "4등":
-				winningMoney = 50000;
-				System.out.println("당첨 금액: " + winningMoney);
-				totalMoney -= winningMoney;
-				winningTotal += winningMoney;
-				break;
-			case "5등":
-				winningMoney = 5000;
-				System.out.println("당첨 금액: " + winningMoney);
-				totalMoney -= winningMoney;
-				winningTotal += winningMoney;
-				break;
-			case "1등":
-				winningMoney = totalMoney / 75;
-				totalMoney -= winningMoney;
-				winningTotal += winningMoney;
-				System.out.println("당첨 금액: " + winningMoney);
-			case "2등":
-				winningMoney = totalMoney / 75;
-				totalMoney -= winningMoney;
-				winningTotal += winningMoney;
-			default:
-				winningMoney = 0;
-				System.out.println("당첨 금액: " + winningMoney);
-			}
-			System.out.println("총 금액 : " + totalMoney);
-		}
-		System.out.println("총 금액 : " + totalMoney);
-		System.out.println("현재 당첨  금액: " + winningTotal);
+		// 1. totalMoney 당첨분 금액으로 설정하기
+		totalMoney = (totalMoney + (1000 * buyLottoNumList.size())) / 2;
+		System.out.println("당첨분 총 금액: " + totalMoney);
+		
+		// 5등 당첨 횟수  -> 1, 2, 3등 계산에서 사용
+		int fifthCount = Collections.frequency(ranking, "5등");
+		// 4등 당첨 횟수
+		int fourthCount = Collections.frequency(ranking, "4등");
+		
+		// 4등 , 5등 당첨 시 당첨 금액 메소드
+		winningMoney = fifthCount * 5000 + fourthCount * 50000;
+		totalMoney -= winningMoney;
+		winningTotal += winningMoney;
+		// 1등 당첨 시 당첨 금액 메소드
+		winningMoney = totalMoney / 75 * Collections.frequency(ranking, "1등");
+		totalMoney -= winningMoney;
+		winningTotal += winningMoney;
+		// 2등 당첨 시 당첨 금액 메소드
+		winningMoney = (int) (Double.valueOf(totalMoney) / 12.5  * Collections.frequency(ranking, "2등"));
+		totalMoney -= winningMoney;
+		winningTotal += winningMoney;
+		// 3등 당첨 시 당첨 금액 메소드
+		winningMoney = (int) (Double.valueOf(totalMoney) / 12.5  * Collections.frequency(ranking, "3등"));
+		totalMoney -= winningMoney;
+		winningTotal += winningMoney;
+		System.out.println("총 당첨 금액: " + winningTotal);
+//		for (int i = 0; i < buyLottoNumList.size(); i++) {
+//			switch (ranking[i]) {
+//			case "4등":
+//				winningMoney = 50000;
+//				System.out.println("당첨 금액: " + winningMoney);
+//				totalMoney -= winningMoney;
+//				winningTotal += winningMoney;
+//				break;
+//			case "5등":
+//				winningMoney = 5000;
+//				System.out.println("당첨 금액: " + winningMoney);
+//				totalMoney -= winningMoney;
+//				winningTotal += winningMoney;
+//				break;
+//			case "1등":
+//				winningMoney = totalMoney / 75;
+//				totalMoney -= winningMoney;
+//				winningTotal += winningMoney;
+//				System.out.println("당첨 금액: " + winningMoney);
+//			case "2등":
+//				winningMoney = totalMoney / 75;
+//				totalMoney -= winningMoney;
+//				winningTotal += winningMoney;
+//			default:
+//				winningMoney = 0;
+//				System.out.println("당첨 금액: " + winningMoney);
+//			}
+//			System.out.println("총 금액 : " + totalMoney);
+//		}
+//		System.out.println("총 금액 : " + totalMoney);
+//		System.out.println("현재 당첨  금액: " + winningTotal);
 	}
 
 	public static void main(String[] args) {
