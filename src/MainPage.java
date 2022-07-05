@@ -565,6 +565,9 @@ public class MainPage extends JFrame {
 				} else {
 					JOptionPane.showMessageDialog(MainPage.this, "회원가입 되었습니다.");
 					map.put(id, new login(id, pw, name, inputAge, myBankMoney, mylottoReserve)); // 보유금 수정!
+					createInputYear.setText("");
+					createInputDay.setText("");
+					monthComboBox.setSelectedIndex(0);
 					cardLogIn.show(MainPnlLogIn, "LogIn");
 				}
 			}
