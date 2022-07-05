@@ -110,6 +110,7 @@ public class MainPage extends JFrame {
 	private int inputDay;
 	private int inputAge;
 	private int showMyBankMoney;
+	private int mylottoReserve = 0;
 
 	public JPanel getPnl() {
 		return Mainppp;
@@ -117,6 +118,14 @@ public class MainPage extends JFrame {
 
 	public JButton getStart() {
 		return start;
+	}
+	
+	public int getMylottoReserve() {
+		return mylottoReserve;
+	}
+
+	public void setMylottoReserve(int mylottoReserve) {
+		this.mylottoReserve = mylottoReserve;
 	}
 
 	public MainPage() {
@@ -284,7 +293,9 @@ public class MainPage extends JFrame {
 						JOptionPane.showMessageDialog(MainPage.this, "로그인 되었습니다.");
 						stringName.setText((((login) map.get(id.getText())).getName()) + "님 환영합니다!");
 						showMyBankMoney = (((login) map.get(id.getText())).getBankReserve());
+						mylottoReserve = (((login) map.get(id.getText())).getLottoReserve());
 						mypageBank.setText("계좌 : " + showMyBankMoney);
+						mypageReserve.setText("보유금 : " + mylottoReserve);
 						cardLogIn.show(MainPnlLogIn, "MyPage");
 					} else {
 						JOptionPane.showMessageDialog(MainPage.this, "일치하는 회원정보가 없습니다!");
@@ -453,7 +464,7 @@ public class MainPage extends JFrame {
 					JOptionPane.showMessageDialog(MainPage.this, "청소년보호법 제2조 제1호 규정에 의거\n만 19세 이하는 로또를 구입할 수 없습니다.");
 				} else {
 					JOptionPane.showMessageDialog(MainPage.this, "회원가입 되었습니다.");
-					map.put(id, new login(id, pw, name, inputAge, myBankMoney, 5000)); // 보유금 수정!
+					map.put(id, new login(id, pw, name, inputAge, myBankMoney, mylottoReserve)); // 보유금 수정!
 					cardLogIn.show(MainPnlLogIn, "LogIn");
 				}
 			}
