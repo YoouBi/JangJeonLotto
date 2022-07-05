@@ -118,7 +118,7 @@ class MoneyChargeWindow extends JDialog { // 충전 페이지
 		JButton chargeBtn = new JButton("충전");
 		add(chargeBtn);
 		
-		reserveCharge.addKeyListener(new KeyAdapter() {
+		reserveCharge.addKeyListener(new KeyAdapter() { // 입력 텍스트 필드
 			@Override
 			public void keyTyped(KeyEvent e) {
 				char c = e.getKeyChar();
@@ -133,10 +133,15 @@ class MoneyChargeWindow extends JDialog { // 충전 페이지
 			public void actionPerformed(ActionEvent e) {
 				reserveInput = Integer.valueOf(getCharge());
 //// 				맵 가져온거에서 로그인 되어있는 정보만 바꾸기...
-				int BankDifference = (((login) me.get(mp.getId().getText())).getBankReserve()) - reserveInput;
+				
+				System.out.println(mp.getId().getText());
+				int back = (((login) me.get(mp.getId().getText())).getBankReserve()); // 개인 은행잔고
+				int BankDifference = back - reserveInput; // 은행 잔고에서 충전금 빼기
 				((login) me.get(mp.getId().getText())).setBankReserve(BankDifference);
 				int ChargingReserve = ((login) me.get(mp.getId().getText())).getLottoReserve() + reserveInput;
 				((login) me.get(mp.getId().getText())).setLottoReserve(ChargingReserve);
+				
+				mp.setMap(me);
 				
 				dispose(); // setVisible(false) 랑 크게 다르지 않음
 			}
