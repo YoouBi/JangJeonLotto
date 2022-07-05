@@ -22,6 +22,7 @@ public class BuyPage extends JFrame {
 	int checkOption = NON_RANDOM;
 	List<Integer> halfRandomNum = new ArrayList<>();
 	List<Integer> copyFunctionList = new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0));
+	JButton resetBtn = new JButton("다시 입력하기");
 
 	//////////////////////// 이 아래는 넘겨줄 거
 
@@ -115,7 +116,7 @@ public class BuyPage extends JFrame {
 
 		JButton inputBtn = new JButton("입력");
 		inputBtn.setEnabled(false);
-		JButton resetBtn = new JButton("다시 입력하기");
+		
 		JButton randomBtn = new JButton("자동");
 		JPanel optionBtnBox = new JPanel(); // 선택버튼들 감싸는 파일: 위의 JBtn 3개 들어감
 		optionBtnBox.setOpaque(false);
@@ -213,14 +214,10 @@ public class BuyPage extends JFrame {
 					int indx;
 
 					// buyLotto에 넣는거
-//					if (buyLotto.contains(Arrays.asList(0, 0, 0, 0, 0, 0))) {
 					indx = buyLotto.indexOf(Arrays.asList(0, 0, 0, 0, 0, 0));
 					buyLotto.set(buyLotto.indexOf(Arrays.asList(0, 0, 0, 0, 0, 0)), inputList);
-//					} else {
-//						buyLotto.add(inputList);
-//						indx=buyLotto.size()-1;
-//					}
-					/////////////
+
+					
 					// 패널 객체에 숫자넣기, 자동반자동 넣기
 
 					if (checkOption == NON_RANDOM) {
@@ -228,7 +225,6 @@ public class BuyPage extends JFrame {
 						for (int i = 2; i < 8; i++) {
 							lottoField[indx][i].setIcon(heartImg);
 							lottoField[indx][i].setText(" " + String.valueOf(inputList.get(i - 2) + " "));
-//							lottoField[indx][i].setHorizontalTextPosition(JLabel.CENTER);
 						}
 
 					} else if (checkOption == HALF_RANDOM) {
@@ -350,28 +346,39 @@ public class BuyPage extends JFrame {
 		hardReset.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				buyLotto.clear();
-				lottoNumCount = 0;
-				lottoPrice.setText(String.format("금액: %d원", lottoNumCount * 1000));
-
-				////////////////////
-				// 필드 리셋
-				for (int i = 0; i < 5; i++) {
-					lottoField[i][1].setText("미지정");
-					for (int j = 2; j < 8; j++) {
-						lottoField[i][j].setIcon(backImg);
-						lottoField[i][j].setText("");
-					}
-					lottoField[i][8].setText("붙여넣기");
-					lottoField[i][9].setText("삭제");
-				}
-				///////////////
+				
+				hardReset();
 			}
 		});
 
 		setTitle("로또 구입 창");
 		setSize(800, 500);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+	}
+	
+	public void hardReset() {
+		buyLotto.clear();
+		makeBuyLottoReset();
+		lottoNumCount = 0;
+		halfRandomNum.clear();
+		inputLottoNum.clear();
+		resetBtn.doClick();
+		numcount = 0;
+		checkOption = NON_RANDOM;
+		lottoPrice.setText(String.format("금액: %d원", lottoNumCount * 1000));
+
+		////////////////////
+		// 필드 리셋
+		for (int i = 0; i < 5; i++) {
+			lottoField[i][1].setText("미지정");
+			for (int j = 2; j < 8; j++) {
+				lottoField[i][j].setIcon(backImg);
+				lottoField[i][j].setText("");
+			}
+			lottoField[i][8].setText("붙여넣기");
+			lottoField[i][9].setText("삭제");
+		}
+		///////////////
 	}
 
 	public int getBuyLottoYNum() {
@@ -386,8 +393,8 @@ public class BuyPage extends JFrame {
 		return count;
 	}
 
-	public int getArrsObjY(Object[][] arr, Object obj) {
-		int y = 0; // 몇번째 줄인지 찾는 로직
+	public int getArrsObjY(Object[][] arr, Object obj) {  // 몇번째 줄인지 찾는 로직
+		int y = 0; 
 		for (int i = 0; i < arr.length; i++) {
 			for (int j = 0; j < arr[0].length; j++) {
 				if (lottoField[i][j].equals(obj)) {
@@ -503,6 +510,8 @@ public class BuyPage extends JFrame {
 	}
 
 	public static void main(String[] args) {
+		JFrame frame = new JFrame();
+		
 		new BuyPage().setVisible(true);
 	}
 }
