@@ -4,6 +4,69 @@ import java.net.URL;
 import java.util.*;
 import java.util.List;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.plaf.ButtonUI;
+import javax.swing.plaf.LayerUI;
+
+class MyButton extends JButton {
+	// TODO MyButton 디자인
+	// TODO 45개버튼 이 디자인으로
+	public MyButton(String text) {
+		super(text);
+	}
+	
+}
+
+class RoundButton extends JButton {
+	// TODO RoundButtonButton 디자인(막 긁어온 버튼임 지금은)
+	// TODO 각종 다양한 버튼 이 디자인으로
+	public RoundButton(String text) {
+		super(text);
+		decorate();
+	}
+
+	protected void decorate() {
+		setBorderPainted(false);
+		setOpaque(false);
+	}
+	
+	@Override
+	protected void paintComponent(Graphics g) {
+	    int width = getWidth();
+	    int height = getHeight();
+
+	    Graphics2D graphics = (Graphics2D) g;
+
+	    graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+	    if (getModel().isArmed()) {
+	        graphics.setColor(getBackground().darker());
+	    } else if (getModel().isRollover()) {
+	        graphics.setColor(getBackground().brighter());
+	    } else {
+	        graphics.setColor(getBackground());
+	    }
+
+	    graphics.fillRoundRect(0, 0, width, height, 10, 10);
+
+	    FontMetrics fontMetrics = graphics.getFontMetrics();
+	    Rectangle stringBounds = fontMetrics.getStringBounds(this.getText(), graphics).getBounds();
+
+	    int textX = (width - stringBounds.width) / 2;
+	    int textY = (height - stringBounds.height) / 2 + fontMetrics.getAscent();
+
+	    graphics.setColor(getForeground());
+	    graphics.setFont(getFont());
+	    graphics.drawString(getText(), textX, textY);
+	    graphics.dispose();
+
+	    super.paintComponent(g);
+	    
+	    // https://the-illusionist.me/42
+	}
+}
+
+///// 밀자 .................
 
 public class BuyPage extends JFrame {
 
@@ -28,7 +91,16 @@ public class BuyPage extends JFrame {
 
 	List<List<Integer>> buyLotto = new ArrayList<>(); // 산 로또 목록 리스트:: 1~5개 가변적
 
-	JPanel pnl = new JPanel(); // 넘겨줄 J패널
+	JPanel pnl = new JPanel() {
+		public void paintComponent(Graphics g) {
+			g.drawImage(bgImg, 0, 0, null);
+			setOpaque(false);
+		}
+	}; // 넘겨줄 J패널
+
+	JButton logout = new JButton("로그아웃");
+	JButton mypage = new JButton("마이페이지");
+
 	JButton nextBtn = new JButton("결과 보기"); // 로또 결과 보는 버튼
 	JLabel lottoPrice = new JLabel("금액: 0원"); // 금액 버튼
 	JButton hardReset = new JButton("전체 초기화"); // 전체 초기화 버튼
@@ -40,7 +112,8 @@ public class BuyPage extends JFrame {
 	URL cardSpade = BuyPage.class.getClassLoader().getResource("images/card_spade.png");
 	URL cardHeart = BuyPage.class.getClassLoader().getResource("images/card_heart.png");
 	URL cardDiamond = BuyPage.class.getClassLoader().getResource("images/card_diamond.png");
-	
+	URL background = BuyPage.class.getClassLoader().getResource("images/backgroundimg.png");
+
 	URL btnDel = BuyPage.class.getClassLoader().getResource("images/delete_Btn.png");
 	URL btnCP = BuyPage.class.getClassLoader().getResource("images/copypaste_Btn.png");
 	URL opUB = BuyPage.class.getClassLoader().getResource("images/Option_UnderBar.png");
@@ -51,7 +124,8 @@ public class BuyPage extends JFrame {
 	ImageIcon heartImg = new ImageIcon(kit.getImage(cardHeart));
 	ImageIcon cloverImg = new ImageIcon(kit.getImage(cardClover));
 	ImageIcon diaImg = new ImageIcon(kit.getImage(cardDiamond));
-	
+	Image bgImg = new ImageIcon(background).getImage();
+
 	ImageIcon btnDelImg = new ImageIcon(kit.getImage(btnDel));
 	ImageIcon btnCPImg = new ImageIcon(kit.getImage(btnCP));
 	ImageIcon opUBImg = new ImageIcon(kit.getImage(opUB));
@@ -77,16 +151,42 @@ public class BuyPage extends JFrame {
 		return lottoNumCount;
 	}
 
+	public JButton getLogout() {
+		return logout;
+	}
+
+	public JButton getMypage() {
+		return mypage;
+	}
+
 	/////////////////// 생성자
 
 	BuyPage() {
 		makeBuyLottoReset();
+		ToolTipManager m = ToolTipManager.sharedInstance(); // 툴팁 여는 시간 조정 위해 객체 생성
+		m.setInitialDelay(0); // 초기 툴팁 출력 지연시간 0초 설정
 		//////////// 전체 레이아웃
 
-		pnl.setBackground(new Color(239, 230, 214));
-		// 나중엔 여기만 갈기로
-		BoxLayout pnlLayout = new BoxLayout(pnl, BoxLayout.X_AXIS);
+		JPanel all = new JPanel();
+		all.setOpaque(false);
+		JPanel topBox = new JPanel(new BorderLayout());
+		topBox.setOpaque(false);
+
+		BoxLayout pnlLayout = new BoxLayout(pnl, BoxLayout.Y_AXIS);
 		pnl.setLayout(pnlLayout);
+
+		JLabel topInfoInput = new JLabel("::입력부::");
+		topInfoInput.setToolTipText("<html><p>" + "버튼을 눌러 번호 선택. 1회 로또 게임은 번호 6개로 이루어짐.<br>"
+				+ "[자동]: 6개의 숫자를 자동으로 선택해줌<br>" + "[반자동]: 6개 중 자신이 선택한 것 외의 숫자를 자동으로 선택해줌.<br>"
+				+ "[입력]: 선택한 번호를 게임에 추가<br>" + "[다시 선택하기]: 선택한 번호 초기화<br>" + "</p></html>");
+
+		JLabel topInfoEdit = new JLabel("::편집부::");
+		topInfoEdit.setToolTipText(
+				"<html><p>" + "자신의 게임 정보를 보고 수정할 수 있음.<br>" + "[복사]: 게임 복사는 수동만 가능<br>" + "[붙여넣기]: 복사한 번호를 게임에 추가<br>"
+						+ "[삭제]: 선택한 번호 초기화<br>" + "[전체 초기화]: 여태 선택한 번호를 전부 삭제<br>" + "</p></html>");
+
+		BoxLayout allLayout = new BoxLayout(all, BoxLayout.X_AXIS);
+		all.setLayout(allLayout);
 
 		JPanel inputPnl = new JPanel();
 		inputPnl.setOpaque(false);
@@ -98,12 +198,31 @@ public class BuyPage extends JFrame {
 		BoxLayout editPnlLayout = new BoxLayout(editPnl, BoxLayout.Y_AXIS);
 		editPnl.setLayout(editPnlLayout);
 
-		pnl.add(inputPnl);
-		pnl.add(editPnl);
+		JPanel east = new JPanel();
+		east.setOpaque(false);
+		JPanel west = new JPanel();
+		west.setOpaque(false);
+		JPanel center = new JPanel();
+		center.setOpaque(false);
 
-		add(pnl);
+		east.add(mypage);
+		east.add(logout);
+		center.add(topInfoEdit);
+		west.add(topInfoInput);
+
+		topBox.add(east, BorderLayout.EAST);
+		topBox.add(center, BorderLayout.CENTER);
+		topBox.add(west, BorderLayout.WEST);
+
+		pnl.add(topBox);
+		all.add(inputPnl);
+		all.add(editPnl);
+		pnl.add(all);
+
+		getContentPane().add(pnl);
 
 		// Edit field///////////////////////////////////
+
 		makefield(lottoField);
 		for (int i = 0; i < lottoField.length; i++) {
 			JPanel a = new JPanel();
@@ -126,7 +245,7 @@ public class BuyPage extends JFrame {
 
 		JButton inputBtn = new JButton("입력");
 		inputBtn.setEnabled(false);
-		
+
 		JButton randomBtn = new JButton("자동");
 		JPanel optionBtnBox = new JPanel(); // 선택버튼들 감싸는 파일: 위의 JBtn 3개 들어감
 		optionBtnBox.setOpaque(false);
@@ -148,11 +267,11 @@ public class BuyPage extends JFrame {
 				@Override
 				public void mousePressed(MouseEvent e) {
 					JButton btn = (JButton) e.getSource();
-					int count =getBuyLottoYNum();
-					
+					int count = getBuyLottoYNum();
+
 					if (count == 5) {
 						JOptionPane.showMessageDialog(null, "로또 숫자는 5개까지만 구매할 수 있습니다.");
-						
+
 					} else {
 						if (btn.isEnabled()) {
 							if (numcount < 6) {
@@ -192,17 +311,17 @@ public class BuyPage extends JFrame {
 		cardbox.setLayout(card);
 		JPanel info = new JPanel();
 		info.setBackground(new Color(60, 38, 24));
-		
+
 		JLabel info1 = new JLabel("자동 발행 숫자는");
 		JLabel info2 = new JLabel("구매가 끝난 후에만 확인 가능합니다");
 		info1.setForeground(Color.white);
 		info2.setForeground(Color.white);
 		info1.setHorizontalAlignment(JLabel.CENTER);
 		info2.setHorizontalAlignment(JLabel.CENTER);
-		
+
 		info.add(info1);
 		info.add(info2);
-		
+
 		cardbox.add(btnBox, "A");
 		cardbox.add(info, "B");
 
@@ -217,9 +336,18 @@ public class BuyPage extends JFrame {
 		optionBtnBox.add(inputBtn);
 		optionBtnBox.add(resetBtn);
 
+		///////////////////// pnlDesign
+
+		Border underline = BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(60, 38, 24));
+		Border padding = BorderFactory.createEmptyBorder(20, 20, 20, 20);
+		topBox.setBorder(underline);
+		editPnl.setBorder(padding);
+		inputPnl.setBorder(padding);
+
 		///////////////////// ActionListener
 
 		inputBtn.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
@@ -241,7 +369,6 @@ public class BuyPage extends JFrame {
 					indx = buyLotto.indexOf(Arrays.asList(0, 0, 0, 0, 0, 0));
 					buyLotto.set(buyLotto.indexOf(Arrays.asList(0, 0, 0, 0, 0, 0)), inputList);
 
-					
 					// 패널 객체에 숫자넣기, 자동반자동 넣기
 
 					if (checkOption == NON_RANDOM) {
@@ -292,38 +419,38 @@ public class BuyPage extends JFrame {
 		randomBtn.addActionListener(new ActionListener() { // 랜덤 버튼
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				int num = getBuyLottoYNum();
-				
-				 if (num==5) {
+
+				if (num == 5) {
 					JOptionPane.showMessageDialog(null, "로또는 한번에 5개까지 구매 가능합니다.");
-					
+
 				} else {
-				// check option method
-				if (inputLottoNum.size() < 1) // All 자동 체크
-					checkOption = ALL_RANDOM;
+					// check option method
+					if (inputLottoNum.size() < 1) // All 자동 체크
+						checkOption = ALL_RANDOM;
 
-				else if (inputLottoNum.size() < 6) { // 반자동 체크
-					checkOption = HALF_RANDOM;
-					for (int a : inputLottoNum) {
-						halfRandomNum.add(a);
+					else if (inputLottoNum.size() < 6) { // 반자동 체크
+						checkOption = HALF_RANDOM;
+						for (int a : inputLottoNum) {
+							halfRandomNum.add(a);
+						}
+						Collections.sort(halfRandomNum);
 					}
-					Collections.sort(halfRandomNum);
-				}
 
-				while (inputLottoNum.size() != 6) {
-					int randomNum = random.nextInt(45) + 1;
-					if (inputLottoNum.contains(randomNum)) {
-						continue;
-					} else {
-						inputLottoNum.add(randomNum);
-						btnMake.get(randomNum).setEnabled(false);
-						numcount++;
-						card.show(cardbox, "B");
+					while (inputLottoNum.size() != 6) {
+						int randomNum = random.nextInt(45) + 1;
+						if (inputLottoNum.contains(randomNum)) {
+							continue;
+						} else {
+							inputLottoNum.add(randomNum);
+							btnMake.get(randomNum).setEnabled(false);
+							numcount++;
+							card.show(cardbox, "B");
+						}
 					}
-				}
-				randomBtn.setEnabled(false);
-				inputBtn.setEnabled(true);
+					randomBtn.setEnabled(false);
+					inputBtn.setEnabled(true);
 				}
 			}
 		});
@@ -371,7 +498,7 @@ public class BuyPage extends JFrame {
 		hardReset.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				hardReset();
 			}
 		});
@@ -380,7 +507,7 @@ public class BuyPage extends JFrame {
 		setSize(900, 600);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
-	
+
 	public void hardReset() {
 		buyLotto.clear();
 		makeBuyLottoReset();
@@ -391,6 +518,7 @@ public class BuyPage extends JFrame {
 		numcount = 0;
 		checkOption = NON_RANDOM;
 		lottoPrice.setText(String.format("금액: %d원", lottoNumCount * 1000));
+		copyFunctionList = new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0));
 
 		////////////////////
 		// 필드 리셋
@@ -419,8 +547,8 @@ public class BuyPage extends JFrame {
 		return count;
 	}
 
-	public int getArrsObjY(Object[][] arr, Object obj) {  // 몇번째 줄인지 찾는 로직
-		int y = 0; 
+	public int getArrsObjY(Object[][] arr, Object obj) { // 몇번째 줄인지 찾는 로직
+		int y = 0;
 		for (int i = 0; i < arr.length; i++) {
 			for (int j = 0; j < arr[0].length; j++) {
 				if (lottoField[i][j].equals(obj)) {
@@ -447,7 +575,19 @@ public class BuyPage extends JFrame {
 
 	public void makefield(JLabel[][] lotto) {
 		for (int i = 0; i < 5; i++) {
-			lotto[i][0] = new JLabel(String.valueOf(i + 1));
+			lotto[i][0] = new JLabel();
+			if (i == 0) {
+				lotto[i][0].setText("A");
+			} else if (i == 1) {
+				lotto[i][0].setText("B");
+			} else if (i == 2) {
+				lotto[i][0].setText("C");
+			} else if (i == 3) {
+				lotto[i][0].setText("D");
+			} else {
+				lotto[i][0].setText("E");
+			}
+
 			lotto[i][1] = new JLabel(String.valueOf("미지정"));
 			lotto[i][1].setIcon(opNoneImg);
 			lotto[i][1].setHorizontalTextPosition(JLabel.CENTER);
@@ -461,22 +601,21 @@ public class BuyPage extends JFrame {
 			}
 
 			lotto[i][8] = new JLabel("붙여넣기");
-			lotto[i][8].setIcon(btnCPImg);			
+			lotto[i][8].setIcon(btnCPImg);
 			lotto[i][8].setForeground(Color.white);
 			lotto[i][8].setHorizontalTextPosition(JLabel.CENTER);
-			
-			
+
 			lotto[i][9] = new JLabel("삭제");
-			lotto[i][9].setIcon(btnDelImg);				
+			lotto[i][9].setIcon(btnDelImg);
 			lotto[i][9].setForeground(Color.white);
 			lotto[i][9].setHorizontalTextPosition(JLabel.CENTER);
 
 			lotto[i][8].addMouseListener(new MouseAdapter() {
-				
+
 				@Override
 				public void mouseEntered(MouseEvent e) {
 					JLabel removeBtn = (JLabel) e.getSource();
-					removeBtn.setForeground(new Color(241,  188,  101));
+					removeBtn.setForeground(new Color(241, 188, 101));
 				}
 
 				@Override
@@ -484,7 +623,7 @@ public class BuyPage extends JFrame {
 					JLabel removeBtn = (JLabel) e.getSource();
 					removeBtn.setForeground(Color.white);
 				}
-				
+
 				@Override
 				public void mousePressed(MouseEvent e) {
 					JLabel copyBtn = (JLabel) e.getSource();
@@ -512,7 +651,7 @@ public class BuyPage extends JFrame {
 								lottoField[y][i].setIcon(diaImg);
 								lottoField[y][i].setText(" " + String.valueOf(copy.get(i - 2) + " "));
 							}
-							
+
 							lottoField[y][8].setText("복사");
 
 							checkOption = NON_RANDOM;
@@ -520,7 +659,6 @@ public class BuyPage extends JFrame {
 							lottoNumCount++;
 							lottoPrice.setText(String.format("금액: %d원", lottoNumCount * 1000));
 						}
-
 					}
 				}
 			});
@@ -530,7 +668,7 @@ public class BuyPage extends JFrame {
 				@Override
 				public void mouseEntered(MouseEvent e) {
 					JLabel removeBtn = (JLabel) e.getSource();
-					removeBtn.setForeground(new Color(241,  188,  101));
+					removeBtn.setForeground(new Color(241, 188, 101));
 				}
 
 				@Override
@@ -562,7 +700,7 @@ public class BuyPage extends JFrame {
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		
+
 		new BuyPage().setVisible(true);
 	}
 }
