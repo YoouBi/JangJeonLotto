@@ -242,7 +242,7 @@ public class MainPage extends JFrame {
 		int myReserve = 0;
 		showMyBankMoney = 0;
 		
-		map.put("YoouBi", new login("YoouBi", "yoyobiii", "장영빈", 20020101, myBankMoney, 10000));
+		map.put("YoouBi", new login("YoouBi", "yoyobiii", "장영빈", 20020101, myBankMoney, 10000)); //
 		map.put("Inha123", new login("Inha123", "Inha123", "전인하", 20020202, myBankMoney, 20000));
 		map.put("yeriming", new login("yeriming", "yeriming", "장예림", 20020303, myBankMoney, 30000));
 		
