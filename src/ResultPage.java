@@ -18,9 +18,12 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.ToolTipManager;
 
+import com.oracle.xmlns.internal.webservices.jaxws_databinding.ExistingAnnotationsType;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
@@ -100,6 +103,9 @@ public class ResultPage {
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		URL url = ResultPage.class.getClassLoader().getResource("images/critical.png");
 		ImageIcon image = new ImageIcon(kit.getImage(url).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+		
+		URL backgroundUrl = ResultPage.class.getClassLoader().getResource("images/backgroundimg.png");
+		Image background = new ImageIcon(backgroundUrl).getImage();
 		// 이미지 받아오기 끝
 
 		// pnlLottoNums 시작
@@ -137,8 +143,6 @@ public class ResultPage {
 		printResult.setLayout(result);
 
 		// pnlBuyNums
-//		JLabel[][] lotto = new JLabel[5][8];
-//		List<List<Integer>> buyLottoNumList = new ArrayList<>();
 		for (int i=0; i<buyLottoNumList.size(); i++) {
 			for(int j=1; j < buyLottoNumList.get(0).size()+1; j++) {
 				lotto[i][j].setText(String.valueOf(buyLottoNumList.get(i).get(j - 1)));
@@ -176,10 +180,16 @@ public class ResultPage {
 		underLottoNums.setLayout(underLottoNumsY);
 
 		// pnl 전체 담을 패널
-		pnl = new JPanel();
+		pnl = new JPanel(){
+		      public void paintComponent(Graphics g) {
+		          g.drawImage(background, 0, 0, null);
+		          setOpaque(false);
+		       }
+		    };
 		pnl.add(pnlLottoNums);
 		pnl.add(underLottoNums);
 		// pnl 끝
+		
 		
 		BoxLayout pnlY = new BoxLayout(pnl, BoxLayout.Y_AXIS);
 		pnl.setLayout(pnlY);
