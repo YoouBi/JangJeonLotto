@@ -1,4 +1,5 @@
 import java.awt.CardLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ public class MainManager extends JFrame {
 
 	JButton btn1 = mainPage.getStart(); // 여기버튼이거맞아??
 	JButton btn2 = lottoBuy.getNextBtn();
+	JButton logoutBtn = lottoBuy.getLogout();
+	JButton myPageBtn = lottoBuy.getMypage();
 
 	CardLayout layout = new CardLayout();
 	JPanel center = new JPanel(layout);
@@ -99,12 +102,29 @@ public class MainManager extends JFrame {
 						}
 					}
 				}
-				JOptionPane.showMessageDialog(null, "[관리자 페이지: 로또배열 확인용이며 완성할 때 없애야함]\n" + buyLotto.toString());
+				JOptionPane.showMessageDialog(null, "[임시팝업: 배열 확인용]\n" + buyLotto.toString());
+			}
+		};
+		
+		ActionListener letsLogout = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				layout.previous(center);
+				// TODO 로그아웃 메소드 이거영빈언니에게부탁해...
+			}
+		};
+		
+		ActionListener letsGoMP = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				layout.previous(center);
 			}
 		};
 
 		btn1.addActionListener(letsGoBuy);
 		btn2.addActionListener(letsGoResult);
+		logoutBtn.addActionListener(letsLogout);
+		myPageBtn.addActionListener(letsGoMP);
 
 		setSize(900, 600);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
