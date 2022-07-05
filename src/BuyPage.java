@@ -40,12 +40,22 @@ public class BuyPage extends JFrame {
 	URL cardSpade = BuyPage.class.getClassLoader().getResource("images/card_spade.png");
 	URL cardHeart = BuyPage.class.getClassLoader().getResource("images/card_heart.png");
 	URL cardDiamond = BuyPage.class.getClassLoader().getResource("images/card_diamond.png");
+	
+	URL btnDel = BuyPage.class.getClassLoader().getResource("images/delete_Btn.png");
+	URL btnCP = BuyPage.class.getClassLoader().getResource("images/copypaste_Btn.png");
+	URL opUB = BuyPage.class.getClassLoader().getResource("images/Option_UnderBar.png");
+	URL opNone = BuyPage.class.getClassLoader().getResource("images/Option_None.png");
 
 	ImageIcon backImg = new ImageIcon(kit.getImage(cardBack));
 	ImageIcon spadeImg = new ImageIcon(kit.getImage(cardSpade));
 	ImageIcon heartImg = new ImageIcon(kit.getImage(cardHeart));
 	ImageIcon cloverImg = new ImageIcon(kit.getImage(cardClover));
 	ImageIcon diaImg = new ImageIcon(kit.getImage(cardDiamond));
+	
+	ImageIcon btnDelImg = new ImageIcon(kit.getImage(btnDel));
+	ImageIcon btnCPImg = new ImageIcon(kit.getImage(btnCP));
+	ImageIcon opUBImg = new ImageIcon(kit.getImage(opUB));
+	ImageIcon opNoneImg = new ImageIcon(kit.getImage(opNone));
 
 	Font cardFont = new Font("Serif", Font.BOLD, 25);
 
@@ -142,6 +152,7 @@ public class BuyPage extends JFrame {
 					
 					if (count == 5) {
 						JOptionPane.showMessageDialog(null, "로또 숫자는 5개까지만 구매할 수 있습니다.");
+						
 					} else {
 						if (btn.isEnabled()) {
 							if (numcount < 6) {
@@ -156,6 +167,7 @@ public class BuyPage extends JFrame {
 							}
 						} else {
 							btn.setEnabled(true);
+							randomBtn.setEnabled(true);
 							inputLottoNum.remove(inputLottoNum.indexOf(Integer.valueOf(btn.getText())));
 							numcount--;
 						}
@@ -178,9 +190,21 @@ public class BuyPage extends JFrame {
 		cardbox.setOpaque(false);
 		CardLayout card = new CardLayout();
 		cardbox.setLayout(card);
-
+		JPanel info = new JPanel();
+		info.setBackground(new Color(60, 38, 24));
+		
+		JLabel info1 = new JLabel("자동 발행 숫자는");
+		JLabel info2 = new JLabel("구매가 끝난 후에만 확인 가능합니다");
+		info1.setForeground(Color.white);
+		info2.setForeground(Color.white);
+		info1.setHorizontalAlignment(JLabel.CENTER);
+		info2.setHorizontalAlignment(JLabel.CENTER);
+		
+		info.add(info1);
+		info.add(info2);
+		
 		cardbox.add(btnBox, "A");
-		cardbox.add(new JButton("자동 발행 숫자는 구매가 끝난 후에만 확인 가능합니다."), "B");
+		cardbox.add(info, "B");
 
 		card.show(cardbox, "A");
 
@@ -249,6 +273,7 @@ public class BuyPage extends JFrame {
 					}
 
 					////////////
+					lottoField[indx][1].setIcon(opUBImg);
 					lottoField[indx][8].setText("복사");
 					card.show(cardbox, "A");
 					inputBtn.setEnabled(false);
@@ -352,7 +377,7 @@ public class BuyPage extends JFrame {
 		});
 
 		setTitle("로또 구입 창");
-		setSize(800, 500);
+		setSize(900, 600);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
@@ -371,6 +396,7 @@ public class BuyPage extends JFrame {
 		// 필드 리셋
 		for (int i = 0; i < 5; i++) {
 			lottoField[i][1].setText("미지정");
+			lottoField[i][1].setIcon(opNoneImg);
 			for (int j = 2; j < 8; j++) {
 				lottoField[i][j].setIcon(backImg);
 				lottoField[i][j].setText("");
@@ -423,6 +449,8 @@ public class BuyPage extends JFrame {
 		for (int i = 0; i < 5; i++) {
 			lotto[i][0] = new JLabel(String.valueOf(i + 1));
 			lotto[i][1] = new JLabel(String.valueOf("미지정"));
+			lotto[i][1].setIcon(opNoneImg);
+			lotto[i][1].setHorizontalTextPosition(JLabel.CENTER);
 
 			for (int j = 2; j < 8; j++) {
 				lotto[i][j] = new JLabel(backImg); // 0*6
@@ -433,9 +461,30 @@ public class BuyPage extends JFrame {
 			}
 
 			lotto[i][8] = new JLabel("붙여넣기");
+			lotto[i][8].setIcon(btnCPImg);			
+			lotto[i][8].setForeground(Color.white);
+			lotto[i][8].setHorizontalTextPosition(JLabel.CENTER);
+			
+			
 			lotto[i][9] = new JLabel("삭제");
+			lotto[i][9].setIcon(btnDelImg);				
+			lotto[i][9].setForeground(Color.white);
+			lotto[i][9].setHorizontalTextPosition(JLabel.CENTER);
 
 			lotto[i][8].addMouseListener(new MouseAdapter() {
+				
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					JLabel removeBtn = (JLabel) e.getSource();
+					removeBtn.setForeground(new Color(241,  188,  101));
+				}
+
+				@Override
+				public void mouseExited(MouseEvent e) {
+					JLabel removeBtn = (JLabel) e.getSource();
+					removeBtn.setForeground(Color.white);
+				}
+				
 				@Override
 				public void mousePressed(MouseEvent e) {
 					JLabel copyBtn = (JLabel) e.getSource();
@@ -451,17 +500,19 @@ public class BuyPage extends JFrame {
 						}
 					} else { // 붙여넣기일때
 						if (copyFunctionList.contains(0)) { // 붙여넣기인데 붙여넣을 배열 없을때
-							JOptionPane.showMessageDialog(null, "붙여넣기를 하려면 복사한 값이 있어야 합니다.");
+							JOptionPane.showMessageDialog(null, "붙여넣기를 하려면 복사를 먼저 해야 합니다.");
 						} else { // 붙여넣기
 							List<Integer> copy = makeCopyList(copyFunctionList);
 
 							buyLotto.set(y, copy);
 
 							lottoField[y][1].setText("수동");
+							lottoField[y][1].setIcon(opUBImg);
 							for (int i = 2; i < 8; i++) {
 								lottoField[y][i].setIcon(diaImg);
 								lottoField[y][i].setText(" " + String.valueOf(copy.get(i - 2) + " "));
 							}
+							
 							lottoField[y][8].setText("복사");
 
 							checkOption = NON_RANDOM;
@@ -479,13 +530,13 @@ public class BuyPage extends JFrame {
 				@Override
 				public void mouseEntered(MouseEvent e) {
 					JLabel removeBtn = (JLabel) e.getSource();
-					removeBtn.setForeground(Color.blue);
+					removeBtn.setForeground(new Color(241,  188,  101));
 				}
 
 				@Override
 				public void mouseExited(MouseEvent e) {
 					JLabel removeBtn = (JLabel) e.getSource();
-					removeBtn.setForeground(Color.black);
+					removeBtn.setForeground(Color.white);
 				}
 
 				@Override
@@ -494,8 +545,8 @@ public class BuyPage extends JFrame {
 
 					if (!(lottoField[y][1].getText().equals("미지정"))) { // 그 줄이 차있을때만 삭제
 						buyLotto.set(y, Arrays.asList(0, 0, 0, 0, 0, 0));
-
 						lottoField[y][1].setText("미지정");
+						lotto[y][1].setIcon(opNoneImg);
 						for (int i = 2; i < 8; i++) {
 							lottoField[y][i].setIcon(backImg);
 							lottoField[y][i].setText("");

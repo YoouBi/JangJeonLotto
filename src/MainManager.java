@@ -106,7 +106,7 @@ public class MainManager extends JFrame {
 		btn1.addActionListener(letsGoBuy);
 		btn2.addActionListener(letsGoResult);
 
-		setSize(800, 500);
+		setSize(900, 600);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 	}
