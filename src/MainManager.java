@@ -71,7 +71,9 @@ public class MainManager extends JFrame {
 						if (accountMoney<lottoBuy.getLottoNumCount() * 1000) {	// 보유금 처리
 						JOptionPane.showMessageDialog(null, "보유금이 부족하여 로또를 구매할 수 없습니다.");
 						} else {
-						mainPage.setMylottoReserve(accountMoney-(lottoBuy.getLottoNumCount() * 1000));
+						int remainingReserve = accountMoney-(lottoBuy.getLottoNumCount() * 1000);
+						mainPage.setMylottoReserve(remainingReserve);
+						(mainPage.getMypageReserve()).setText("보유금 : " + remainingReserve); // 라벨의 텍스트
 					
 						// 이후는 배열 넘겨주고 넘겨받는 부분
 						// Iterator로 배열 정리

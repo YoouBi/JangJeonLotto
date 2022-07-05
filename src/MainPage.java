@@ -114,6 +114,7 @@ public class MainPage extends JFrame {
 	private int inputAge;
 	private int showMyBankMoney;
 	private int mylottoReserve = 0;
+	private JLabel mypageReserve;
 
 	public JPanel getPnl() {
 		return Mainppp;
@@ -137,6 +138,14 @@ public class MainPage extends JFrame {
 
 	public void setMylottoReserve(int mylottoReserve) {
 		this.mylottoReserve = mylottoReserve;
+	}
+	
+	public JLabel getMypageReserve() {
+		return mypageReserve;
+	}
+
+	public void setMypageReserve(JLabel mypageReserve) {
+		this.mypageReserve = mypageReserve;
 	}
 
 	public MainPage() {
@@ -244,7 +253,7 @@ public class MainPage extends JFrame {
 		JLabel createMonth = new JLabel("월 ");
 		JLabel createDay = new JLabel("일");
 		JLabel mypageBank = new JLabel("계좌 : " + myBankMoney);
-		JLabel mypageReserve = new JLabel("보유금 : ");
+		mypageReserve = new JLabel("보유금 : ");
 
 		JCheckBox PwSee = new JCheckBox("비밀번호 보기");
 		PwSee.setOpaque(false);
