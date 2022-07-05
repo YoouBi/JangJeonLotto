@@ -66,6 +66,8 @@ class RoundButton extends JButton {
 	}
 }
 
+///// 밀자 .................
+
 public class BuyPage extends JFrame {
 
 	static final int ALL_RANDOM = 2;
