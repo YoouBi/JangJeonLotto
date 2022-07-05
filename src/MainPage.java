@@ -128,15 +128,15 @@ class MoneyChargeWindow extends JDialog { // 충전 페이지
 			}
 		});
 		
-		chargeBtn.addActionListener(new ActionListener() {	
+		chargeBtn.addActionListener(new ActionListener() { //충전 버튼
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				reserveInput = Integer.valueOf(dialog.getCharge());
+				reserveInput = Integer.valueOf(getCharge());
 //// 				맵 가져온거에서 로그인 되어있는 정보만 바꾸기...
-//				int BankDifference = (((login) me.get(id.getText())).getBankReserve()) - reserveInput;
-//				((login) me.get(id.getText())).setBankReserve(BankDifference);
-//				int ChargingReserve = ((login) me.get(id.getText())).getLottoReserve() + reserveInput;
-//				((login) me.get(id.getText())).setLottoReserve(ChargingReserve);
+				int BankDifference = (((login) me.get(mp.getId().getText())).getBankReserve()) - reserveInput;
+				((login) me.get(mp.getId().getText())).setBankReserve(BankDifference);
+				int ChargingReserve = ((login) me.get(mp.getId().getText())).getLottoReserve() + reserveInput;
+				((login) me.get(mp.getId().getText())).setLottoReserve(ChargingReserve);
 				
 				dispose(); // setVisible(false) 랑 크게 다르지 않음
 			}
@@ -145,11 +145,14 @@ class MoneyChargeWindow extends JDialog { // 충전 페이지
 		setSize(300, 200);
 	}
 	
-	public String getCharge() {
+	public void showDialog() {
 		setVisible(true);
-		
+	}
+	
+	public String getCharge() {
 		return reserveCharge.getText();
 	}
+	
 }
 
 public class MainPage extends JFrame {
@@ -167,6 +170,8 @@ public class MainPage extends JFrame {
 	private int showMyBankMoney;
 	private int mylottoReserve = 0;
 	private JLabel mypageReserve;
+	
+	private JTextField id; // 로그인 필드
 
 	public JPanel getPnl() {
 		return Mainppp;
@@ -206,6 +211,14 @@ public class MainPage extends JFrame {
 
 	public void setMypageReserve(JLabel mypageReserve) {
 		this.mypageReserve = mypageReserve;
+	}
+
+	public JTextField getId() {
+		return id;
+	}
+
+	public void setId(JTextField id) {
+		this.id = id;
 	}
 
 	public MainPage() {
@@ -338,7 +351,7 @@ public class MainPage extends JFrame {
 		createReturn.setBackground(new Color(127, 153, 248));
 		JButton ChargeBtn = new JButton("충전");
 
-		JTextField id = new JTextField(10);
+		id = new JTextField(10);
 		id.setText("");
 		JPasswordField pw = new JPasswordField(10);
 		pw.setText("");
@@ -569,6 +582,7 @@ public class MainPage extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				MoneyChargeWindow dialog = new MoneyChargeWindow(MainPage.this);
+				dialog.showDialog();
 			}
 		});
 
