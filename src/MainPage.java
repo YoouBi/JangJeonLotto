@@ -103,6 +103,9 @@ class login {
 public class MainPage extends JFrame {
 	private JPanel Mainppp;
 	private JButton start;
+	
+
+	private int totalLotteWinnings = 300000000;
 	private JLabel stringName;
 	private HashMap<String, login> map;
 	private int inputYear;
@@ -120,6 +123,14 @@ public class MainPage extends JFrame {
 		return start;
 	}
 	
+	public int getTotalLotteWinnings() {
+		return totalLotteWinnings;
+	}
+
+	public void setTotalLotteWinnings(int totalLotteWinnings) {
+		this.totalLotteWinnings = totalLotteWinnings;
+	}
+
 	public int getMylottoReserve() {
 		return mylottoReserve;
 	}
