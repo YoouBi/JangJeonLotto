@@ -278,7 +278,7 @@ public class MainPage extends JFrame {
 		JTextField createInputYear = new JTextField(5);
 		JTextField createInputDay = new JTextField(3);
 
-		id.addKeyListener(new KeyAdapter() { // 로그인 아이디 텍스트 필드에서 엔터 쳐도 로그인
+		id.addKeyListener(new KeyAdapter() { // 로그인 아이디 텍스트 필드에서 엔터로 로그인
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER ) {
