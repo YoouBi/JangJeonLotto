@@ -20,25 +20,25 @@ public class MainManager extends JFrame {
 
 	JPanel mp = mainPage.getPnl();
 	JPanel lb = lottoBuy.getPnl();
-	JPanel re = results.getPnl();
+
 
 	JButton btn1 = mainPage.getStart(); // 여기버튼이거맞아??
 	JButton btn2 = lottoBuy.getNextBtn();
-	JButton btn3 = results.getNextBtn();
+
 
 	CardLayout layout = new CardLayout();
 	JPanel center = new JPanel(layout);
 
 	MainManager() {
-
+		
 		center.add(mp, "A");
 		center.add(lb, "B");
-		center.add(re, "C");
-
+	
 		add(center);
-
+	
+		
 		layout.show(center, "A");
-
+		
 		ActionListener nextBtn = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -63,25 +63,31 @@ public class MainManager extends JFrame {
 							check0.remove();
 						}
 					}
-					layout.next(center);
+					
 					
 					// 이부분에 넘겨받고 계산하는 작업이 들어감
-					
-			
-					results.getLottoNum();
 					results.setBuyLottoNumList(buyLotto);
-					results.comparingBonus();
-					results.rank();
-					results.getMoney();
+					System.out.println("제발 들어가라 = " + results.getBuyLottoNumList());
+					results.getLottoNum();
 					
+					results.setPanel();
+					
+					JPanel re = results.getPnl();
+					JButton btn3 = results.getNextBtn();
+					btn3.addActionListener(nextBtn);
+					center.add(re, "C");
+					layout.next(center);				
 				}
 				JOptionPane.showMessageDialog(null, "[관리자 페이지: 로또배열 확인용이며 완성할 때 없애야함]\n" + buyLotto.toString());
 			}
 		};
+		
+
+			
 
 		btn1.addActionListener(nextBtn);
 		btn2.addActionListener(letsGoResult);
-		btn3.addActionListener(nextBtn);
+		
 
 		setSize(800, 500);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);

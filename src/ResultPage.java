@@ -25,16 +25,17 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.URL;
 
-public class ResultPage extends JFrame {
+public class ResultPage {
 	// 6/30 : 넘겨받는 배열 타입에 따라 메소드 전반적 변경
 	// 6/31 : 보너스 번호 추첨, 등수 출력, 버튼 마우스오버창
 	// 7/1 : 같음, 다름 여부 메소드 수정
 	// 7/2 : 등수 출력 메소드 완성, 변수명 변경
 	// 7/4 : 당첨 금액 메소드 완성
 	// 할일
-	// 패널 쪽 이름 변경
 	// 1. 돌아갈 때 사용자 구입 로또 배열과 당첨번호 리셋
 	// 2. 같으면 번호 색 변경 메소드 만들기
+
+	BuyPage lottoBuy = new BuyPage();
 
 	// Random 인스턴스 생성
 	Random random = new Random();
@@ -44,19 +45,6 @@ public class ResultPage extends JFrame {
 	List<Integer> buyLottoNum;
 	// 내 선택 로또값 들어간 배열을 받는 ArrayList
 	List<List<Integer>> buyLottoNumList = new ArrayList<>();
-	
-	
-	//TODO 위치 정리
-	public List<List<Integer>> getBuyLottoNumList() {
-		return buyLottoNumList;
-	}
-
-	public void setBuyLottoNumList(List<List<Integer>> buyLottoNumList) {
-		this.buyLottoNumList = buyLottoNumList;
-	}
-
-	
-
 
 	// 로또 보너스 값
 	int lottoBonus = 0;
@@ -75,9 +63,19 @@ public class ResultPage extends JFrame {
 	/////////////// 연습 값 담을 set/////////////////////////
 	Set<Integer> practice = new HashSet<>();
 	/////////////// 연습 값 담을 set end/////////////////////////
+	
+	JLabel[][] lotto = new JLabel[5][8];
 
 	private JPanel pnl;
 	private JButton nextBtn;
+
+	public List<List<Integer>> getBuyLottoNumList() {
+		return buyLottoNumList;
+	}
+
+	public void setBuyLottoNumList(List<List<Integer>> buyLottoNumList) {
+		this.buyLottoNumList = buyLottoNumList;
+	}
 
 	public JPanel getPnl() {
 		return pnl;
@@ -89,15 +87,18 @@ public class ResultPage extends JFrame {
 
 	// Result 화면 생성
 	public ResultPage() {
+//		System.out.println("getBuyLottoNumList 값은 들어갔을까? = " + getBuyLottoNumList());
 //		getLottoNum();
-////		getBuyLottoNum();
-//
+//		getBuyLottoNum();
+
 //		getNumberPractice();
 //		compareLottoNum();
 //		comparingBonus();
 //		rank();
-//		getMoney();
-
+//		getMoney();	
+	}
+	
+	public void setPanel() {
 		pnl = new JPanel();
 
 		Toolkit kit = Toolkit.getDefaultToolkit();
@@ -154,10 +155,12 @@ public class ResultPage extends JFrame {
 
 		ImageIcon image = new ImageIcon(kit.getImage(url).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 		JLabel info = new JLabel(image);
-		info.setToolTipText("<html><p>" + "당첨금 분배 방식 <br> [1등] 6개 번호 일치 : 총 당첨금 중 4등, 5등 금액을 제외한 금액의 75% <br> [2등] 5개 번호 일치 + 보너스 번호 일치 : 총 당첨금 중 4등, 5등 금액을 제외한 금액의 12.5% <br> [3등] 5개 번호 일치 : 총 당첨금 중 4등, 5등 금액을 제외한 금액의 12.5% <br> [4등] 4개 번호 일치 : 50,000원 <br> [5등] 3개 번호 일치: 5,000원 " + "</p></html>");
-		ToolTipManager m =ToolTipManager.sharedInstance(); // 툴팁 여는 시간 조정 위해 객체 생성
-        m.setInitialDelay(0); // 초기 툴팁 출력 지연시간 0초 설정
-		
+		info.setToolTipText("<html><p>"
+				+ "당첨금 분배 방식 <br> [1등] 6개 번호 일치 : 총 당첨금 중 4등, 5등 금액을 제외한 금액의 75% <br> [2등] 5개 번호 일치 + 보너스 번호 일치 : 총 당첨금 중 4등, 5등 금액을 제외한 금액의 12.5% <br> [3등] 5개 번호 일치 : 총 당첨금 중 4등, 5등 금액을 제외한 금액의 12.5% <br> [4등] 4개 번호 일치 : 50,000원 <br> [5등] 3개 번호 일치: 5,000원 "
+				+ "</p></html>");
+		ToolTipManager m = ToolTipManager.sharedInstance(); // 툴팁 여는 시간 조정 위해 객체 생성
+		m.setInitialDelay(0); // 초기 툴팁 출력 지연시간 0초 설정
+
 		JLabel price = new JLabel("금액 = 300,000,000원");
 		price.setBounds(78, 424, 315, 24);
 		price.setFont(new Font("굴림", Font.PLAIN, 20));
@@ -171,13 +174,51 @@ public class ResultPage extends JFrame {
 		pnlLottoNums.setOpaque(false); // 배경 색을 따라가도록
 		pnlWinning.setOpaque(false);
 		pnlBuyNums.setOpaque(false);
-		getContentPane().add(pnl);
 
-		setSize(800, 500);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+/////////////////////////////////////////////////
+//
+//		JPanel printResult = new JPanel();
+//		add(printResult);
+//
+//		for (int i = 0; i < 5; i++) {
+//			JPanel a = new JPanel();
+//			printResult.add(a);
+//			for (int j = 0; j < 8; j++) {
+//				a.add(lotto[i][j]);
+//			}
+//		}
+//
+//		/*
+//		 * public void makefield(JLabel[][] lotto) { for (int i = 0; i < 5; i++) {
+//		 * lotto[i][0] = new JLabel(String.valueOf(i + 1)); lotto[i][1] = new JLabel(String.valueOf("미지정")); 
+//		 * for (int j = 2; j < 8; j++) { lotto[i][j] = new JLabel(backImg); // 0*6 
+//		 * lotto[i][j].setText("");
+//		 * lotto[i][j].setFont(cardFont); 
+//		 * lotto[i][j].setForeground(Color.white);
+//		 * lotto[i][j].setHorizontalTextPosition(JLabel.CENTER); } 
+//		 * lotto[i][8] = new JLabel("붙여넣기"); lotto[i][9] = new JLabel("삭제");
+//		 */
+//
+//////////////////////////////////////////////
 	}
 
-	// 당첨번호 만드는 메소드 메소드로 만들기
+// J라벨 35개 만드는 메소드
+//	public void makefield(JLabel[][] lotto) {
+//		Toolkit kit = Toolkit.getDefaultToolkit();
+//		URL card = ResultPage.class.getClassLoader().getResource("images/card_spade.png");
+//		ImageIcon cardSpade = new ImageIcon(kit.getImage(card).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+//		for (int i = 0; i < 5; i++) {
+//			lotto[i][0] = new JLabel(String.valueOf(i + 1));
+//			for (int j = 1; j < 7; j++) {
+//				lotto[i][j] = new JLabel(cardSpade); // 0*6
+//			}
+//			lotto[i][7] = new JLabel(ranking.get(i));
+//		}
+//
+//	}
+
+	// 당첨번호 만드는 메소드
 	public void getLottoNum() {
 		// 로또 당첨 번호(중복x) 출력 Set
 		Set<Integer> lotto = new HashSet<>();
@@ -201,6 +242,8 @@ public class ResultPage extends JFrame {
 			lottoBonus = random.nextInt(45) + 1;
 		}
 		System.out.println("보너스 값: " + lottoBonus);
+//		getNumberPractice();
+		compareLottoNum();
 	}
 
 //	// 내가 구매한 로또 5회(5000원) 구하는 메소드
@@ -238,7 +281,7 @@ public class ResultPage extends JFrame {
 ////////////////////////////////// 연습 list 배열에 6개의 값 담기 end/////////////////////////
 
 	// 로또번호와 내가 선택한 번호 비교 메소드
-	public void compareLottoNum(List<List<Integer>> buyLottoNumList) {
+	public void compareLottoNum() {
 		// 내가 선택한 번호 출력
 		System.out.println("내가 선택한 번호: " + buyLottoNumList);
 
@@ -248,7 +291,8 @@ public class ResultPage extends JFrame {
 
 		for (int buyListIndex = 0; buyListIndex < buyLottoNumList.size(); buyListIndex++) {
 			same = new ArrayList<>();
-			for (int buyNumIndex = 0; buyNumIndex < buyLottoNum.size(); buyNumIndex++) {
+//			for (int buyNumIndex = 0; buyNumIndex < buyLottoNum.size(); buyNumIndex++) {
+			for (int buyNumIndex = 0; buyNumIndex < buyLottoNumList.get(buyListIndex).size(); buyNumIndex++) {
 				buyLottoRandom = buyLottoNumList.get(buyListIndex).get(buyNumIndex);
 				int count = 0;
 				for (int lottoIndex = 0; lottoIndex < lottoNum.size(); lottoIndex++) {
@@ -271,6 +315,7 @@ public class ResultPage extends JFrame {
 		}
 		comparingBonus();
 		System.out.println("당첨 번호 추첨: " + sameList.toString());
+		rank();
 	}
 
 	// 보너스 번호 비교 메소드
@@ -330,6 +375,8 @@ public class ResultPage extends JFrame {
 		countD = 0;
 		countB = 0;
 		System.out.println("당첨 여부: " + ranking.toString());
+		getMoney();
+//		makefield(lotto);
 	}
 
 	// 금액 출력 메소드
@@ -367,8 +414,13 @@ public class ResultPage extends JFrame {
 		System.out.println("총 당첨 금액: " + winningTotal);
 	}
 
-
 	public static void main(String[] args) {
-		new ResultPage().setVisible(true);
+		JFrame frame = new JFrame();
+		ResultPage page = new ResultPage();
+		page.setPanel();
+		JPanel pnl = page.getPnl();
+		frame.add(pnl);
+		frame.pack();
+		frame.setVisible(true);
 	}
 }
