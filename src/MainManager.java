@@ -122,7 +122,7 @@ public class MainManager extends JFrame {
 			}
 		};
 		
-		ActionListener letsLogout = new ActionListener() {
+		ActionListener letsLogout = new ActionListener() { // 구입페이지 로그아웃 구현
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(mainPage.getId().getText().equals("nonmember")) {
@@ -130,7 +130,6 @@ public class MainManager extends JFrame {
 				}
 				layout.previous(center);
 				mainPage.getSignout().doClick();
-				// TODO 로그아웃 메소드 이거영빈언니에게부탁해...
 			}
 		};
 		
