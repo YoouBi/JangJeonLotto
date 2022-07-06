@@ -92,8 +92,6 @@ public class MainManager extends JFrame {
 						System.out.println("제발 들어가라 = " + results.getBuyLottoNumList());
 						results.getLottoNum();
 
-						results.setPanel();
-
 						JPanel re = results.getPnl();
 						JButton btn3 = results.getNextBtn();
 						btn3.addActionListener(nextBtn);
