@@ -183,6 +183,7 @@ public class MainPage extends JFrame {
 	private int ranMyNum;
 	private JLabel mypageBank;
 	private JLabel mypageReserve;
+	private JLabel lottoTotalMoney;
 
 	public JPanel getPnl() {
 		return Mainppp;
@@ -198,7 +199,13 @@ public class MainPage extends JFrame {
 	public void setTotalLotteWinnings(int totalLotteWinnings) {
 		this.totalLotteWinnings = totalLotteWinnings;
 	}
-
+	
+	public JLabel getLottoTotalMoney() {
+		return lottoTotalMoney;
+	}
+	public void setLottoTotalMoney(JLabel lottoTotalMoney) {
+		this.lottoTotalMoney = lottoTotalMoney;
+	}
 	public HashMap<String, login> getMap() {
 		return map;
 	}
@@ -330,7 +337,7 @@ public class MainPage extends JFrame {
 		BoxLayout box4 = new BoxLayout(MainPnlCreatePage, BoxLayout.Y_AXIS);
 		MainPnlCreatePage.setLayout(box4);
 		
-		JLabel lottoTotalMoney = new JLabel("당첨금 " + totalLotteWinnings + "원!!!");
+		lottoTotalMoney = new JLabel("당첨금 " + totalLotteWinnings + "원!!!");
 		JLabel stringId = new JLabel("아이디 :");
 		JLabel stringPw = new JLabel("비밀번호 :");
 		stringName = new JLabel("");

@@ -94,6 +94,7 @@ public class MainManager extends JFrame {
 						System.out.println(resultPage.getTotalMoney());
 						mainPage.setTotalLotteWinnings(resultPage.getTotalMoney());
 						mainPage.setTotalLotteWinnings(resultPage.getTotalMoney());
+						mainPage.getLottoTotalMoney().setText("당첨금 " + resultPage.getTotalMoney() + "원!!!");
 						
 						JPanel re = resultPage.getPnl();
 				
