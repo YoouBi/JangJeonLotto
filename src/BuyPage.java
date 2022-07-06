@@ -424,8 +424,6 @@ public class BuyPage extends JFrame {
 									inputBtn.setEnabled(true);
 									randomBtn.setEnabled(false);
 								}
-							} else {
-								JOptionPane.showMessageDialog(null, "로또 숫자는 6개 까지만 선택 가능합니다.");
 							}
 						} else {
 							btn.setEnabled(true);
