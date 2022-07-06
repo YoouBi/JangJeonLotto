@@ -56,12 +56,12 @@ public class ResultPage {
 	// 같음, 다름 여부 넣는 배열
 	List<String> same;
 	// 같음, 다름 배열을 받는 String 배열
-	List<List<String>> sameList = new ArrayList<>();
+	List<List<String>> sameList;
 
 	// 등수 출력 위한 배열
 	List<String> ranking;
 	// 전체 판매액 담을 정수 타입
-	int totalMoney = 300000000;
+	int totalMoney;
 	// 총 당첨 금액 담을 정수 타입
 	int winningTotal = 0;
 	/////////////// 연습 값 담을 set/////////////////////////
@@ -367,7 +367,8 @@ public class ResultPage {
 		// 변수 설정
 		Integer buyLottoRandom = 0; // 내가 선택한 숫자 6개 배열 중 1개의 숫자 담을 변수
 		Integer lottoRandom = 0; // 로또 당첨 번호 1개의 숫자 담을 변수
-
+		sameList = new ArrayList<>();
+		
 		for (int buyListIndex = 0; buyListIndex < buyLottoNumList.size(); buyListIndex++) {
 			same = new ArrayList<>();
 //			for (int buyNumIndex = 0; buyNumIndex < buyLottoNum.size(); buyNumIndex++) {
@@ -391,9 +392,6 @@ public class ResultPage {
 				}
 			}
 			sameList.add(buyListIndex, same);
-			if(sameList.size() == 2) {
-				sameList.remove(1);
-			}
 		}
 		comparingBonus();
 		System.out.println("당첨 번호 추첨: " + sameList.toString());

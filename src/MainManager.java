@@ -89,7 +89,7 @@ public class MainManager extends JFrame {
 
 						// 이부분에 넘겨받고 계산하는 작업이 들어감
 						results.setBuyLottoNumList(buyLotto);
-						System.out.println("제발 들어가라 = " + results.getBuyLottoNumList());
+						results.setTotalMoney(mainPage.getTotalLotteWinnings());
 						results.getLottoNum();
 
 						JPanel re = results.getPnl();
