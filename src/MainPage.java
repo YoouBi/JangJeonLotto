@@ -242,8 +242,8 @@ public class MainPage extends JFrame {
 		return id;
 	}
 
-	public void setId(JTextField id) {
-		this.id = id;
+	public void setId(String idStr) {
+		id.setText(idStr);
 	}
 
 	public MainPage() {

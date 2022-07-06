@@ -95,9 +95,11 @@ public class MainManager extends JFrame {
 						mainPage.setTotalLotteWinnings(resultPage.getTotalMoney());
 						mainPage.setTotalLotteWinnings(resultPage.getTotalMoney());
 						mainPage.getLottoTotalMoney().setText("당첨금 " + resultPage.getTotalMoney() + "원!!!");
-						if(((login) mainPage.getMap().get(mainPage.getId().getText())).equals("nonmember")) {
+						
+						String idStr = mainPage.getId().getText();
+						if(mainPage.getId().getText().equals("nonmember")) {
 							((login) mainPage.getMap().get(mainPage.getId().getText())).setLottoReserve(5000);
-							mainPage.getId().setText("");
+							mainPage.setId("");
 						}
 						
 						JPanel re = resultPage.getPnl();
@@ -123,6 +125,9 @@ public class MainManager extends JFrame {
 		ActionListener letsLogout = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if(mainPage.getId().getText().equals("nonmember")) {
+					mainPage.setId("");
+				}
 				layout.previous(center);
 				// TODO 로그아웃 메소드 이거영빈언니에게부탁해...
 			}
