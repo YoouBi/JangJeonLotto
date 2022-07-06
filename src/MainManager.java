@@ -2,6 +2,9 @@ import java.awt.CardLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -90,7 +93,14 @@ public class MainManager extends JFrame {
 						// 이부분에 넘겨받고 계산하는 작업이 들어감
 						resultPage.setBuyLottoNumList(buyLotto);
 						resultPage.setTotalMoney(mainPage.getTotalLotteWinnings());
+//						KeyListener clickOne = new KeyAdapter() {
+//							@Override
+//							public void keyPressed(KeyEvent e) {
+//								
+//							}
+//						};
 						resultPage.getLottoNum();
+//						re.addKey
 						System.out.println(resultPage.getTotalMoney());
 						mainPage.setTotalLotteWinnings(resultPage.getTotalMoney());
 						mainPage.setTotalLotteWinnings(resultPage.getTotalMoney());

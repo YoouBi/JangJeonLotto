@@ -110,7 +110,7 @@ public class ResultPage {
 
 	// Result 화면 생성
 	public ResultPage() {
-//		getLottoNum();
+		getLottoNum();
 	}
 	// setter, getter 끝
 
@@ -128,6 +128,9 @@ public class ResultPage {
 
 		URL ball7 = ResultPage.class.getClassLoader().getResource("images/ballB.png");
 		ImageIcon ballB = new ImageIcon(kit.getImage(ball7).getScaledInstance(70, 70, Image.SCALE_SMOOTH));
+		
+		URL backCard = ResultPage.class.getClassLoader().getResource("images/card_back.png");
+		ImageIcon cardBack = new ImageIcon(kit.getImage(backCard));
 		// 이미지 받아오기 끝
 
 		// pnlLottoNums 시작
@@ -221,10 +224,12 @@ public class ResultPage {
 				+ "</p></html>");
 		ToolTipManager m = ToolTipManager.sharedInstance(); // 툴팁 여는 시간 조정 위해 객체 생성
 		m.setInitialDelay(0); // 초기 툴팁 출력 지연시간 0초 설정
+		JLabel winningPrice = new JLabel("당첨금 수령액: " + String.valueOf(winningTotal));
 		JLabel price = new JLabel("당첨 총 금액: " + String.valueOf(totalMoney));
 		nextBtn = new MyEmphasizeButton("다음 회차");
 
 		others.add(info);
+		others.add(winningPrice);
 		others.add(price);
 		others.add(nextBtn);
 		// others 끝
@@ -340,7 +345,7 @@ public class ResultPage {
 		}
 		System.out.println("보너스 값: " + lottoBonus);
 		System.out.println("LottoNum에 들어가써?" + lottoNum);
-//		getBuyLottoNum();
+		getBuyLottoNum();
 //		getNumberPractice();
 		compareLottoNum();
 	}
