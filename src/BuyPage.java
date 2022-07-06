@@ -14,7 +14,7 @@ class MyEmphasizeButton extends JButton {
 	Color yellow = new Color(221, 168, 81);
 	Color brown = new Color(60, 38, 24);
 	Color bage = new Color(221, 197, 158);
-	Color darkYellow = new Color(201, 148, 61);
+	Color darkRed= new Color(161, 6, 10);
 	
 	public MyEmphasizeButton(String text) {
 		super(text);
@@ -42,14 +42,22 @@ class MyEmphasizeButton extends JButton {
 		}
 
 		if (getModel().isRollover()) { // 마우스 올렸을 때
-			graphics.setColor(getBackground().darker());
+			graphics.setColor(darkRed);
 		}
-
+		
 		graphics.fillRect(0, 0, width, height);
 
 		int textX = (width - stringBounds.width) / 2;
 		int textY = (height - stringBounds.height) / 2 + fontMetrics.getAscent();
+		
+		if (!(getModel().isEnabled())) {
+			graphics.setColor(Color.GRAY);
+		} else {
+			graphics.setColor(darkRed);
+		}
 
+		
+		graphics.drawRect(0, 0, width - 1, height - 1);
 		graphics.setColor(getForeground());
 		graphics.drawString(getText(), textX, textY);
 		graphics.dispose();
@@ -65,7 +73,7 @@ class MyButton extends JButton {
 	Color yellow = new Color(221, 168, 81);
 	Color brown = new Color(60, 38, 24);
 	Color bage = new Color(221, 197, 158);
-	Color darkYellow = new Color(201, 148, 61);
+	Color darkBlue = new Color(41, 120, 139);
 	
 	public MyButton(String text) {
 		super(text);
@@ -93,15 +101,23 @@ class MyButton extends JButton {
 		}
 
 		if (getModel().isRollover()) { // 마우스 올렸을 때
-			graphics.setColor(getForeground().darker());
+			graphics.setColor(darkBlue);
 		}
-
+		
 		graphics.fillRect(0, 0, width, height);
 
 		int textX = (width - stringBounds.width) / 2;
 		int textY = (height - stringBounds.height) / 2 + fontMetrics.getAscent();
-
+		
+		if (!(getModel().isEnabled())) {
+			graphics.setColor(Color.GRAY);
+		} else {
+			graphics.setColor(darkBlue);
+		}
+		
+		graphics.drawRect(0, 0, width - 1, height - 1);
 		graphics.setColor(getForeground());
+		
 		graphics.drawString(getText(), textX, textY);
 		graphics.dispose();
 		// https://the-illusionist.me/42
@@ -290,18 +306,20 @@ public class BuyPage extends JFrame {
 
 		JPanel all = new JPanel();
 		all.setOpaque(false);
-		JPanel topBox = new JPanel(new BorderLayout());
+		JPanel topBox = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) topBox.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEADING);
 		topBox.setOpaque(false);
 
 		BoxLayout pnlLayout = new BoxLayout(pnl, BoxLayout.Y_AXIS);
 		pnl.setLayout(pnlLayout);
 
-		JLabel topInfoInput = new JLabel("::입력부::");
+		JLabel topInfoInput = new JLabel("     ::입력부::                                                                                               ");
 		topInfoInput.setToolTipText("<html><p>" + "버튼을 눌러 번호 선택. 1회 로또 게임은 번호 6개로 이루어짐.<br>"
 				+ "[자동]: 6개의 숫자를 자동으로 선택해줌<br>" + "[반자동]: 6개 중 자신이 선택한 것 외의 숫자를 자동으로 선택해줌.<br>"
 				+ "[입력]: 선택한 번호를 게임에 추가<br>" + "[다시 선택하기]: 선택한 번호 초기화<br>" + "</p></html>");
 
-		JLabel topInfoEdit = new JLabel("::편집부::");
+		JLabel topInfoEdit = new JLabel("::편집부::                                                                           ");
 		topInfoEdit.setToolTipText(
 				"<html><p>" + "자신의 게임 정보를 보고 수정할 수 있음.<br>" + "[복사]: 게임 복사는 수동만 가능<br>" + "[붙여넣기]: 복사한 번호를 게임에 추가<br>"
 						+ "[삭제]: 선택한 번호 초기화<br>" + "[전체 초기화]: 여태 선택한 번호를 전부 삭제<br>" + "</p></html>");
@@ -326,14 +344,16 @@ public class BuyPage extends JFrame {
 		JPanel center = new JPanel();
 		center.setOpaque(false);
 
+		west.add(topInfoInput);
+		center.add(topInfoEdit);
 		east.add(mypage);
 		east.add(logout);
-		center.add(topInfoEdit);
-		west.add(topInfoInput);
-
-		topBox.add(east, BorderLayout.EAST);
-		topBox.add(center, BorderLayout.CENTER);
-		topBox.add(west, BorderLayout.WEST);
+		
+		topBox.add(west);
+		topBox.add(center);
+		topBox.add(east);
+		
+		
 
 		pnl.add(topBox);
 		all.add(inputPnl);
@@ -410,6 +430,7 @@ public class BuyPage extends JFrame {
 						} else {
 							btn.setEnabled(true);
 							randomBtn.setEnabled(true);
+							inputBtn.setEnabled(false);
 							inputLottoNum.remove(inputLottoNum.indexOf(Integer.valueOf(btn.getText())));
 							numcount--;
 						}
