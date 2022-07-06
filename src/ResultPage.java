@@ -391,6 +391,9 @@ public class ResultPage {
 				}
 			}
 			sameList.add(buyListIndex, same);
+			if(sameList.size() == 2) {
+				sameList.remove(1);
+			}
 		}
 		comparingBonus();
 		System.out.println("당첨 번호 추첨: " + sameList.toString());
