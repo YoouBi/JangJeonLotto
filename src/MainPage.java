@@ -274,7 +274,7 @@ public class MainPage extends JFrame {
 			 }
 		};
 		JPanel MainAll = new JPanel();
-		JPanel MainPnl1 = new JPanel();
+		JPanel MainPnl1 = new JPanel(); // 왼쪽 메인 이미지...가 아닌가?
 		JPanel MainPnl2 = new JPanel();
 		JPanel MainPnl3 = new JPanel();
 		JPanel MainPnl4 = new JPanel();
@@ -298,9 +298,8 @@ public class MainPage extends JFrame {
 		JPanel MyPageReservePnl = new JPanel();
 		JPanel MyPagePnl = new JPanel();
 		
-		MainPnl1.setPreferredSize(new Dimension(350, 350));
-		MainPnl4.setBounds(50, 150, 200, 200);
-
+		MainPnl1.setPreferredSize(new Dimension(600, 350));
+		
 		MainAll.setOpaque(false);
 		MainPnl1.setOpaque(false);
 		MainPnl2.setOpaque(false);
@@ -358,20 +357,15 @@ public class MainPage extends JFrame {
 		JComboBox monthComboBox = new JComboBox<>(monthCombo);
 		monthComboBox.setPreferredSize(new Dimension(50, 20));
 		
-		JButton signIn = new JButton("로그인");
-		signIn.setBackground(new Color(255, 255, 255));
-		JButton create = new JButton("회원가입");
-		JButton nonMembers = new JButton("비회원 구입");
-		create.setBackground(new Color(255, 255, 255));
-		JButton signout = new JButton("로그아웃");
-		signout.setBackground(new Color(191, 36, 40));
-		start = new JButton("로또 구매");
+		JButton signIn = new MyButton("로그인");
+		JButton create = new MyButton("회원가입");
+		JButton nonMembers = new MyButton("비회원 구입");
+		JButton signout = new MyEmphasizeButton("로그아웃");
+		start = new MyButton("로또 구매");
 		start.setBackground(new Color(127, 153, 248));
-		JButton createAccount = new JButton("회원가입");
-		createAccount.setBackground(new Color(127, 153, 248));
-		JButton createReturn = new JButton("되돌아가기");
-		createReturn.setBackground(new Color(127, 153, 248));
-		JButton chargeBtn = new JButton("충전");
+		JButton createAccount = new MyButton("회원가입");
+		JButton createReturn = new MyEmphasizeButton("되돌아가기");
+		JButton chargeBtn = new MyButton("충전");
 
 //		id = new JTextField(10);
 		id.setText("");
