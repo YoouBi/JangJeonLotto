@@ -253,13 +253,13 @@ public class MainPage extends JFrame {
 		inputAge = 20220630;
 		int ran = randomInt.nextInt(9) + 1; // 랜덤숫자 생성 1~9
 		ranMyNum = randomInt.nextInt(99999) + 1;
-		int myBankMoney = randomInt.nextInt(999) * 1000 + randomInt.nextInt(999) * 10;
+		int myBankMoney;
 		int myReserve = 0;
 		showMyBankMoney = 0;
 		
-		map.put("YoouBi", new login("YoouBi", "yoyobiii", "장영빈", 20020101, myBankMoney, 10000));
-		map.put("Inha123", new login("Inha123", "Inha123", "전인하", 20020202, myBankMoney, 20000));
-		map.put("yeriming", new login("yeriming", "yeriming", "장예림", 20020303, myBankMoney, 30000));
+		map.put("YoouBi", new login("YoouBi", "yoyobiii", "장영빈", 20020101, randomInt.nextInt(999) * 1000, 10000));
+		map.put("Inha123", new login("Inha123", "Inha123", "전인하", 20020202, randomInt.nextInt(999) * 1000, 20000));
+		map.put("yeriming", new login("yeriming", "yeriming", "장예림", 20020303, randomInt.nextInt(999) * 1000, 30000));
 		map.put("nonmember", new login("nonmember", "nonmember", "비회원", 20020404, 5000, 5000)); // 비회원용 계정
 		
 		URL imageUrl = MainPage.class.getClassLoader().getResource("images/Lotto-MainPage-Background.png");
@@ -348,7 +348,7 @@ public class MainPage extends JFrame {
 		JLabel createMonth = new JLabel("월 ");
 		JLabel createDay = new JLabel("일");
 		mypageReserve = new JLabel("보유금 : ");
-		mypageBank = new JLabel("계좌 : " + myBankMoney);
+		mypageBank = new JLabel("계좌 : ");
 
 		JCheckBox PwSee = new JCheckBox("비밀번호 보기");
 		PwSee.setOpaque(false);
@@ -591,6 +591,7 @@ public class MainPage extends JFrame {
 					JOptionPane.showMessageDialog(MainPage.this, "청소년보호법 제2조 제1호 규정에 의거\n만 19세 이하는 로또를 구입할 수 없습니다.");
 				} else {
 					JOptionPane.showMessageDialog(MainPage.this, "회원가입 되었습니다.");
+					int myBankMoney = randomInt.nextInt(999) * 1000 + randomInt.nextInt(999) * 10;
 					map.put(id, new login(id, pw, name, inputAge, myBankMoney, mylottoReserve)); // 보유금 수정!
 					createInputYear.setText("");
 					createInputDay.setText("");
