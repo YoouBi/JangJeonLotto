@@ -17,7 +17,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ToolTipManager;
 
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -38,8 +37,6 @@ public class ResultPage {
 	// 할일
 	// 1. 돌아갈 때 사용자 구입 로또 배열과 당첨번호 리셋
 	// 2. 같으면 번호 색 변경 메소드 만들기
-
-	BuyPage lottoBuy = new BuyPage();
 
 	// Random 인스턴스 생성
 	Random random = new Random();
@@ -67,7 +64,7 @@ public class ResultPage {
 	/////////////// 연습 값 담을 set/////////////////////////
 	Set<Integer> practice = new HashSet<>();
 	/////////////// 연습 값 담을 set end/////////////////////////
-	
+
 	JLabel[][] lotto = new JLabel[5][8];
 
 	private JPanel pnl;
@@ -77,8 +74,22 @@ public class ResultPage {
 		return buyLottoNumList;
 	}
 
+	// setter, getter
+
 	public void setBuyLottoNumList(List<List<Integer>> buyLottoNumList) {
 		this.buyLottoNumList = buyLottoNumList;
+	}
+
+	public int getLottoBonus() {
+		return lottoBonus;
+	}
+
+	public void setLottoBonus(int lottoBonus) {
+		this.lottoBonus = lottoBonus;
+	}
+
+	public void setLottoNum(List<Integer> lottoNum) {
+		this.lottoNum = lottoNum;
 	}
 
 	public int getTotalMoney() {
@@ -99,202 +110,211 @@ public class ResultPage {
 
 	// Result 화면 생성
 	public ResultPage() {
-//			getLottoNum();
+//		getLottoNum();
 	}
-	
+	// setter, getter 끝
+
 	public void setPanel() {
 		// 이미지 받아오기
-				Toolkit kit = Toolkit.getDefaultToolkit();
-				URL url = ResultPage.class.getClassLoader().getResource("images/critical.png");
-				ImageIcon image = new ImageIcon(kit.getImage(url).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-				
-				URL backgroundUrl = ResultPage.class.getClassLoader().getResource("images/backgroundimg.png");
-				Image background = new ImageIcon(backgroundUrl).getImage();
-				// 이미지 받아오기 끝
+		Toolkit kit = Toolkit.getDefaultToolkit();
+		URL url = ResultPage.class.getClassLoader().getResource("images/critical.png");
+		ImageIcon image = new ImageIcon(kit.getImage(url).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 
-				// pnlLottoNums 시작
-				JPanel pnlLottoNums = new JPanel();
-				JLabel lblLottoNums = new JLabel("당첨 번호");
-				pnlLottoNums.add(lblLottoNums);
-				for (int lottoNumIndex = 0; lottoNumIndex < lottoNum.size(); lottoNumIndex++) {
-					JLabel showLottoNum = new JLabel(String.valueOf(lottoNum.get(lottoNumIndex)));
-					pnlLottoNums.add(showLottoNum);
-				}
+		URL backgroundUrl = ResultPage.class.getClassLoader().getResource("images/backgroundimg.png");
+		Image background = new ImageIcon(backgroundUrl).getImage();
 
-				JLabel lblBonusNum = new JLabel("보너스 번호");
-				pnlLottoNums.add(lblBonusNum);
-				JLabel showBonusNum = new JLabel(Integer.toString(lottoBonus));
-				pnlLottoNums.add(showBonusNum);
-				// pnlLottoNums 끝
+		URL plusP = ResultPage.class.getClassLoader().getResource("images/plus.png");
+		ImageIcon plus = new ImageIcon(kit.getImage(plusP));
 
-				// underLottoNums
-				JPanel underLottoNums = new JPanel(); // lblLottoNums와 나누기 위해 만든 패널
-				
-				// printResultAll
-				JPanel printResultAll = new JPanel();
-				
-				makefield(lotto);
-				// printResult
-				JPanel printResult = new JPanel();
-				for (int i = 0; i < 5; i++) {
-					JPanel a = new JPanel();
-					printResult.add(a);
-					a.setOpaque(false);
-					for (int j = 0; j < 7; j++) {
-						a.add(lotto[i][j]);
-					}
-				}
-				// printResult 끝
-				
-				BoxLayout result = new BoxLayout(printResult, BoxLayout.Y_AXIS);
-				printResult.setLayout(result);
-				
+		URL ball7 = ResultPage.class.getClassLoader().getResource("images/ballB.png");
+		ImageIcon ballB = new ImageIcon(kit.getImage(ball7).getScaledInstance(70, 70, Image.SCALE_SMOOTH));
+		// 이미지 받아오기 끝
 
-				// printResultSame
-				JPanel printResultSame = new JPanel();
-				for (int k = 0; k < buyLottoNumList.size(); k++) {
-					JPanel a = new JPanel();
-					a.setBorder(BorderFactory.createEmptyBorder(30 , 10 , 10 , 10)); // 상하좌우 10씩 띄우기
-					a.setOpaque(false);
-					printResultSame.add(a);
-					a.add(lotto[k][7]);
-				}
-				// printResultSame 끝
-				
-				
-				
-				BoxLayout resultSame = new BoxLayout(printResultSame, BoxLayout.Y_AXIS);
-				printResultSame.setLayout(resultSame);
-				
-				
-				printResultAll.add(printResult);
-				printResultAll.add(printResultSame);
-				// printResultAll 끝
-				
-				
-			
+		// pnlLottoNums 시작
+		JPanel pnlLottoNums = new JPanel();
+		JLabel lblLottoNums = new JLabel("당첨 번호");
+		lblLottoNums.setFont(new Font("돋움", Font.BOLD, 20));
+		pnlLottoNums.add(lblLottoNums);
 
-				// pnlBuyNums
-				for (int i=0; i < buyLottoNumList.size(); i++) {
-					for(int j=1; j < buyLottoNumList.get(0).size()+1; j++) {
-						lotto[i][j].setText(String.valueOf(buyLottoNumList.get(i).get(j - 1)));
-						lotto[i][j].setForeground(Color.white);
-						
-						lotto[i][j].setHorizontalTextPosition(JLabel.CENTER);
-					}
-				}
-				// pnlBuyNums 끝
+		URL[] urlAll = new URL[6];
+		JLabel showLottoNum[] = new JLabel[6];
+		for (int i = 0; i < urlAll.length; i++) {
 
-				// others (당첨번호, 내 선택번호 제외 부가적인 것들)
-				JPanel others = new JPanel();
+			urlAll[i] = ResultPage.class.getClassLoader().getResource("images/ball" + (i + 1) + ".png");
+			ImageIcon imageIcon = new ImageIcon(kit.getImage(urlAll[i]).getScaledInstance(70, 70, Image.SCALE_SMOOTH));
+			showLottoNum[i] = new JLabel((ImageIcon) imageIcon);
+			showLottoNum[i].setText(String.valueOf(lottoNum.get(i)));
+			showLottoNum[i].setHorizontalTextPosition(JLabel.CENTER);
+			showLottoNum[i].setFont(new Font("Serif", Font.BOLD, 20));
+			pnlLottoNums.add(showLottoNum[i]);
+		}
 
-				JLabel info = new JLabel(image);
-				info.setToolTipText("<html><p>"
-						+ "당첨금 분배 방식 <br> [1등] 6개 번호 일치 : 총 당첨금 중 4등, 5등 금액을 제외한 금액의 75% <br> [2등] 5개 번호 일치 + 보너스 번호 일치 : 총 당첨금 중 4등, 5등 금액을 제외한 금액의 12.5% <br> [3등] 5개 번호 일치 : 총 당첨금 중 4등, 5등 금액을 제외한 금액의 12.5% <br> [4등] 4개 번호 일치 : 50,000원 <br> [5등] 3개 번호 일치: 5,000원 "
-						+ "</p></html>");
-				ToolTipManager m = ToolTipManager.sharedInstance(); // 툴팁 여는 시간 조정 위해 객체 생성
-				m.setInitialDelay(0); // 초기 툴팁 출력 지연시간 0초 설정
-				JLabel price = new JLabel("당첨 총 금액: " + String.valueOf(totalMoney));
-				nextBtn = new JButton("다음 회차");
+		JLabel lblPlus = new JLabel(plus);
+		pnlLottoNums.add(lblPlus);
 
-				others.add(info);
-				others.add(price);
-				others.add(nextBtn);
-				// others 끝
+		JLabel lblBonusNum = new JLabel(ballB);
+		lblBonusNum.setText(String.valueOf(lottoBonus));
+		lblBonusNum.setHorizontalTextPosition(JLabel.CENTER);
+		lblBonusNum.setFont(new Font("Serif", Font.BOLD, 20));
+		pnlLottoNums.add(lblBonusNum);
 
+		pnlLottoNums.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
+		// pnlLottoNums 끝
 
-				underLottoNums.add(printResultAll);
-				underLottoNums.add(others);
-				// underLottoNums 끝
-				
-				BoxLayout underLottoNumsY = new BoxLayout(underLottoNums, BoxLayout.Y_AXIS);
-				underLottoNums.setLayout(underLottoNumsY);
+		// underLottoNums
+		JPanel underLottoNums = new JPanel(); // lblLottoNums와 나누기 위해 만든 패널
 
-				// pnl 전체 담을 패널
-				pnl = new JPanel(){
-				      public void paintComponent(Graphics g) {
-				          g.drawImage(background, 0, 0, null);
-				          setOpaque(false);
-				       }
-				    };
-				pnl.add(pnlLottoNums);
-				pnl.add(underLottoNums);
-				// pnl 끝
-				
-				
-				BoxLayout pnlY = new BoxLayout(pnl, BoxLayout.Y_AXIS);
-				pnl.setLayout(pnlY);
+		// printResultAll
+		JPanel printResultAll = new JPanel();
 
-				
+		makefield(lotto);
+		// printResult
+		JPanel printResult = new JPanel();
+		for (int i = 0; i < 5; i++) {
+			JPanel a = new JPanel();
+			printResult.add(a);
+			a.setOpaque(false);
+			for (int j = 0; j < 7; j++) {
+				a.add(lotto[i][j]);
+			}
+		}
+		// printResult 끝
 
-				// 디자인
-				pnl.setOpaque(false);
-				pnlLottoNums.setOpaque(false); // 배경 색을 따라가도록
-				underLottoNums.setOpaque(false);
-				printResult.setOpaque(false);
-				printResultAll.setOpaque(false);
-				printResultSame.setOpaque(false);
-				others.setOpaque(false);
-				price.setFont(new Font("굴림", Font.PLAIN, 20));
-				lblLottoNums.setFont(new Font("굴림", Font.PLAIN, 20));
-				
-				
-				
-				// 디자인 끝
-				
-				changeColor(lotto);
+		BoxLayout result = new BoxLayout(printResult, BoxLayout.Y_AXIS);
+		printResult.setLayout(result);
+
+		// printResultSame
+		JPanel printResultSame = new JPanel();
+		for (int k = 0; k < buyLottoNumList.size(); k++) {
+			JPanel a = new JPanel();
+			a.setBorder(BorderFactory.createEmptyBorder(30, 10, 10, 10)); // 상하좌우 10씩 띄우기
+			a.setOpaque(false);
+			printResultSame.add(a);
+			a.add(lotto[k][7]);
+		}
+		// printResultSame 끝
+
+		BoxLayout resultSame = new BoxLayout(printResultSame, BoxLayout.Y_AXIS);
+		printResultSame.setLayout(resultSame);
+
+		printResultAll.add(printResult);
+		printResultAll.add(printResultSame);
+		// printResultAll 끝
+
+		// pnlBuyNums
+		for (int i = 0; i < buyLottoNumList.size(); i++) {
+			for (int j = 1; j < buyLottoNumList.get(0).size() + 1; j++) {
+				lotto[i][j].setText(String.valueOf(buyLottoNumList.get(i).get(j - 1)));
+				lotto[i][j].setForeground(Color.white);
+
+				lotto[i][j].setHorizontalTextPosition(JLabel.CENTER);
+			}
+		}
+		// pnlBuyNums 끝
+
+		// others (당첨번호, 내 선택번호 제외 부가적인 것들)
+		JPanel others = new JPanel();
+
+		JLabel info = new JLabel(image);
+		info.setToolTipText("<html><p>"
+				+ "당첨금 분배 방식 <br> [1등] 6개 번호 일치 : 총 당첨금 중 4등, 5등 금액을 제외한 금액의 75% <br> [2등] 5개 번호 일치 + 보너스 번호 일치 : 총 당첨금 중 4등, 5등 금액을 제외한 금액의 12.5% <br> [3등] 5개 번호 일치 : 총 당첨금 중 4등, 5등 금액을 제외한 금액의 12.5% <br> [4등] 4개 번호 일치 : 50,000원 <br> [5등] 3개 번호 일치: 5,000원 "
+				+ "</p></html>");
+		ToolTipManager m = ToolTipManager.sharedInstance(); // 툴팁 여는 시간 조정 위해 객체 생성
+		m.setInitialDelay(0); // 초기 툴팁 출력 지연시간 0초 설정
+		JLabel price = new JLabel("당첨 총 금액: " + String.valueOf(totalMoney));
+		nextBtn = new MyEmphasizeButton("다음 회차");
+
+		others.add(info);
+		others.add(price);
+		others.add(nextBtn);
+		// others 끝
+
+		underLottoNums.add(printResultAll);
+		underLottoNums.add(others);
+		// underLottoNums 끝
+
+		BoxLayout underLottoNumsY = new BoxLayout(underLottoNums, BoxLayout.Y_AXIS);
+		underLottoNums.setLayout(underLottoNumsY);
+
+		// pnl 전체 담을 패널
+		pnl = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(background, 0, 0, null);
+				setOpaque(false);
+			}
+		};
+		pnl.add(pnlLottoNums);
+		pnl.add(underLottoNums);
+		// pnl 끝
+
+		BoxLayout pnlY = new BoxLayout(pnl, BoxLayout.Y_AXIS);
+		pnl.setLayout(pnlY);
+
+		// 디자인
+		pnl.setOpaque(false);
+		pnlLottoNums.setOpaque(false); // 배경 색을 따라가도록
+		underLottoNums.setOpaque(false);
+		printResult.setOpaque(false);
+		printResultAll.setOpaque(false);
+		printResultSame.setOpaque(false);
+		others.setOpaque(false);
+		price.setFont(new Font("굴림", Font.PLAIN, 20));
+		lblLottoNums.setFont(new Font("굴림", Font.PLAIN, 20));
+
+		// 디자인 끝
+
+		changeColor(lotto);
 	}
 
 	// J라벨 35개 만드는 메소드
-		public void makefield(JLabel[][] lotto) {
-			Font cardFont = new Font("Serif", Font.BOLD, 25);
-			Toolkit kit = Toolkit.getDefaultToolkit();
-			URL cardS = ResultPage.class.getClassLoader().getResource("images/card_spade.png");
-			URL cardH = ResultPage.class.getClassLoader().getResource("images/card_heart.png");
-			URL cardC = ResultPage.class.getClassLoader().getResource("images/card_clover.png");
-			URL cardD = ResultPage.class.getClassLoader().getResource("images/card_diamond.png");
-			
-			ImageIcon cardSpade = new ImageIcon(kit.getImage(cardS));
-			ImageIcon cardHeart = new ImageIcon(kit.getImage(cardH));
-			ImageIcon cardClover = new ImageIcon(kit.getImage(cardC));
-			ImageIcon cardDiamond = new ImageIcon(kit.getImage(cardD));
-			
-			for (int i = 0; i < 5; i++) {
-				lotto[i][0] = new JLabel(String.valueOf(i + 1));
-				for (int j = 1; j < 7; j++) {
-					lotto[0][j] = new JLabel(cardSpade); // 0*6
-					lotto[0][j].setFont(cardFont);
-					lotto[1][j] = new JLabel(cardHeart); // 0*6
-					lotto[1][j].setFont(cardFont);
-					lotto[2][j] = new JLabel(cardClover); // 0*6
-					lotto[2][j].setFont(cardFont);
-					lotto[3][j] = new JLabel(cardDiamond); // 0*6
-					lotto[3][j].setFont(cardFont);
-					lotto[4][j] = new JLabel(cardSpade); // 0*6
-					lotto[4][j].setFont(cardFont);
-		 		}
-			}
-			for (int i = 0; i < buyLottoNumList.size(); i++) {
-					lotto[i][7] = new JLabel(ranking.get(i));
+	public void makefield(JLabel[][] lotto) {
+		Font cardFont = new Font("Serif", Font.BOLD, 25);
+		Toolkit kit = Toolkit.getDefaultToolkit();
+		URL cardS = ResultPage.class.getClassLoader().getResource("images/card_spade.png");
+		URL cardH = ResultPage.class.getClassLoader().getResource("images/card_heart.png");
+		URL cardC = ResultPage.class.getClassLoader().getResource("images/card_clover.png");
+		URL cardD = ResultPage.class.getClassLoader().getResource("images/card_diamond.png");
+
+		ImageIcon cardSpade = new ImageIcon(kit.getImage(cardS));
+		ImageIcon cardHeart = new ImageIcon(kit.getImage(cardH));
+		ImageIcon cardClover = new ImageIcon(kit.getImage(cardC));
+		ImageIcon cardDiamond = new ImageIcon(kit.getImage(cardD));
+
+		for (int i = 0; i < 5; i++) {
+			lotto[i][0] = new JLabel(String.valueOf(i + 1));
+			for (int j = 1; j < 7; j++) {
+				lotto[0][j] = new JLabel(cardSpade); // 0*6
+				lotto[0][j].setFont(cardFont);
+				lotto[1][j] = new JLabel(cardHeart); // 0*6
+				lotto[1][j].setFont(cardFont);
+				lotto[2][j] = new JLabel(cardClover); // 0*6
+				lotto[2][j].setFont(cardFont);
+				lotto[3][j] = new JLabel(cardDiamond); // 0*6
+				lotto[3][j].setFont(cardFont);
+				lotto[4][j] = new JLabel(cardSpade); // 0*6
+				lotto[4][j].setFont(cardFont);
 			}
 		}
+		for (int i = 0; i < buyLottoNumList.size(); i++) {
+			lotto[i][7] = new JLabel(ranking.get(i));
+		}
+	}
 
-		// 카드패널 색 변경 메소드
-		public void changeColor(JLabel[][] lotto) {
-			Font cardFontnone = new Font("Serif", Font.BOLD, 15);
-			for(int i = 0; i < sameList.size(); i++) {
-				for(int j = 0; j < sameList.get(i).size(); j++) {
-					if(sameList.get(i).get(j).equals("다름")) {
-						lotto[i][j + 1].setForeground(new Color (107,106,105));
-						lotto[i][j + 1].setFont(cardFontnone);
-					} else if(sameList.get(i).get(j).equals("보너스 번호 당첨!")) {
-						lotto[i][j + 1].setForeground(new Color (221, 168, 81));
-					}
+	// 카드패널 색 변경 메소드
+	public void changeColor(JLabel[][] lotto) {
+		Font cardFontnone = new Font("Serif", Font.BOLD, 15);
+		for (int i = 0; i < sameList.size(); i++) {
+			for (int j = 0; j < sameList.get(i).size(); j++) {
+				if (sameList.get(i).get(j).equals("다름")) {
+					lotto[i][j + 1].setForeground(new Color(107, 106, 105));
+					lotto[i][j + 1].setFont(cardFontnone);
+				} else if (sameList.get(i).get(j).equals("보너스 번호 당첨!")) {
+					lotto[i][j + 1].setForeground(new Color(221, 168, 81));
 				}
 			}
 		}
-		
-		
+	}
+
 	// 당첨번호 만드는 메소드
 	public void getLottoNum() {
 		// 로또 당첨 번호(중복x) 출력 Set
@@ -354,7 +374,7 @@ public class ResultPage {
 			buyLottoNumList.add(buyLottoNum);
 //			System.out.println(buyLottoNum);
 		}
-		buyLottoNumList.add(lottoNum);
+//		buyLottoNumList.add(lottoNum);
 		System.out.println("연습할 이중 배열 출력" + buyLottoNum);
 	}
 ////////////////////////////////// 연습 list 배열에 6개의 값 담기 end/////////////////////////
@@ -368,7 +388,7 @@ public class ResultPage {
 		Integer buyLottoRandom = 0; // 내가 선택한 숫자 6개 배열 중 1개의 숫자 담을 변수
 		Integer lottoRandom = 0; // 로또 당첨 번호 1개의 숫자 담을 변수
 		sameList = new ArrayList<>();
-		
+
 		for (int buyListIndex = 0; buyListIndex < buyLottoNumList.size(); buyListIndex++) {
 			same = new ArrayList<>();
 //			for (int buyNumIndex = 0; buyNumIndex < buyLottoNum.size(); buyNumIndex++) {
@@ -478,7 +498,7 @@ public class ResultPage {
 	public void getMoney() {
 		int winningMoney;
 		// 1. totalMoney 당첨분 금액으로 설정하기
-		totalMoney = (totalMoney + (1000 * buyLottoNumList.size())) / 2;
+		totalMoney = (totalMoney + (1000 * buyLottoNumList.size()));
 		System.out.println("당첨분 총 금액: " + totalMoney);
 
 		// 5등 당첨 횟수 -> 1, 2, 3등 계산에서 사용
