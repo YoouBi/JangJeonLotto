@@ -93,9 +93,16 @@ public class MainManager extends JFrame {
 						results.getLottoNum();
 
 						JPanel re = results.getPnl();
+				
 						JButton btn3 = results.getNextBtn();
 						btn3.addActionListener(nextBtn);
+						System.out.println("여기선 몇 개?" + center.getComponentCount());
+						if(center.getComponentCount() == 3) {
+							center.remove(2);
+							System.out.println("요기는?" + center.getComponentCount());
+						}
 						center.add(re, "C");
+						System.out.println("카드레이아웃 몇개?" + center.getComponentCount());
 						layout.next(center);
 						}
 					}
