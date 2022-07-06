@@ -110,7 +110,7 @@ public class ResultPage {
 
 	// Result 화면 생성
 	public ResultPage() {
-		getLottoNum();
+//		getLottoNum();
 	}
 	// setter, getter 끝
 
@@ -345,7 +345,7 @@ public class ResultPage {
 		}
 		System.out.println("보너스 값: " + lottoBonus);
 		System.out.println("LottoNum에 들어가써?" + lottoNum);
-		getBuyLottoNum();
+//		getBuyLottoNum();
 //		getNumberPractice();
 		compareLottoNum();
 	}
