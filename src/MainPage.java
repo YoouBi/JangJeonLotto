@@ -251,7 +251,6 @@ public class MainPage extends JFrame {
 		inputMonth = 0;
 		inputDay = 0;
 		inputAge = 20220630;
-		int ran = randomInt.nextInt(9) + 1; // 랜덤숫자 생성 1~9
 		ranMyNum = randomInt.nextInt(99999) + 1;
 		int myBankMoney;
 		int myReserve = 0;
