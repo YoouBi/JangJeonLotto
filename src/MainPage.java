@@ -166,7 +166,7 @@ class MoneyChargeWindow extends JDialog { // 충전 페이지
 
 public class MainPage extends JFrame {
 	private JPanel Mainppp;
-	private JButton start;
+	private JButton nextBtn;
 	
 	private int totalLotteWinnings = 300000000;
 	
@@ -188,8 +188,8 @@ public class MainPage extends JFrame {
 	public JPanel getPnl() {
 		return Mainppp;
 	}
-	public JButton getStart() {
-		return start;
+	public JButton getNextBtn() {
+		return nextBtn;
 	}
 	
 	public int getTotalLotteWinnings() {
@@ -367,8 +367,8 @@ public class MainPage extends JFrame {
 		JButton create = new MyButton("회원가입");
 		JButton nonMembers = new MyButton("비회원 구입");
 		JButton signout = new MyEmphasizeButton("로그아웃");
-		start = new MyButton("로또 구매");
-		start.setBackground(new Color(127, 153, 248));
+		nextBtn = new MyButton("로또 구매");
+		nextBtn.setBackground(new Color(127, 153, 248));
 		JButton createAccount = new MyButton("회원가입");
 		JButton createReturn = new MyEmphasizeButton("되돌아가기");
 		JButton chargeBtn = new MyButton("충전");
@@ -459,11 +459,14 @@ public class MainPage extends JFrame {
 						+ "로또 당첨 시, 개인고유번호를 지참하셔야 당첨금을 받을 수 있습니다.\n\n"
 						+ "개인고유번호 : " + String.format("%06d", ranMyNum));
 				stringName.setText("비회원 페이지입니다!");
+				
+				id.setText("nonmember");
 				showMyBankMoney = (((login) map.get("nonmember")).getBankReserve());
 				mylottoReserve = (((login) map.get("nonmember")).getLottoReserve());
 				mypageBank.setText("계좌 : ∞");
 				mypageReserve.setText("보유금 : " + mylottoReserve);
-				cardLogIn.show(MainPnlLogIn, "MyPage");
+				
+				nextBtn.doClick();
 			}
 		});
 
@@ -654,7 +657,7 @@ public class MainPage extends JFrame {
 		MyPagePnl.add(mypageBank);
 		MyPagePnl.add(MyPageReservePnl);
 		MyPagePnl.add(signout);
-		MyPagePnl.add(start);
+		MyPagePnl.add(nextBtn);
 		MyPageReservePnl.add(mypageReserve);
 		MyPageReservePnl.add(chargeBtn);
 		

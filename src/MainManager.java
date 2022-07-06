@@ -22,7 +22,7 @@ public class MainManager extends JFrame {
 	JPanel mp = mainPage.getPnl();
 	JPanel lb = buyPage.getPnl();
 
-	JButton btn1 = mainPage.getStart(); // 여기버튼이거맞아??
+	JButton btn1 = mainPage.getNextBtn(); // 여기버튼이거맞아??
 	JButton btn2 = buyPage.getNextBtn();
 	JButton logoutBtn = buyPage.getLogout();
 	JButton myPageBtn = buyPage.getMypage();
@@ -95,6 +95,10 @@ public class MainManager extends JFrame {
 						mainPage.setTotalLotteWinnings(resultPage.getTotalMoney());
 						mainPage.setTotalLotteWinnings(resultPage.getTotalMoney());
 						mainPage.getLottoTotalMoney().setText("당첨금 " + resultPage.getTotalMoney() + "원!!!");
+						if(((login) mainPage.getMap().get(mainPage.getId().getText())).equals("nonmember")) {
+							((login) mainPage.getMap().get(mainPage.getId().getText())).setLottoReserve(5000);
+							mainPage.getId().setText("");
+						}
 						
 						JPanel re = resultPage.getPnl();
 				
