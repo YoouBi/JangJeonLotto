@@ -269,8 +269,8 @@ public class MainPage extends JFrame {
 		map.put("nonmember", new login("nonmember", "nonmember", "비회원", 20020404, 5000, 5000)); // 비회원용 계정
 		
 		URL imageUrl = MainPage.class.getClassLoader().getResource("images/Lotto-MainPage-Background.png");
-		ImageIcon icon = new ImageIcon(kit.getImage(imageUrl));
-		//.getScaledInstance(350, 350, Image.SCALE_SMOOTH)
+		ImageIcon icon = new ImageIcon(kit.getImage(imageUrl).getScaledInstance(885, 565, Image.SCALE_SMOOTH));
+//		.getScaledInstance(350, 350, Image.SCALE_SMOOTH);
 		
 		Mainppp = new JPanel(new BorderLayout()) {
 			 public void paintComponent(Graphics g) {
@@ -632,13 +632,13 @@ public class MainPage extends JFrame {
 		
 		MainAll.add(MainPnl1);
 		MainAll.add(MainPnlLogIn);
-		MainPnl1.add(lottoTotalMoney);
 
 		MainPnlLogIn.add(MainPnlLogInPage, "LogIn");
 		MainPnlLogIn.add(MainPnlMyPage, "MyPage");
 		MainPnlLogIn.add(MainPnlCreatePage, "CreatePage");
 		
 		MainPnlLogInPage.add(MainPnl4);
+		MainPnl4.add(lottoTotalMoney);
 		MainPnl4.add(MainPnl2);
 		MainPnl4.add(MainPnl3);
 		MainPnl4.add(nonMembers);
