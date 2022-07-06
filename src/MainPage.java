@@ -202,6 +202,14 @@ public class MainPage extends JFrame {
 		this.map = map;
 	}
 
+	public int getShowMyBankMoney() {
+		return showMyBankMoney;
+	}
+
+	public void setShowMyBankMoney(int showMyBankMoney) {
+		this.showMyBankMoney = showMyBankMoney;
+	}
+
 	public int getMylottoReserve() {
 		return mylottoReserve;
 	}
@@ -242,9 +250,10 @@ public class MainPage extends JFrame {
 		int myReserve = 0;
 		showMyBankMoney = 0;
 		
-		map.put("YoouBi", new login("YoouBi", "yoyobiii", "장영빈", 20020101, myBankMoney, 10000)); //
+		map.put("YoouBi", new login("YoouBi", "yoyobiii", "장영빈", 20020101, myBankMoney, 10000));
 		map.put("Inha123", new login("Inha123", "Inha123", "전인하", 20020202, myBankMoney, 20000));
 		map.put("yeriming", new login("yeriming", "yeriming", "장예림", 20020303, myBankMoney, 30000));
+		map.put("비회원", new login("비회원", "비회원", "비회원", 20020303, myBankMoney, 30000)); // 비회원용 계정
 		
 		URL imageUrl = MainPage.class.getClassLoader().getResource("images/Lotto-MainPage-Background.png");
 		ImageIcon icon = new ImageIcon(kit.getImage(imageUrl));
@@ -345,6 +354,7 @@ public class MainPage extends JFrame {
 		JButton signIn = new JButton("로그인");
 		signIn.setBackground(new Color(255, 255, 255));
 		JButton create = new JButton("회원가입");
+		JButton nonMembers = new JButton("비회원 구입");
 		create.setBackground(new Color(255, 255, 255));
 		JButton signout = new JButton("로그아웃");
 		signout.setBackground(new Color(255, 255, 255));
@@ -354,7 +364,7 @@ public class MainPage extends JFrame {
 		createAccount.setBackground(new Color(127, 153, 248));
 		JButton createReturn = new JButton("되돌아가기");
 		createReturn.setBackground(new Color(127, 153, 248));
-		JButton ChargeBtn = new JButton("충전");
+		JButton chargeBtn = new JButton("충전");
 
 		id = new JTextField(10);
 		id.setText("");
@@ -431,6 +441,13 @@ public class MainPage extends JFrame {
 				createInputPw.setText("");
 				createInputPwConfirm.setText("");
 				createInputName.setText("");
+			}
+		});
+		
+		nonMembers.addActionListener(new ActionListener() { // 비회원 구입
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
 			}
 		});
 
@@ -586,7 +603,7 @@ public class MainPage extends JFrame {
 			}
 		});
 		
-		ChargeBtn.addActionListener(new ActionListener() {	// 보유금 충전 버튼
+		chargeBtn.addActionListener(new ActionListener() {	// 보유금 충전 버튼
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				MoneyChargeWindow dialog = new MoneyChargeWindow(MainPage.this);
@@ -622,7 +639,7 @@ public class MainPage extends JFrame {
 		MyPagePnl.add(signout);
 		MyPagePnl.add(start);
 		MyPageReservePnl.add(mypageReserve);
-		MyPageReservePnl.add(ChargeBtn);
+		MyPageReservePnl.add(chargeBtn);
 		
 		MainPnlCreatePage.add(CreatePageIdPnl);
 		MainPnlCreatePage.add(createIdCheck);
