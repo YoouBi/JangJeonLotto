@@ -69,14 +69,14 @@ public class MainManager extends JFrame {
 									"로또 값 확인", JOptionPane.OK_CANCEL_OPTION);
 
 					if (result == JOptionPane.OK_OPTION) {
-						int accountMoney = mainPage.getMylottoReserve();
+						int accountMoney = ((login) mainPage.getMap().get(mainPage.getId().getText())).getLottoReserve();
 						
 						if (accountMoney<buyPage.getLottoNumCount() * 1000) {	// 보유금 처리
-						JOptionPane.showMessageDialog(null, "보유금이 부족하여 로또를 구매할 수 없습니다.");
+							JOptionPane.showMessageDialog(null, "보유금이 부족하여 로또를 구매할 수 없습니다.");
 						} else {
-						int remainingReserve = accountMoney-(buyPage.getLottoNumCount() * 1000);
-						mainPage.setMylottoReserve(remainingReserve);
-						(mainPage.getMypageReserve()).setText("보유금 : " + remainingReserve); // 라벨의 텍스트
+							int remainingReserve = accountMoney-(buyPage.getLottoNumCount() * 1000);
+							((login) mainPage.getMap().get(mainPage.getId().getText())).setLottoReserve(remainingReserve);
+							(mainPage.getMypageReserve()).setText("보유금 : " + remainingReserve); // 라벨의 텍스트
 					
 						// 이후는 배열 넘겨주고 넘겨받는 부분
 						// Iterator로 배열 정리
@@ -91,6 +91,8 @@ public class MainManager extends JFrame {
 						resultPage.setBuyLottoNumList(buyLotto);
 						resultPage.setTotalMoney(mainPage.getTotalLotteWinnings());
 						resultPage.getLottoNum();
+						System.out.println(resultPage.getTotalMoney());
+						mainPage.setTotalLotteWinnings(resultPage.getTotalMoney());
 						mainPage.setTotalLotteWinnings(resultPage.getTotalMoney());
 						
 						JPanel re = resultPage.getPnl();

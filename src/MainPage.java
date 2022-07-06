@@ -133,17 +133,18 @@ class MoneyChargeWindow extends JDialog { // 충전 페이지
 			public void actionPerformed(ActionEvent e) {
 				int reserveInput = Integer.valueOf(getCharge()); // 충전금
 //// 				맵 가져온거에서 로그인 되어있는 정보만 바꾸기...
-				int bank = ((login) mainpage.getMap().get(mainpage.getId().getText())).getBankReserve();
-				int reserve = ((login) mainpage.getMap().get(mainpage.getId().getText())).getLottoReserve();
+				int bankInt = ((login) mainpage.getMap().get(mainpage.getId().getText())).getBankReserve() - reserveInput;
+				int reserveInt = ((login) mainpage.getMap().get(mainpage.getId().getText())).getLottoReserve() + reserveInput;
 				
-				if(bank - reserveInput >= 0) {
-					((login) mainpage.getMap().get(mainpage.getId().getText())).setBankReserve(bank - reserveInput); // 은행 잔고에서 충전금 빼기
-					((login) mainpage.getMap().get(mainpage.getId().getText())).setLottoReserve(reserve + reserveInput); // 보유금 충전
+				if(bankInt - reserveInput >= 0) {
+					((login) mainpage.getMap().get(mainpage.getId().getText())).setBankReserve(bankInt); // 은행 잔고에서 충전금 빼기
+					((login) mainpage.getMap().get(mainpage.getId().getText())).setLottoReserve(reserveInt); // 보유금 충전
 				
-					mainpage.getMypageBank().setText("계좌 : " + (bank - reserveInput));
-					mainpage.getMypageReserve().setText("보유금 : " + (reserve + reserveInput));
-							
-					dispose(); // setVisible(false) 랑 크게 다르지 않음
+					mainpage.getMypageBank().setText("계좌 : " + bankInt);
+					mainpage.getMypageReserve().setText("보유금 : " + reserveInt);
+					mainpage.setMylottoReserve(mainpage.getMylottoReserve() - reserveInput);
+					
+					dispose();
 				} else {
 					JOptionPane.showMessageDialog(MoneyChargeWindow.this, "계좌의 잔액이 부족합니다.");
 				}
@@ -176,7 +177,7 @@ public class MainPage extends JFrame {
 	private int inputDay;
 	private int inputAge;
 	private int showMyBankMoney;
-	private int mylottoReserve = 0;
+	private int mylottoReserve = 0; // 현재 내 보유금
 	
 	private JTextField id = new JTextField(10); // 로그인 필드
 	private int ranMyNum;
@@ -186,7 +187,6 @@ public class MainPage extends JFrame {
 	public JPanel getPnl() {
 		return Mainppp;
 	}
-
 	public JButton getStart() {
 		return start;
 	}
