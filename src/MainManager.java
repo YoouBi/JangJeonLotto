@@ -129,6 +129,7 @@ public class MainManager extends JFrame {
 					mainPage.setId("");
 				}
 				layout.previous(center);
+				mainPage.getSignout().doClick();
 				// TODO 로그아웃 메소드 이거영빈언니에게부탁해...
 			}
 		};

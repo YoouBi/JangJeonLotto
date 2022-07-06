@@ -184,6 +184,7 @@ public class MainPage extends JFrame {
 	private JLabel mypageBank;
 	private JLabel mypageReserve;
 	private JLabel lottoTotalMoney;
+	private JButton signout;
 
 	public JPanel getPnl() {
 		return Mainppp;
@@ -200,6 +201,9 @@ public class MainPage extends JFrame {
 		this.totalLotteWinnings = totalLotteWinnings;
 	}
 	
+	public JButton getSignout() {
+		return signout;
+	}
 	public JLabel getLottoTotalMoney() {
 		return lottoTotalMoney;
 	}
@@ -366,7 +370,7 @@ public class MainPage extends JFrame {
 		JButton signIn = new MyButton("로그인");
 		JButton create = new MyButton("회원가입");
 		JButton nonMembers = new MyButton("비회원 구입");
-		JButton signout = new MyEmphasizeButton("로그아웃");
+		signout = new MyEmphasizeButton("로그아웃");
 		nextBtn = new MyButton("로또 구매");
 		nextBtn.setBackground(new Color(127, 153, 248));
 		JButton createAccount = new MyButton("회원가입");
