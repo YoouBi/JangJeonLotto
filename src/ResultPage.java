@@ -346,7 +346,6 @@ public class ResultPage {
 		}
 		for (int i = 0; i < buyLottoNumList.size(); i++) {
 			lotto[i][7] = new JLabel(ranking.get(i));
-//			lotto[i][7].setHorizontalTextPosition(JLabel.CENTER);
 		}
 	}
 
@@ -394,7 +393,7 @@ public class ResultPage {
 //		getNumberPractice();
 		compareLottoNum();
 	}
-
+///////////////////////////// 연습 list 배열에 6개의 값 담기 /////////////////////////
 	// 내가 구매한 로또 5회(5000원) 구하는 메소드
 	public void getBuyLottoNum() {
 		for (int j = 0; j < 4; j++) {
@@ -410,7 +409,7 @@ public class ResultPage {
 		}
 	}
 
-///////////////////////////// 연습 list 배열에 6개의 값 담기 /////////////////////////
+	// 1등 당첨 나오는 메소드
 	public void getNumberPractice() {
 		for (int j = 0; j < 4; j++) {
 			buyLottoNum = new ArrayList<>();
@@ -484,18 +483,7 @@ public class ResultPage {
 		int countB = 0; // 보너스 번호 당첨 여부
 		// ranking 배열 길이 설정(필드에서 설정시 buyLottoNumList에 값 x라서 0으로 나옴)
 		ranking = new ArrayList<>();
-//////////////////////////////////////배열일 때 비교 메소드 Start////////////////////////////////////////////
-//		for (int sameArrayIndex = 0; sameArrayIndex < sameList.size(); sameArrayIndex++) {
-//			for (int sameIndex = 0; sameIndex < same.size(); sameIndex++) {
-//				if (sameList[sameArrayIndex][sameIndex].equals("다름")) {
-//					countD++;
-//				} else if (sameList[sameArrayIndex][sameIndex].equals("보너스 번호 당첨!")) {
-//					countB++;
-//				}
-//			}
-//		}
-//////////////////////////////////////배열일 때 비교 메소드 end////////////////////////////////////////////
-
+		
 		for (int rankingIndex = 0; rankingIndex < sameList.size(); rankingIndex++) {
 			countD = Collections.frequency(sameList.get(rankingIndex), "다름");
 			countB = Collections.frequency(sameList.get(rankingIndex), "보너스 번호 당첨!");
