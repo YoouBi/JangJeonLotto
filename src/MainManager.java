@@ -1,5 +1,5 @@
 import java.awt.CardLayout;
-
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -146,6 +146,7 @@ public class MainManager extends JFrame {
 		myPageBtn.addActionListener(letsGoMP);
 
 		setSize(900, 600);
+		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 	}
