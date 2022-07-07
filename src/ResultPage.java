@@ -258,7 +258,7 @@ public class ResultPage {
 		ToolTipManager m = ToolTipManager.sharedInstance(); // 툴팁 여는 시간 조정 위해 객체 생성
 		m.setInitialDelay(0); // 초기 툴팁 출력 지연시간 0초 설정
 		JLabel winningPrice = new JLabel("당첨금 수령액: " + String.valueOf(winningTotal)+"   ");
-		JLabel price = new JLabel("당첨 총 금액: " + String.valueOf(totalMoney));
+		JLabel price = new JLabel("당첨 총 금액: " + String.valueOf(totalMoney / 2));
 		nextBtn = new MyEmphasizeButton("다음 회차");
 
 		others.add(info);
