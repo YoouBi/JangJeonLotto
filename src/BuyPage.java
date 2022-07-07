@@ -243,7 +243,7 @@ public class BuyPage extends JFrame {
 	URL btnCP = BuyPage.class.getClassLoader().getResource("images/copypaste_Btn.png");
 	URL btnDelNon = BuyPage.class.getClassLoader().getResource("images/delete_Btn_nonuse.png");
 	URL btnCPNon = BuyPage.class.getClassLoader().getResource("images/copypaste_Btn_nonuse.png");
-	URL opUB = BuyPage.class.getClassLoader().getResource("images/Option_UnderBar.png");
+	URL opUB = BuyPage.class.getClassLoader().getResource("images/Option_underBar.png");
 	URL opNone = BuyPage.class.getClassLoader().getResource("images/Option_None.png");
 
 	ImageIcon backImg = new ImageIcon(kit.getImage(cardBack));

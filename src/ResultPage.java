@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.ToolTipManager;
 
 import java.awt.Color;
@@ -27,6 +28,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.URL;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.SpringLayout;
 
 public class ResultPage {
 	// 6/30 : 넘겨받는 배열 타입에 따라 메소드 전반적 변경
@@ -87,7 +92,10 @@ public class ResultPage {
 	public void setLottoBonus(int lottoBonus) {
 		this.lottoBonus = lottoBonus;
 	}
-
+	
+	public List<Integer> getLottoNums() {
+		return lottoNum;
+	}
 	public void setLottoNum(List<Integer> lottoNum) {
 		this.lottoNum = lottoNum;
 	}
@@ -120,7 +128,7 @@ public class ResultPage {
 		URL url = ResultPage.class.getClassLoader().getResource("images/critical.png");
 		ImageIcon image = new ImageIcon(kit.getImage(url).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 
-		URL backgroundUrl = ResultPage.class.getClassLoader().getResource("images/backgroundimg.png");
+		URL backgroundUrl = ResultPage.class.getClassLoader().getResource("images/background3.png");
 		Image background = new ImageIcon(backgroundUrl).getImage();
 
 		URL plusP = ResultPage.class.getClassLoader().getResource("images/plus.png");
@@ -131,12 +139,20 @@ public class ResultPage {
 		
 		URL backCard = ResultPage.class.getClassLoader().getResource("images/card_back.png");
 		ImageIcon cardBack = new ImageIcon(kit.getImage(backCard));
+		
+		URL bombUrl = ResultPage.class.getClassLoader().getResource("images/bombbomb.png");
+		ImageIcon bombB = new ImageIcon(kit.getImage(bombUrl).getScaledInstance(200, 200, Image.SCALE_SMOOTH));
+		
+		URL elephantUrl = ResultPage.class.getClassLoader().getResource("images/elephant.png");
+		ImageIcon elephantE = new ImageIcon(kit.getImage(elephantUrl).getScaledInstance(200, 200, Image.SCALE_SMOOTH));
+		
 		// 이미지 받아오기 끝
 
 		// pnlLottoNums 시작
 		JPanel pnlLottoNums = new JPanel();
-		JLabel lblLottoNums = new JLabel("당첨 번호");
+		JLabel lblLottoNums = new JLabel("당첨      ");
 		lblLottoNums.setFont(new Font("돋움", Font.BOLD, 20));
+		lblLottoNums.setForeground(Color.WHITE);
 		pnlLottoNums.add(lblLottoNums);
 
 		URL[] urlAll = new URL[6];
@@ -148,7 +164,8 @@ public class ResultPage {
 			showLottoNum[i] = new JLabel((ImageIcon) imageIcon);
 			showLottoNum[i].setText(String.valueOf(lottoNum.get(i)));
 			showLottoNum[i].setHorizontalTextPosition(JLabel.CENTER);
-			showLottoNum[i].setFont(new Font("Serif", Font.BOLD, 20));
+			showLottoNum[i].setForeground(Color.white);
+			showLottoNum[i].setFont(new Font("Serif", Font.BOLD, 25));
 			pnlLottoNums.add(showLottoNum[i]);
 		}
 
@@ -158,14 +175,30 @@ public class ResultPage {
 		JLabel lblBonusNum = new JLabel(ballB);
 		lblBonusNum.setText(String.valueOf(lottoBonus));
 		lblBonusNum.setHorizontalTextPosition(JLabel.CENTER);
-		lblBonusNum.setFont(new Font("Serif", Font.BOLD, 20));
+		lblBonusNum.setForeground(Color.white);
+		lblBonusNum.setFont(new Font("Serif", Font.BOLD, 25));
 		pnlLottoNums.add(lblBonusNum);
 
 		pnlLottoNums.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
 		// pnlLottoNums 끝
+		
+		//underLottoNum
+		JPanel underLottoNum = new JPanel();
+		
+		// pnlImg
+		JPanel pnlImg = new JPanel();
+		SpringLayout sl_pnlImg = new SpringLayout();
+		pnlImg.setLayout(sl_pnlImg);
+		
 
-		// underLottoNums
-		JPanel underLottoNums = new JPanel(); // lblLottoNums와 나누기 위해 만든 패널
+	
+		
+		pnlImg.setPreferredSize(new Dimension(400, 400));
+		
+		// pnlImg 끝
+		
+		// pnlLottoResult
+		JPanel pnlLottoResult = new JPanel(); // lblLottoNums와 나누기 위해 만든 패널
 
 		// printResultAll
 		JPanel printResultAll = new JPanel();
@@ -224,7 +257,7 @@ public class ResultPage {
 				+ "</p></html>");
 		ToolTipManager m = ToolTipManager.sharedInstance(); // 툴팁 여는 시간 조정 위해 객체 생성
 		m.setInitialDelay(0); // 초기 툴팁 출력 지연시간 0초 설정
-		JLabel winningPrice = new JLabel("당첨금 수령액: " + String.valueOf(winningTotal));
+		JLabel winningPrice = new JLabel("당첨금 수령액: " + String.valueOf(winningTotal)+"   ");
 		JLabel price = new JLabel("당첨 총 금액: " + String.valueOf(totalMoney));
 		nextBtn = new MyEmphasizeButton("다음 회차");
 
@@ -234,12 +267,16 @@ public class ResultPage {
 		others.add(nextBtn);
 		// others 끝
 
-		underLottoNums.add(printResultAll);
-		underLottoNums.add(others);
-		// underLottoNums 끝
+		pnlLottoResult.add(printResultAll);
+		pnlLottoResult.add(others);
+		// pnlLottoResult 끝
+		
+		underLottoNum.add(pnlImg);
+		underLottoNum.add(pnlLottoResult);
+		//underLottoNum 끝
 
-		BoxLayout underLottoNumsY = new BoxLayout(underLottoNums, BoxLayout.Y_AXIS);
-		underLottoNums.setLayout(underLottoNumsY);
+		BoxLayout underLottoNumsY = new BoxLayout(pnlLottoResult, BoxLayout.Y_AXIS);
+		pnlLottoResult.setLayout(underLottoNumsY);
 
 		// pnl 전체 담을 패널
 		pnl = new JPanel() {
@@ -249,7 +286,7 @@ public class ResultPage {
 			}
 		};
 		pnl.add(pnlLottoNums);
-		pnl.add(underLottoNums);
+		pnl.add(underLottoNum);
 		// pnl 끝
 
 		BoxLayout pnlY = new BoxLayout(pnl, BoxLayout.Y_AXIS);
@@ -258,13 +295,20 @@ public class ResultPage {
 		// 디자인
 		pnl.setOpaque(false);
 		pnlLottoNums.setOpaque(false); // 배경 색을 따라가도록
-		underLottoNums.setOpaque(false);
+		pnlImg.setOpaque(false);
+		JLabel elephant = new JLabel(elephantE);
+		sl_pnlImg.putConstraint(SpringLayout.WEST, elephant, -289, SpringLayout.EAST, pnlImg);
+		sl_pnlImg.putConstraint(SpringLayout.EAST, elephant, -10, SpringLayout.EAST, pnlImg);
+		pnlImg.add(elephant);
+		underLottoNum.setOpaque(false);
+		pnlLottoResult.setOpaque(false);
 		printResult.setOpaque(false);
 		printResultAll.setOpaque(false);
 		printResultSame.setOpaque(false);
 		others.setOpaque(false);
-		price.setFont(new Font("굴림", Font.PLAIN, 20));
-		lblLottoNums.setFont(new Font("굴림", Font.PLAIN, 20));
+		winningPrice.setFont(new Font("돋움", Font.BOLD, 14));
+		price.setFont(new Font("돋움", Font.BOLD, 14));
+		lblLottoNums.setFont(new Font("돋움", Font.BOLD, 20));
 
 		// 디자인 끝
 
@@ -302,6 +346,7 @@ public class ResultPage {
 		}
 		for (int i = 0; i < buyLottoNumList.size(); i++) {
 			lotto[i][7] = new JLabel(ranking.get(i));
+//			lotto[i][7].setHorizontalTextPosition(JLabel.CENTER);
 		}
 	}
 
@@ -311,7 +356,7 @@ public class ResultPage {
 		for (int i = 0; i < sameList.size(); i++) {
 			for (int j = 0; j < sameList.get(i).size(); j++) {
 				if (sameList.get(i).get(j).equals("다름")) {
-					lotto[i][j + 1].setForeground(new Color(107, 106, 105));
+					lotto[i][j + 1].setForeground(Color.gray);
 					lotto[i][j + 1].setFont(cardFontnone);
 				} else if (sameList.get(i).get(j).equals("보너스 번호 당첨!")) {
 					lotto[i][j + 1].setForeground(new Color(221, 168, 81));
@@ -536,7 +581,7 @@ public class ResultPage {
 		ResultPage page = new ResultPage();
 		page.setPanel();
 		JPanel pnl = page.getPnl();
-		frame.add(pnl);
+		frame.getContentPane().add(pnl);
 		frame.setSize(900, 600);
 		frame.setVisible(true);
 	}

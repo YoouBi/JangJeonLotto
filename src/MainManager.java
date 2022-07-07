@@ -1,7 +1,10 @@
 import java.awt.CardLayout;
-import java.awt.Dimension;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -69,70 +72,71 @@ public class MainManager extends JFrame {
 									"로또 값 확인", JOptionPane.OK_CANCEL_OPTION);
 
 					if (result == JOptionPane.OK_OPTION) {
-						int accountMoney = ((login) mainPage.getMap().get(mainPage.getId().getText())).getLottoReserve();
-						
-						if (accountMoney<buyPage.getLottoNumCount() * 1000) {	// 보유금 처리
+						int accountMoney = ((mainPage.getMap()).get(mainPage.getId().getText())).getLottoReserve();
+
+						if (accountMoney < buyPage.getLottoNumCount() * 1000) { // 보유금 처리
 							JOptionPane.showMessageDialog(null, "보유금이 부족하여 로또를 구매할 수 없습니다.");
 						} else {
-							int remainingReserve = accountMoney-(buyPage.getLottoNumCount() * 1000);
-							((login) mainPage.getMap().get(mainPage.getId().getText())).setLottoReserve(remainingReserve);
+							int remainingReserve = accountMoney - (buyPage.getLottoNumCount() * 1000);
+							((mainPage.getMap()).get(mainPage.getId().getText())).setLottoReserve(remainingReserve);
 							(mainPage.getMypageReserve()).setText("보유금 : " + remainingReserve); // 라벨의 텍스트
-					
-						// 이후는 배열 넘겨주고 넘겨받는 부분
-						// Iterator로 배열 정리
-						Iterator<List<Integer>> check0 = buyLotto.iterator();
-						while (check0.hasNext()) {
-							if (check0.next().contains(0)) {
-								check0.remove();
-							}
-						}
 
-						// 이부분에 넘겨받고 계산하는 작업이 들어감
-						resultPage.setBuyLottoNumList(buyLotto);
-						resultPage.setTotalMoney(mainPage.getTotalLotteWinnings());
-						resultPage.getLottoNum();
-						System.out.println(resultPage.getTotalMoney());
-						mainPage.setTotalLotteWinnings(resultPage.getTotalMoney());
-						mainPage.setTotalLotteWinnings(resultPage.getTotalMoney());
-						mainPage.getLottoTotalMoney().setText("당첨금 " + resultPage.getTotalMoney() + "원!!!");
-						
-						String idStr = mainPage.getId().getText();
-						if(mainPage.getId().getText().equals("nonmember")) {
-							((login) mainPage.getMap().get(mainPage.getId().getText())).setLottoReserve(5000);
-							mainPage.setId("");
-						}
-						
-						JPanel re = resultPage.getPnl();
-				
-						JButton btn3 = resultPage.getNextBtn();
-						btn3.addActionListener(nextBtn);
-						System.out.println("여기선 몇 개?" + center.getComponentCount());
-						if(center.getComponentCount() == 3) {
-							center.remove(2);
-							System.out.println("요기는?" + center.getComponentCount());
-						}
-						center.add(re, "C");
-						System.out.println("카드레이아웃 몇개?" + center.getComponentCount());
-						
-						layout.next(center);
+							// 이후는 배열 넘겨주고 넘겨받는 부분
+							// Iterator로 배열 정리
+							Iterator<List<Integer>> check0 = buyLotto.iterator();
+							while (check0.hasNext()) {
+								if (check0.next().contains(0)) {
+									check0.remove();
+								}
+							}
+
+
+							// 이부분에 넘겨받고 계산하는 작업이 들어감
+							resultPage.setBuyLottoNumList(buyLotto);
+							resultPage.setTotalMoney(mainPage.getTotalLotteWinnings());
+							resultPage.getLottoNum();
+
+							System.out.println(resultPage.getTotalMoney());
+							mainPage.setTotalLotteWinnings(resultPage.getTotalMoney());
+							mainPage.setTotalLotteWinnings(resultPage.getTotalMoney());
+							mainPage.getLottoTotalMoney().setText("당첨금 " + resultPage.getTotalMoney() + "원!!!");
+
+							String idStr = mainPage.getId().getText();
+							if (mainPage.getId().getText().equals("nonmember")) {
+								((mainPage.getMap()).get(mainPage.getId().getText())).setLottoReserve(5000);
+								mainPage.setId("");
+							}
+
+							JPanel re = resultPage.getPnl();
+
+							JButton btn3 = resultPage.getNextBtn();
+							btn3.addActionListener(nextBtn);
+							System.out.println("여기선 몇 개?" + center.getComponentCount());
+							if (center.getComponentCount() == 3) {
+								center.remove(2);
+								System.out.println("요기는?" + center.getComponentCount());
+							}
+							center.add(re, "C");
+							System.out.println("카드레이아웃 몇개?" + center.getComponentCount());
+
+							layout.next(center);
 						}
 					}
 				}
-				JOptionPane.showMessageDialog(null, "[임시팝업: 배열 확인용]\n" + buyLotto.toString());
 			}
 		};
-		
+
 		ActionListener letsLogout = new ActionListener() { // 구입페이지 로그아웃 구현
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(mainPage.getId().getText().equals("nonmember")) {
+				if (mainPage.getId().getText().equals("nonmember")) {
 					mainPage.setId("");
 				}
 				layout.previous(center);
 				mainPage.getSignout().doClick();
 			}
 		};
-		
+
 		ActionListener letsGoMP = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -146,7 +150,6 @@ public class MainManager extends JFrame {
 		myPageBtn.addActionListener(letsGoMP);
 
 		setSize(900, 600);
-		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 	}
