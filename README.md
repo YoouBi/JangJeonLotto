@@ -12,7 +12,5 @@
 [프로젝트 진행 문서](https://docs.google.com/document/d/1PYKWKUhJ07bx7T7i6a_jzZ8LTlC0KKh0eLcHAyAJYJ4/edit?usp=sharing)
 <br/>
 ***
-<br/>
-
 #### 설치 및 구동
 JangJeonLotto_1.0v.jar 파일을 다운 받아서 실행합니다
