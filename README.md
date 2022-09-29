@@ -2,6 +2,7 @@
 
 ### JangJeon Lotto란?
 동행 복권을 참고하여 제작한 **로또 프로그램**    
+![Alt text](/path/resorces/images/Lotto-MainPage-Background.png)
 **Mainpage** 사용자가 로그인하여 개인 통장에서 로또 구입비를 위한 돈을 충전
 <img src="https://img.shields.io/badge/this-6074EC?style=flat-square&logo=this&logoColor=white"/>    
 **BuyPage** 충전된 돈 안에서 자동, 반자동, 수동으로 1~5개의 로또를 구입    
