@@ -10,7 +10,8 @@
 
 **담당 업무** 메인페이지의 회원가입, 로그인 및 보유금 충전 로직과 GUI 구현
 [프로젝트 진행 문서](https://docs.google.com/document/d/1PYKWKUhJ07bx7T7i6a_jzZ8LTlC0KKh0eLcHAyAJYJ4/edit?usp=sharing)
-<br/>***
+<br/>
+***
 <br/>
 #### 설치 및 구동
 JangJeonLotto_1.0v.jar 파일을 다운 받아서 실행합니다
