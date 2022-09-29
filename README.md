@@ -1,7 +1,7 @@
 # JangJeonLotto
 
 ### JangJeon Lotto란?
-동행 복권을 참고하여 제작한 **로또 프로그램**<br/><br/>
+[동행 복권](https://dhlottery.co.kr/common.do?method=main)을 참고하여 제작한 **로또 프로그램**<br/><br/>
 <img src="/resorces/images/Lotto-MainPage-Background.png" width="600px" height="420px" title="px(픽셀) 크기 설정" alt=""></img><br/><br/>
 **Mainpage** 사용자가 로그인하여 개인 통장에서 로또 구입비를 위한 돈을 충전
 <img src="https://img.shields.io/badge/this-6074EC?style=flat-square&logo=this&logoColor=white"/><br/>
