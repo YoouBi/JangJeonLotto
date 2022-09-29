@@ -9,8 +9,7 @@
 **ResultPage** 추첨된 로또 번호를 비교해 등수에 따라 당첨금 지급
 
 **담당 업무** 메인페이지의 회원가입, 로그인 및 보유금 충전 로직과 GUI 구현<br/>
-              프로젝트 진행 문서 작성 및 팀원의 업무 배분<br/>
-[프로젝트 진행 문서](https://docs.google.com/document/d/1PYKWKUhJ07bx7T7i6a_jzZ8LTlC0KKh0eLcHAyAJYJ4/edit?usp=sharing)
+[프로젝트 진행 문서](https://docs.google.com/document/d/1PYKWKUhJ07bx7T7i6a_jzZ8LTlC0KKh0eLcHAyAJYJ4/edit?usp=sharing) 작성 및 팀원의 업무 배분<br/>
 <br/>
 ***
 #### 설치 및 구동
