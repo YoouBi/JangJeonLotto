@@ -1,6 +1,6 @@
 # JangJeonLotto
 
-### JangJeon Lotto란?
+> ### JangJeon Lotto란?
 [동행 복권](https://dhlottery.co.kr/common.do?method=main)을 참고하여 제작한 **로또 프로그램**<br/><br/>
 <img src="/resorces/images/Lotto-MainPage-Background.png" width="600px" height="420px" title="px(픽셀) 크기 설정" alt=""></img><br/><br/>
 **Mainpage** 사용자가 로그인하여 개인 통장에서 로또 구입비를 위한 돈을 충전
@@ -12,5 +12,5 @@
   [프로젝트 진행 문서](https://docs.google.com/document/d/1PYKWKUhJ07bx7T7i6a_jzZ8LTlC0KKh0eLcHAyAJYJ4/edit?usp=sharing) 작성 및 팀원의 업무 배분<br/>
 <br/>
 ***
-#### 설치 및 구동
+> #### 설치 및 구동
 JangJeonLotto_1.0v.jar 파일을 다운 받아서 실행합니다
